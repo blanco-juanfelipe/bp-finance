@@ -342,72 +342,6 @@ body {
   to   { opacity: 1; transform: translateY(0); }
 }
 .fade-up { animation: fadeUp .25s ease both; }
-
-  /* ── TREND CHART ── */
-  .trend-chart { padding: 0 20px; margin-bottom: 0; }
-  .trend-bars { display: flex; align-items: flex-end; gap: 8px; height: 80px; }
-  .trend-bar-col { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 4px; }
-  .trend-bar-wrap { width: 100%; display: flex; align-items: flex-end; justify-content: center; gap: 2px; height: 64px; }
-  .trend-bar {
-    flex: 1; border-radius: 4px 4px 0 0;
-    min-height: 3px; transition: height .4s ease;
-    position: relative; cursor: default;
-  }
-  .trend-bar.exp { background: var(--ink); }
-  .trend-bar.inc { background: var(--green); }
-  .trend-bar-label { font-size: 10px; color: var(--ink3); white-space: nowrap; }
-  .trend-bar.active .trend-bar { opacity: 1; }
-  .trend-legend { display: flex; gap: 14px; padding: 10px 20px 0; }
-  .trend-legend-item { display: flex; align-items: center; gap: 5px; font-size: 11px; color: var(--ink2); }
-  .trend-legend-dot { width: 8px; height: 8px; border-radius: 2px; flex-shrink: 0; }
-
-  /* ── FIXED / VARIABLE SPLIT ── */
-  .split-row { display: flex; gap: 8px; margin: 0 20px; }
-  .split-card {
-    flex: 1; background: var(--white); border: 1px solid var(--border);
-    border-radius: var(--r); padding: 14px;
-  }
-  .split-card-label { font-size: 10px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--ink2); margin-bottom: 4px; }
-  .split-card-amount { font-size: 20px; font-weight: 300; letter-spacing: -.02em; font-family: var(--f); }
-  .split-card-pct { font-size: 11px; color: var(--ink3); margin-top: 2px; }
-  .split-track { height: 3px; background: var(--border); border-radius: 2px; margin-top: 10px; }
-  .split-fill { height: 100%; border-radius: 2px; background: var(--ink); }
-  .split-fill.var { background: #94a3b8; }
-
-  /* ── RAPPI TRACKER ── */
-  .rappi-header {
-    display: flex; align-items: center; justify-content: space-between;
-    padding: 14px 16px 10px;
-    border-bottom: 1px solid var(--border2);
-  }
-  .rappi-title { font-size: 13px; font-weight: 600; color: var(--ink); display: flex; align-items: center; gap: 7px; }
-  .rappi-badge {
-    background: #fff0e6; color: #c45800;
-    font-size: 10px; font-weight: 600; padding: 2px 7px; border-radius: 20px;
-  }
-  .rappi-stats { display: flex; border-bottom: 1px solid var(--border2); }
-  .rappi-stat { flex: 1; padding: 12px 16px; text-align: center; border-right: 1px solid var(--border2); }
-  .rappi-stat:last-child { border-right: none; }
-  .rappi-stat-val { font-size: 20px; font-weight: 300; letter-spacing: -.02em; color: var(--ink); }
-  .rappi-stat-val.warn { color: #c45800; }
-  .rappi-stat-lbl { font-size: 10px; color: var(--ink3); margin-top: 2px; }
-  .rappi-store-row {
-    display: flex; align-items: center; gap: 10px;
-    padding: 10px 16px; border-bottom: 1px solid var(--border2);
-  }
-  .rappi-store-row:last-child { border-bottom: none; }
-  .rappi-store-rank { font-size: 11px; font-weight: 600; color: var(--ink3); width: 16px; flex-shrink: 0; text-align: center; }
-  .rappi-store-name { flex: 1; font-size: 13px; font-weight: 500; color: var(--ink); }
-  .rappi-store-right { text-align: right; }
-  .rappi-store-count { font-size: 13px; font-weight: 500; font-family: var(--fm); color: var(--ink); }
-  .rappi-store-amt { font-size: 11px; color: var(--ink3); margin-top: 1px; }
-  .rappi-trend-row { display: flex; align-items: center; gap: 8px; padding: 10px 16px 14px; }
-  .rappi-trend-label { font-size: 11px; color: var(--ink2); flex-shrink: 0; }
-  .rappi-trend-bars { display: flex; align-items: flex-end; gap: 4px; flex: 1; height: 28px; }
-  .rappi-trend-bar { flex: 1; background: #fed7aa; border-radius: 2px 2px 0 0; min-height: 2px; }
-  .rappi-trend-bar.current { background: #c45800; }
-  .rappi-trend-val { font-size: 11px; font-weight: 600; color: #c45800; flex-shrink: 0; }
-
 </style>
 </head>
 <body>
@@ -428,13 +362,15 @@ body {
   </div>
 </nav>
 
-<script src="./config.js"></script>
 <script>
 // ─────────────────────────────────────────────
 // STATE
 // ─────────────────────────────────────────────
-// Credentials are loaded from config.js (see that file in the repo root).
-// SHEET_ID and API_KEY are defined there — do not hardcode them here.
+// ─── HARDCODED CREDENTIALS ───────────────────────────────────
+// Replace these two values with your own before sharing the file.
+const SHEET_ID = '1qCjvEn76hqDEoalerFh-BU46dhnHjTi2vNQOFwAWXs8';
+const API_KEY  = 'AIzaSyA2JNjOzjo_8EHiyyjEtiV0Vv89gcFdNes';
+// ─────────────────────────────────────────────────────────────
 
 const S = {
   view: 'resumen',
@@ -594,12 +530,6 @@ function renderHeader(mo, mos) {
 }
 
 // ── RESUMEN ──────────────────────────────────
-const FIXED_CATS = [
-  'Salud / EPS','Cuota vehículo','Deuda','Tarjeta Nu','Tarjeta Addi',
-  'Impuestos / Movilidad','Servicios públicos','Empleada del hogar',
-  'Servicios','Suscripciones',
-];
-
 function renderResumen(txs, mos, mo) {
   const monthly  = byMonth(txs, mo);
   const expenses = monthly.filter(t => t.dir === 'out');
@@ -607,14 +537,7 @@ function renderResumen(txs, mos, mo) {
   const totalExp = expenses.reduce((s,t) => s + Math.abs(t.amount), 0);
   const totalInc = income.reduce((s,t)   => s + Math.abs(t.amount), 0);
   const balance  = totalInc - totalExp;
-
-  // Fixed vs variable
-  const fixedExp = expenses
-    .filter(t => FIXED_CATS.some(c => t.cat && t.cat.includes(c)))
-    .reduce((s,t) => s + Math.abs(t.amount), 0);
-  const varExp = totalExp - fixedExp;
-  const fixedPct = totalExp > 0 ? (fixedExp/totalExp*100).toFixed(0) : 0;
-  const varPct   = totalExp > 0 ? (varExp/totalExp*100).toFixed(0) : 0;
+  const maxBar   = Math.max(totalExp, totalInc) || 1;
 
   // Categories
   const catMap = {};
@@ -622,223 +545,79 @@ function renderResumen(txs, mos, mo) {
   const cats   = Object.entries(catMap).sort((a,b)=>b[1]-a[1]).slice(0,7);
   const maxCat = cats[0]?.[1]||1;
 
-  // Income
+  // Income sources
   const incMap = {};
   income.forEach(t => { incMap[t.counter||'Ingreso'] = (incMap[t.counter||'Ingreso']||0) + Math.abs(t.amount); });
   const incRows = Object.entries(incMap).sort((a,b)=>b[1]-a[1]);
 
-  // Recent 5 expenses
+  // Recent expenses (5)
   const recent = [...expenses].sort((a,b)=>(b.date+b.time).localeCompare(a.date+a.time)).slice(0,5);
 
-  // Trend: last 6 months including current
-  const trend = buildTrend(txs, mos, mo, 6);
-
-  // Rappi this month
-  const rappiTx = expenses.filter(t => t.source === 'Rappi');
-  const rappiTotal = rappiTx.reduce((s,t) => s + Math.abs(t.amount), 0);
-  const rappiCount = rappiTx.length;
-  const rappiAvg   = rappiCount > 0 ? rappiTotal/rappiCount : 0;
-  const rappiStores = {};
-  rappiTx.forEach(t => {
-    const k = t.counter || 'Rappi';
-    rappiStores[k] = rappiStores[k] || {count:0,total:0};
-    rappiStores[k].count++;
-    rappiStores[k].total += Math.abs(t.amount);
-  });
-  const topStores = Object.entries(rappiStores).sort((a,b)=>b[1].count-a[1].count).slice(0,5);
-
-  // Rappi trend (last 4 months)
-  const rappiTrend = buildRappiTrend(txs, mos, mo, 4);
-  const maxRappi = Math.max(...rappiTrend.map(r=>r.total), 1);
-
-  return \`
-  \${renderHeader(mo, mos)}
-  <div class="month-picker\${S.monthOpen?' open':''}">
-    \${mos.map(m=>\`<div class="m-chip\${m===mo?' active':''}" data-m="\${m}">\${fmtMonth(m)}</div>\`).join('')}
-  </div>
+  return `
+  ${renderHeader(mo, mos)}
   <div style="height:16px"></div>
 
-  <!-- HERO -->
   <div class="hero fade-up">
-    <div class="hero-eyebrow">Gastos · \${fmtMonth(mo)}</div>
-    <div class="hero-amount"><sup>$</sup>\${Math.round(totalExp).toLocaleString('es-CO')}</div>
+    <div class="hero-eyebrow">Gastos · ${fmtMonth(mo)}</div>
+    <div class="hero-amount"><sup>$</sup>${Math.round(totalExp).toLocaleString('es-CO')}</div>
     <div class="hero-sub">
-      <span class="hero-badge \${balance>=0?'green':'red'}">\${balance>=0?'↑':'↓'} \${fmtCOP(Math.abs(balance))}</span>
-      <span style="color:var(--ink3);font-size:12px">vs ingresos \${fmtCOP(totalInc)}</span>
+      <span class="hero-badge ${balance>=0?'green':'red'}">${balance>=0?'↑':'↓'} ${fmtCOP(Math.abs(balance))}</span>
+      <span class="hero-sub-item" style="color:var(--ink3);font-size:12px">vs ingresos ${fmtCOP(totalInc)}</span>
     </div>
     <div class="hero-bars">
       <div class="hero-bar-row">
         <div class="hero-bar-label" style="color:var(--ink2)">Gastos</div>
-        <div class="hero-bar-track"><div class="hero-bar-fill exp" style="width:\${totalExp>0?Math.min((totalExp/Math.max(totalExp,totalInc)*100),100).toFixed(0):0}%"></div></div>
-        <div class="hero-bar-val">\${fmtCOP(totalExp)}</div>
+        <div class="hero-bar-track"><div class="hero-bar-fill exp" style="width:${(totalExp/maxBar*100).toFixed(0)}%"></div></div>
+        <div class="hero-bar-val">${fmtCOP(totalExp)}</div>
       </div>
       <div class="hero-bar-row">
         <div class="hero-bar-label" style="color:var(--green)">Ingresos</div>
-        <div class="hero-bar-track"><div class="hero-bar-fill inc" style="width:\${totalInc>0?Math.min((totalInc/Math.max(totalExp,totalInc)*100),100).toFixed(0):0}%"></div></div>
-        <div class="hero-bar-val" style="color:var(--green)">\${fmtCOP(totalInc)}</div>
+        <div class="hero-bar-track"><div class="hero-bar-fill inc" style="width:${(totalInc/maxBar*100).toFixed(0)}%"></div></div>
+        <div class="hero-bar-val" style="color:var(--green)">${fmtCOP(totalInc)}</div>
       </div>
     </div>
   </div>
 
-  <!-- TREND CHART -->
-  <div class="section-hd"><div class="section-title">Tendencia 6 meses</div></div>
-  \${renderTrendChart(trend, mo)}
-
-  <!-- FIXED / VARIABLE SPLIT -->
-  <div class="section-hd"><div class="section-title">Fijo vs discrecional</div></div>
-  <div class="split-row fade-up">
-    <div class="split-card">
-      <div class="split-card-label">Comprometido</div>
-      <div class="split-card-amount">\${fmtCOP(fixedExp)}</div>
-      <div class="split-card-pct">\${fixedPct}% del total</div>
-      <div class="split-track"><div class="split-fill" style="width:\${fixedPct}%"></div></div>
-    </div>
-    <div class="split-card">
-      <div class="split-card-label">Discrecional</div>
-      <div class="split-card-amount">\${fmtCOP(varExp)}</div>
-      <div class="split-card-pct">\${varPct}% del total</div>
-      <div class="split-track"><div class="split-fill var" style="width:\${varPct}%"></div></div>
-    </div>
-  </div>
-
-  <!-- RAPPI TRACKER -->
-  \${rappiCount > 0 ? \`
-  <div class="section-hd"><div class="section-title">Rappi este mes</div></div>
-  <div class="card-shell fade-up">
-    <div class="rappi-header">
-      <div class="rappi-title">🛵 Domicilios
-        \${rappiCount >= 20 ? '<span class="rappi-badge">↑ Alto</span>' : rappiCount >= 10 ? '<span class="rappi-badge">Moderado</span>' : ''}
-      </div>
-      <div style="font-size:12px;color:var(--ink2)">\${fmtCOP(rappiTotal)}</div>
-    </div>
-    <div class="rappi-stats">
-      <div class="rappi-stat">
-        <div class="rappi-stat-val \${rappiCount>=20?'warn':''}">\${rappiCount}</div>
-        <div class="rappi-stat-lbl">pedidos</div>
-      </div>
-      <div class="rappi-stat">
-        <div class="rappi-stat-val">\${fmtCOP(rappiAvg)}</div>
-        <div class="rappi-stat-lbl">promedio</div>
-      </div>
-      <div class="rappi-stat">
-        <div class="rappi-stat-val">\${(rappiCount / (new Date(mo+'-01').getDate()+(new Date().getMonth()===new Date(mo+'-01').getMonth()?0:0)) * 7).toFixed(1)}</div>
-        <div class="rappi-stat-lbl">por semana</div>
-      </div>
-    </div>
-    \${topStores.map(([store,data],i) => \`
-    <div class="rappi-store-row">
-      <div class="rappi-store-rank">\${i+1}</div>
-      <div class="rappi-store-name">\${store.replace('Rappi - ','')}</div>
-      <div class="rappi-store-right">
-        <div class="rappi-store-count">\${data.count}× \${fmtCOP(data.total)}</div>
-        <div class="rappi-store-amt">\${fmtCOP(data.total/data.count)} promedio</div>
-      </div>
-    </div>\`).join('')}
-    \${rappiTrend.length > 1 ? \`
-    <div class="rappi-trend-row">
-      <div class="rappi-trend-label">Tendencia</div>
-      <div class="rappi-trend-bars">
-        \${rappiTrend.map((r,i) => \`<div class="rappi-trend-bar \${i===rappiTrend.length-1?'current':''}" style="height:\${Math.max((r.total/maxRappi*100),4).toFixed(0)}%" title="\${r.month}: \${fmtCOP(r.total)}"></div>\`).join('')}
-      </div>
-      <div class="rappi-trend-val">\${rappiTrend.length>=2 && rappiTrend[rappiTrend.length-2].total > 0 ? (((rappiTrend[rappiTrend.length-1].total/rappiTrend[rappiTrend.length-2].total)-1)*100>0?'+':'')+(((rappiTrend[rappiTrend.length-1].total/rappiTrend[rappiTrend.length-2].total)-1)*100).toFixed(0)+'%' : ''}</div>
-    </div>\` : ''}
-  </div>\` : ''}
-
-  <!-- INCOME -->
-  \${incRows.length ? \`
+  ${incRows.length ? `
   <div class="section-hd"><div class="section-title">Ingresos</div></div>
   <div class="card-shell fade-up">
-    \${incRows.map(([name,amt])=>\`
+    ${incRows.map(([name,amt])=>`
     <div class="income-row">
       <div class="income-icon">↑</div>
       <div class="income-body">
-        <div class="income-name">\${name}</div>
+        <div class="income-name">${name}</div>
         <div class="income-sub">Transferencia recibida</div>
       </div>
-      <div class="income-amt">+\${fmtCOP(amt)}</div>
-    </div>\`).join('')}
-  </div>\` : ''}
+      <div class="income-amt">+${fmtCOP(amt)}</div>
+    </div>`).join('')}
+  </div>` : ''}
 
-  <!-- CATEGORIES -->
-  <div class="section-hd"><div class="section-title">Por categoría</div></div>
+  <div class="section-hd">
+    <div class="section-title">Por categoría</div>
+  </div>
   <div class="card-shell fade-up">
-    \${cats.length ? cats.map(([cat,amt])=>\`
+    ${cats.length ? cats.map(([cat,amt])=>`
     <div class="cat-row">
-      <div class="cat-icon">\${emoji(cat)}</div>
+      <div class="cat-icon">${emoji(cat)}</div>
       <div class="cat-body">
-        <div class="cat-name">\${cat}</div>
-        <div class="cat-bar-track"><div class="cat-bar-fill" style="width:\${(amt/maxCat*100).toFixed(0)}%"></div></div>
+        <div class="cat-name">${cat}</div>
+        <div class="cat-bar-track"><div class="cat-bar-fill" style="width:${(amt/maxCat*100).toFixed(0)}%"></div></div>
       </div>
       <div class="cat-right">
-        <div class="cat-amt">\${fmtCOP(amt)}</div>
-        <div class="cat-pct">\${(amt/totalExp*100).toFixed(0)}%</div>
+        <div class="cat-amt">${fmtCOP(amt)}</div>
+        <div class="cat-pct">${(amt/totalExp*100).toFixed(0)}%</div>
       </div>
-    </div>\`).join('') : '<div class="empty"><div class="empty-icon">·</div><p>Sin gastos este mes</p></div>'}
+    </div>`).join('') : '<div class="empty"><div class="empty-icon">·</div><p>Sin gastos este mes</p></div>'}
   </div>
 
-  <!-- RECENT -->
   <div class="section-hd">
     <div class="section-title">Recientes</div>
     <div class="section-action" onclick="setView('movimientos')">Ver todos →</div>
   </div>
   <div class="card-shell fade-up">
-    \${renderTxRows(recent, true)}
+    ${renderTxRows(recent, true)}
   </div>
-  <div style="height:8px"></div>\`;
-}
-
-function buildTrend(txs, mos, currentMo, n) {
-  const allMos = mos.slice(0, n).reverse(); // oldest first
-  return allMos.map(mo => {
-    const m = byMonth(txs, mo);
-    return {
-      month: mo,
-      label: fmtMonth(mo).slice(0,3),
-      exp: m.filter(t=>t.dir==='out').reduce((s,t)=>s+Math.abs(t.amount),0),
-      inc: m.filter(t=>t.dir==='in').reduce((s,t)=>s+Math.abs(t.amount),0),
-      active: mo === currentMo,
-    };
-  });
-}
-
-function buildRappiTrend(txs, mos, currentMo, n) {
-  const allMos = mos.slice(0, n).reverse();
-  return allMos.map(mo => ({
-    month: fmtMonth(mo).slice(0,3),
-    total: byMonth(txs, mo)
-      .filter(t=>t.dir==='out' && t.source==='Rappi')
-      .reduce((s,t)=>s+Math.abs(t.amount),0),
-  }));
-}
-
-function renderTrendChart(trend, currentMo) {
-  if (!trend.length) return '';
-  const maxVal = Math.max(...trend.map(t=>Math.max(t.exp, t.inc)), 1);
-  return \`
-  <div class="card-shell fade-up" style="margin:0 20px;padding:16px 8px 12px">
-    <div style="display:flex;align-items:flex-end;gap:4px;height:72px;padding:0 8px">
-      \${trend.map(t => {
-        const expH = Math.max((t.exp/maxVal*100),2).toFixed(0);
-        const incH = Math.max((t.inc/maxVal*100),2).toFixed(0);
-        const isActive = t.active;
-        return \`<div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:2px">
-          <div style="width:100%;display:flex;align-items:flex-end;justify-content:center;gap:2px;height:56px">
-            <div style="flex:1;height:\${expH}%;background:\${isActive?'var(--ink)':'#d1d5db'};border-radius:3px 3px 0 0;min-height:3px"></div>
-            <div style="flex:1;height:\${incH}%;background:\${isActive?'var(--green)':'#86efac'};border-radius:3px 3px 0 0;min-height:3px"></div>
-          </div>
-          <div style="font-size:9px;color:\${isActive?'var(--ink)':'var(--ink3)'};font-weight:\${isActive?'600':'400'}">\${t.label}</div>
-        </div>\`;
-      }).join('')}
-    </div>
-    <div style="display:flex;gap:14px;padding:8px 8px 0;border-top:1px solid var(--border2);margin-top:6px">
-      <div style="display:flex;align-items:center;gap:5px;font-size:11px;color:var(--ink2)">
-        <div style="width:8px;height:8px;border-radius:2px;background:var(--ink)"></div>Gastos
-      </div>
-      <div style="display:flex;align-items:center;gap:5px;font-size:11px;color:var(--ink2)">
-        <div style="width:8px;height:8px;border-radius:2px;background:var(--green)"></div>Ingresos
-      </div>
-    </div>
-  </div>\`;
+  <div style="height:8px"></div>`;
 }
 
 // ── MOVIMIENTOS ──────────────────────────────
@@ -1019,9 +798,8 @@ function demoData() {
 // ─────────────────────────────────────────────
 // BOOT
 // ─────────────────────────────────────────────
-if (typeof SHEET_ID === 'undefined' || typeof API_KEY === 'undefined' ||
-    SHEET_ID === 'YOUR_SHEET_ID_HERE' || API_KEY === 'YOUR_API_KEY_HERE') {
-  demoData(); render();  // show demo if config.js is missing or not yet configured
+if (SHEET_ID === 'YOUR_SHEET_ID_HERE' || API_KEY === 'YOUR_API_KEY_HERE') {
+  demoData(); render();  // show demo until credentials are filled in
 } else {
   render();
 }
