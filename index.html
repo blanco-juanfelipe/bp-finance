@@ -251,12 +251,14 @@ body { background: var(--bg); color: var(--ink); font-family: var(--f); min-heig
   <div class="nav-item" data-view="rappi" onclick="setView('rappi')">
     <div class="nav-ico">🛵</div><div class="nav-lbl">Rappi</div>
   </div>
-  <div class="nav-item" data-view="config" onclick="setView('config')">
-    <div class="nav-ico">○</div><div class="nav-lbl">Ajustes</div>
-  </div>
+
 </nav>
 
 <script>
+// ── FX RATES (fixed, update manually every few months) ──────────────
+const FX = { COP: 1, USD: 3800, MXN: 210, EUR: 4600 };
+function amtCOP(t) { return Math.abs(t.amount) * (FX[t.currency] || 1); }
+
 // ── CREDENTIALS ──────────────────────────────
 const SHEET_ID = '1qCjvEn76hqDEoalerFh-BU46dhnHjTi2vNQOFwAWXs8';
 const API_KEY  = 'AIzaSyA2JNjOzjo_8EHiyyjEtiV0Vv89gcFdNes';
@@ -270,6 +272,9 @@ const S = {
   selectedMonth: null,
   monthOpen: false,
   txFilter: 'todos',
+  catFilter: null,   // category filter when jumping from Resumen
+  sortBy: 'date',    // 'date' | 'amount'
+  sortDir: 'desc',
   showAll: false,
 };
 
@@ -357,7 +362,6 @@ function ownerTag(owner) {
 // ── RENDER ───────────────────────────────────
 function render() {
   const app = document.getElementById('app');
-  if (S.view === 'config') { app.innerHTML = renderConfig(); bindConfig(); return; }
   if (!S.sheetId || !S.apiKey) { app.innerHTML = renderSetup(); bindConfig(); return; }
   if (S.raw === null) { app.innerHTML = renderLoading(); load(); return; }
 
@@ -422,11 +426,11 @@ function renderMTD(txs, mo) {
   // Filter: only expenses up through cutDay
   const curExp = byMonth(txs, mo)
     .filter(t => t.dir === 'out' && parseInt(t.date.slice(8,10)) <= cutDay)
-    .reduce((s,t) => s + Math.abs(t.amount), 0);
+    .reduce((s,t) => s + amtCOP(t), 0);
 
   const prevExp = byMonth(txs, prev)
     .filter(t => t.dir === 'out' && parseInt(t.date.slice(8,10)) <= cutDay)
-    .reduce((s,t) => s + Math.abs(t.amount), 0);
+    .reduce((s,t) => s + amtCOP(t), 0);
 
   // Delta
   const delta    = curExp - prevExp;
@@ -467,12 +471,12 @@ function renderMTD(txs, mo) {
 function renderResumen(txs, mos, mo) {
   const monthly  = byMonth(txs, mo);
   const expenses = monthly.filter(t => t.dir === 'out');
-  const totalExp = expenses.reduce((s,t) => s + Math.abs(t.amount), 0);
-  const totalInc = monthly.filter(t => t.dir === 'in').reduce((s,t) => s + Math.abs(t.amount), 0);
+  const totalExp = expenses.reduce((s,t) => s + amtCOP(t), 0);
+  const totalInc = monthly.filter(t => t.dir === 'in').reduce((s,t) => s + amtCOP(t), 0);
   const balance  = totalInc - totalExp;
 
   const catMap = {};
-  expenses.forEach(t => { catMap[t.cat] = (catMap[t.cat]||0) + Math.abs(t.amount); });
+  expenses.forEach(t => { catMap[t.cat] = (catMap[t.cat]||0) + amtCOP(t); });
   const cats   = Object.entries(catMap).sort((a,b) => b[1]-a[1]).slice(0,7);
   const maxCat = cats[0]?.[1] || 1;
 
@@ -487,7 +491,7 @@ function renderResumen(txs, mos, mo) {
     <div class="hero-amount"><sup>$</sup>${Math.round(totalExp).toLocaleString('es-CO')}</div>
     <div class="hero-sub">
       <span class="hero-badge ${balance>=0?'green':'red'}">${balance>=0?'↑':'↓'} ${fmtCOP(Math.abs(balance))}</span>
-      <span style="color:var(--ink3);font-size:12px">vs ingresos ${fmtCOP(totalInc)}</span>
+
     </div>
     ${mos.length > 1 ? renderMTD(txs, mo) : ''}
   </div>
@@ -495,7 +499,7 @@ function renderResumen(txs, mos, mo) {
   <div class="section-hd"><div class="section-title">Por categoría</div></div>
   <div class="card-shell fade-up">
     ${cats.length ? cats.map(([cat,amt]) => `
-    <div class="cat-row">
+    <div class="cat-row" onclick="filterByCat('${cat}')">
       <div class="cat-icon">${emoji(cat)}</div>
       <div class="cat-body">
         <div class="cat-name">${cat}</div>
@@ -522,8 +526,27 @@ function renderMovimientos(txs, mos, mo) {
   let filtered  = monthly;
   if (S.txFilter === 'out') filtered = monthly.filter(t => t.dir === 'out');
   if (S.txFilter === 'in')  filtered = monthly.filter(t => t.dir === 'in');
-  filtered = [...filtered].sort((a,b) => (b.date+b.time).localeCompare(a.date+a.time));
+
+  // Category filter (set by clicking a category in Resumen)
+  if (S.catFilter) filtered = filtered.filter(t => t.cat === S.catFilter);
+
+  // Sort
+  if (S.sortBy === 'amount') {
+    filtered = [...filtered].sort((a,b) =>
+      S.sortDir === 'desc' ? amtCOP(b) - amtCOP(a) : amtCOP(a) - amtCOP(b));
+  } else {
+    filtered = [...filtered].sort((a,b) =>
+      S.sortDir === 'desc'
+        ? (b.date+b.time).localeCompare(a.date+a.time)
+        : (a.date+a.time).localeCompare(b.date+b.time));
+  }
+
   const shown = S.showAll ? filtered : filtered.slice(0, 25);
+
+  // Sort button label cycles: date↓ → amount↓ → amount↑ → date↓
+  const sortLabel = S.sortBy === 'date'
+    ? (S.sortDir === 'desc' ? 'Fecha ↓' : 'Fecha ↑')
+    : (S.sortDir === 'desc' ? 'Monto ↓' : 'Monto ↑');
 
   return `
   ${renderHeader(mo, mos)}
@@ -531,6 +554,8 @@ function renderMovimientos(txs, mos, mo) {
     ${[['todos','Todos'],['out','Gastos'],['in','Ingresos']].map(([k,l]) =>
       `<button class="f-tab${S.txFilter===k?' active':''}" onclick="setFilter('${k}')">${l}</button>`
     ).join('')}
+    ${S.catFilter ? `<button class="f-tab active" onclick="clearCatFilter()">× ${S.catFilter}</button>` : ''}
+    <button class="f-tab${S.sortBy!=='date'?' active':''}" onclick="cycleSort()" style="margin-left:auto">${sortLabel}</button>
   </div>
   <div style="height:12px"></div>
   <div class="card-shell fade-up">
@@ -559,7 +584,7 @@ function renderRappi(txs) {
   const curMo  = rappiAll.filter(t => t.date.startsWith(curYM));
 
   // ── Current month stats
-  const curTotal  = curMo.reduce((s,t) => s + Math.abs(t.amount), 0);
+  const curTotal  = curMo.reduce((s,t) => s + amtCOP(t), 0);
   const curCount  = curMo.length;
   const curAvg    = curCount > 0 ? curTotal / curCount : 0;
 
@@ -572,7 +597,7 @@ function renderRappi(txs) {
   const allMos    = months(rappiAll).slice(0, 5).reverse(); // oldest first
   const history   = allMos.map(ym => ({
     label: fmtMonth(ym),
-    total: rappiAll.filter(t => t.date.startsWith(ym)).reduce((s,t) => s + Math.abs(t.amount), 0),
+    total: rappiAll.filter(t => t.date.startsWith(ym)).reduce((s,t) => s + amtCOP(t), 0),
     count: rappiAll.filter(t => t.date.startsWith(ym)).length,
     isCur: ym === curYM,
   }));
@@ -585,7 +610,7 @@ function renderRappi(txs) {
     const k = (t.counter || 'Rappi').replace('Rappi - ', '');
     storeMap[k] = storeMap[k] || { count: 0, total: 0 };
     storeMap[k].count++;
-    storeMap[k].total += Math.abs(t.amount);
+    storeMap[k].total += amtCOP(t);
   });
   const topStores = Object.entries(storeMap)
     .sort((a,b) => b[1].count - a[1].count)
@@ -709,56 +734,22 @@ function renderTxRows(txs, showDate) {
         </div>
       </div>
       <div class="tx-right">
-        <div class="tx-amt ${cls}">${prefix}${fmtCOP(t.amount)}</div>
-        <div class="tx-src">${t.source}</div>
+        <div class="tx-amt ${cls}">${prefix}${fmtCOP(amtCOP(t))}</div>
+        <div class="tx-src">${t.currency !== 'COP' ? t.currency + ' ' + Math.abs(t.amount).toLocaleString('en-US', {maximumFractionDigits:2}) + ' · ' : ''}${t.source}</div>
       </div>
     </div>`;
   }).join('');
 }
 
-// ── CONFIG ───────────────────────────────────
+// ── SETUP (credentials not configured) ──────────────────────────────────
 function renderSetup() {
   return `${renderHeader(null,[])}
   <div class="setup-wrap"><div class="setup-card">
     <h2>Configuración pendiente</h2>
-    <p>El archivo necesita los datos de conexión.</p>
-    ${configFields()}
-    <button class="primary-btn" id="save-btn">Conectar</button>
+    <p>Edita el archivo HTML y reemplaza las credenciales en la sección CREDENTIALS.</p>
   </div></div>`;
 }
-function renderConfig() {
-  return `${renderHeader(null,[])}
-  <div class="setup-wrap"><div class="setup-card">
-    <h2>Ajustes</h2>
-    <p>La app está conectada a la hoja <strong>Finanzas Casa</strong> en Google Sheets. Los datos se actualizan automáticamente cada 5 minutos.</p>
-    <div style="margin-top:20px;padding:14px;background:var(--bg);border-radius:var(--r-sm);border:1px solid var(--border)">
-      <div style="font-size:11px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:var(--ink2);margin-bottom:10px">Fuentes</div>
-      ${['Bancolombia notificaciones','Uber recibos','Rappi recibos'].map(s => `
-      <div style="display:flex;align-items:center;gap:10px;font-size:13px;margin-bottom:8px">
-        <span style="width:8px;height:8px;border-radius:50%;background:var(--green);flex-shrink:0"></span>${s}
-      </div>`).join('')}
-    </div>
-    <div style="margin-top:12px;font-size:12px;color:var(--ink3)">¿Algún problema? Escríbele a Juan Felipe.</div>
-  </div></div>`;
-}
-function configFields() {
-  return `
-  <div class="field">
-    <div class="field-label">Sheet ID</div>
-    <input class="field-input" id="inp-sid" placeholder="1BxiMVs0XRA5..." value="${S.sheetId}">
-  </div>
-  <div class="field">
-    <div class="field-label">Google API Key</div>
-    <input class="field-input" id="inp-key" placeholder="AIzaSy..." value="${S.apiKey}">
-  </div>`;
-}
-function bindConfig() {
-  document.getElementById('save-btn')?.addEventListener('click', () => {
-    S.sheetId = document.getElementById('inp-sid')?.value.trim() || '';
-    S.apiKey  = document.getElementById('inp-key')?.value.trim() || '';
-    S.raw = null; S.view = 'resumen'; render();
-  });
-}
+function bindConfig() {}
 function renderLoading() {
   return `${renderHeader(null,[])}<div class="loader"><div class="spinner"></div><p>Cargando…</p></div>`;
 }
@@ -770,7 +761,22 @@ function setView(v) {
   document.querySelector(`[data-view="${v}"]`)?.classList.add('active');
   render();
 }
-function setFilter(f) { S.txFilter = f; S.showAll = false; render(); }
+function cycleSort() {
+  if (S.sortBy === 'date' && S.sortDir === 'desc')        { S.sortBy = 'amount'; S.sortDir = 'desc'; }
+  else if (S.sortBy === 'amount' && S.sortDir === 'desc') { S.sortBy = 'amount'; S.sortDir = 'asc'; }
+  else                                                     { S.sortBy = 'date';   S.sortDir = 'desc'; }
+  S.showAll = false; render();
+}
+function clearCatFilter() { S.catFilter = null; S.showAll = false; render(); }
+function filterByCat(cat) {
+  S.catFilter = cat;
+  S.txFilter  = 'out';
+  S.sortBy    = 'date';
+  S.sortDir   = 'desc';
+  S.showAll   = false;
+  setView('movimientos');
+}
+function setFilter(f) { S.txFilter = f; S.catFilter = null; S.showAll = false; render(); }
 function showMore()   { S.showAll = true; render(); }
 
 async function load() {
