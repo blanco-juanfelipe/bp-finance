@@ -260,7 +260,7 @@ const FX = { COP: 1, USD: 3800, MXN: 210, EUR: 4600 };
 function amtCOP(t) { return Math.abs(t.amount) * (FX[t.currency] || 1); }
 
 // ── CREDENTIALS ──────────────────────────────
-const SHEET_ID = '1qCjvEn76hqDEoalerFh-BU46dhnHjTi2vNQOFwAWXs8';
+const SHEET_ID = '142GKyNIvxxEeRtpEAl9gVS8evXnuUZPFN6k1_rzv8tw';
 const API_KEY  = 'AIzaSyA2JNjOzjo_8EHiyyjEtiV0Vv89gcFdNes';
 
 // ── STATE ────────────────────────────────────
@@ -278,12 +278,12 @@ const S = {
   showAll: false,
 };
 
-const C = { DATE:0,TIME:1,OWNER:2,SOURCE:3,TYPE:4,DIR:5,AMOUNT:6,CUR:7,COUNTER:8,ACCOUNT:9,CAT:10,NOTES:11,ID:12 };
+const C = { DATE:0,TIME:1,OWNER:2,SOURCE:3,TYPE:4,DIR:5,AMOUNT:6,CUR:7,COUNTER:8,ACCOUNT:9,CAT:10,NOTES:12,ID:13 };
 
 // ── DATA ─────────────────────────────────────
 async function fetchSheet() {
   if (!S.sheetId || !S.apiKey) return null;
-  const range = encodeURIComponent('Transactions!A2:M');
+  const range = encodeURIComponent('Transactions!A2:N');
   const url = `https://sheets.googleapis.com/v4/spreadsheets/${S.sheetId}/values/${range}?key=${S.apiKey}`;
   try {
     const r = await fetch(url);
@@ -797,30 +797,30 @@ function demoData() {
   const d   = (ym2, n) => `${ym2}-${p(n)}`;
   S.raw = [
     // Current month
-    [d(ym,1),'08:00','Juan Felipe','Bancolombia','Pago','out','-5782000','COP','COMPENSAR-OI','*5222','Salud / EPS','','d1'],
-    [d(ym,1),'08:02','Juan Felipe','Bancolombia','Pago','out','-3970348','COP','LULO BANK SA','*5222','Cuota vehículo','','d2'],
-    [d(ym,1),'08:04','Juan Felipe','Bancolombia','Pago','out','-1383664','COP','NU Compania','*5222','Tarjeta Nu','','d3'],
-    [d(ym,2),'09:30','Juan Felipe','Uber','Viaje Uber','out','-48939','COP','Uber','••••2312','Transporte','','d4'],
-    [d(ym,3),'12:45','Juan Felipe','Rappi','Pedido Rappi','out','-75150','COP','Rappi - Turbo, Polo','••••2312','Domicilios / Rappi','','d5'],
-    [d(ym,4),'19:00','Tu esposa','Bancolombia','Compra','out','-131800','COP','SECRETARIA HACIENDA','*9694','Impuestos / Movilidad','','d6'],
-    [d(ym,5),'10:15','Tu esposa','Rappi','Pedido Rappi','out','-106620','COP','Rappi - Pasteur, El Nogal','••••2312','Domicilios / Rappi','','d7'],
-    [d(ym,7),'11:00','Juan Felipe','Bancolombia','Transferencia enviada','out','-1450000','COP','OLGA VEGA','*5222','Empleada del hogar','','d8'],
-    [d(ym,8),'20:30','Juan Felipe','Bancolombia','Compra','out','-31800','COP','SALCHICHAS ALEMANAS','*9694','Restaurantes / Comida','','d9'],
-    [d(ym,10),'09:00','Juan Felipe','Bancolombia','Transferencia recibida','in','18000000','COP','Aplazo - Salario','*5222','Ingreso','','d10'],
-    [d(ym,14),'13:30','Tu esposa','Rappi','Pedido Rappi','out','-66650','COP','Rappi - Farmatodo','••••2312','Domicilios / Rappi','','d11'],
-    [d(ym,17),'07:40','Juan Felipe','Bancolombia','Transferencia enviada','out','-1450000','COP','OLGA VEGA','*5222','Empleada del hogar','','d12'],
-    [d(ym,20),'15:00','Tu esposa','Bancolombia','Transferencia recibida','in','9500000','COP','Empresa - Salario','*5222','Ingreso','','d13'],
-    [d(ym,21),'11:20','Juan Felipe','Rappi','Pedido Rappi','out','-58950','COP','Rappi - BACU Calle 90','••••2312','Domicilios / Rappi','','d14'],
-    [d(ym,22),'09:00','Tu esposa','Rappi','Pedido Rappi','out','-40350','COP','Rappi - Turbo, Polo','••••2312','Domicilios / Rappi','','d15'],
+    [d(ym,1),'08:00','Juan Felipe','Bancolombia','Pago','out','-5782000','COP','COMPENSAR-OI','*5222','Salud / EPS','','','d1'],
+    [d(ym,1),'08:02','Juan Felipe','Bancolombia','Pago','out','-3970348','COP','LULO BANK SA','*5222','Cuota vehículo','','','d2'],
+    [d(ym,1),'08:04','Juan Felipe','Bancolombia','Pago','out','-1383664','COP','NU Compania','*5222','Tarjeta Nu','','','d3'],
+    [d(ym,2),'09:30','Juan Felipe','Uber','Viaje Uber','out','-48939','COP','Uber','••••2312','Transporte','','','d4'],
+    [d(ym,3),'12:45','Juan Felipe','Rappi','Pedido Rappi','out','-75150','COP','Rappi - Turbo, Polo','••••2312','Domicilios / Rappi','','','d5'],
+    [d(ym,4),'19:00','Tu esposa','Bancolombia','Compra','out','-131800','COP','SECRETARIA HACIENDA','*9694','Impuestos / Movilidad','','','d6'],
+    [d(ym,5),'10:15','Tu esposa','Rappi','Pedido Rappi','out','-106620','COP','Rappi - Pasteur, El Nogal','••••2312','Domicilios / Rappi','','','d7'],
+    [d(ym,7),'11:00','Juan Felipe','Bancolombia','Transferencia enviada','out','-1450000','COP','OLGA VEGA','*5222','Empleada del hogar','','','d8'],
+    [d(ym,8),'20:30','Juan Felipe','Bancolombia','Compra','out','-31800','COP','SALCHICHAS ALEMANAS','*9694','Restaurantes / Comida','','','d9'],
+    [d(ym,10),'09:00','Juan Felipe','Bancolombia','Transferencia recibida','in','18000000','COP','Aplazo - Salario','*5222','Ingreso','','','d10'],
+    [d(ym,14),'13:30','Tu esposa','Rappi','Pedido Rappi','out','-66650','COP','Rappi - Farmatodo','••••2312','Domicilios / Rappi','','','d11'],
+    [d(ym,17),'07:40','Juan Felipe','Bancolombia','Transferencia enviada','out','-1450000','COP','OLGA VEGA','*5222','Empleada del hogar','','','d12'],
+    [d(ym,20),'15:00','Tu esposa','Bancolombia','Transferencia recibida','in','9500000','COP','Empresa - Salario','*5222','Ingreso','','','d13'],
+    [d(ym,21),'11:20','Juan Felipe','Rappi','Pedido Rappi','out','-58950','COP','Rappi - BACU Calle 90','••••2312','Domicilios / Rappi','','','d14'],
+    [d(ym,22),'09:00','Tu esposa','Rappi','Pedido Rappi','out','-40350','COP','Rappi - Turbo, Polo','••••2312','Domicilios / Rappi','','','d15'],
     // Previous month (for MTD comparison)
-    [d(pym,1),'08:00','Juan Felipe','Bancolombia','Pago','out','-5793100','COP','COMPENSAR-OI','*5222','Salud / EPS','','p1'],
-    [d(pym,1),'08:02','Juan Felipe','Bancolombia','Pago','out','-3975710','COP','LULO BANK SA','*5222','Cuota vehículo','','p2'],
-    [d(pym,3),'10:00','Juan Felipe','Rappi','Pedido Rappi','out','-96100','COP','Rappi - Turbo, Polo','••••2312','Domicilios / Rappi','','p3'],
-    [d(pym,5),'14:00','Tu esposa','Rappi','Pedido Rappi','out','-56550','COP','Rappi - Turbo, Polo','••••2312','Domicilios / Rappi','','p4'],
-    [d(pym,7),'11:00','Juan Felipe','Bancolombia','Transferencia enviada','out','-1450000','COP','OLGA VEGA','*5222','Empleada del hogar','','p5'],
-    [d(pym,10),'09:00','Juan Felipe','Bancolombia','Transferencia recibida','in','18000000','COP','Aplazo - Salario','*5222','Ingreso','','p6'],
-    [d(pym,15),'08:00','Tu esposa','Rappi','Pedido Rappi','out','-71200','COP','Rappi - Turbo, Polo','••••2312','Domicilios / Rappi','','p7'],
-    [d(pym,20),'15:00','Tu esposa','Bancolombia','Transferencia recibida','in','9500000','COP','Empresa - Salario','*5222','Ingreso','','p8'],
+    [d(pym,1),'08:00','Juan Felipe','Bancolombia','Pago','out','-5793100','COP','COMPENSAR-OI','*5222','Salud / EPS','','','p1'],
+    [d(pym,1),'08:02','Juan Felipe','Bancolombia','Pago','out','-3975710','COP','LULO BANK SA','*5222','Cuota vehículo','','','p2'],
+    [d(pym,3),'10:00','Juan Felipe','Rappi','Pedido Rappi','out','-96100','COP','Rappi - Turbo, Polo','••••2312','Domicilios / Rappi','','','p3'],
+    [d(pym,5),'14:00','Tu esposa','Rappi','Pedido Rappi','out','-56550','COP','Rappi - Turbo, Polo','••••2312','Domicilios / Rappi','','','p4'],
+    [d(pym,7),'11:00','Juan Felipe','Bancolombia','Transferencia enviada','out','-1450000','COP','OLGA VEGA','*5222','Empleada del hogar','','','p5'],
+    [d(pym,10),'09:00','Juan Felipe','Bancolombia','Transferencia recibida','in','18000000','COP','Aplazo - Salario','*5222','Ingreso','','','p6'],
+    [d(pym,15),'08:00','Tu esposa','Rappi','Pedido Rappi','out','-71200','COP','Rappi - Turbo, Polo','••••2312','Domicilios / Rappi','','','p7'],
+    [d(pym,20),'15:00','Tu esposa','Bancolombia','Transferencia recibida','in','9500000','COP','Empresa - Salario','*5222','Ingreso','','','p8'],
   ];
   S.selectedMonth = months(parseRows(S.raw))[0];
 }
