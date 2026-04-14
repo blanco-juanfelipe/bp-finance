@@ -407,6 +407,33 @@ body { background: var(--bg); color: var(--ink); font-family: var(--f); min-heig
 <!-- Toast -->
 <div class="toast" id="toast"></div>
 
+<!-- NW Edit modal -->
+<div class="modal-backdrop" id="nw-modal-backdrop" onclick="closeNWEditModal()"></div>
+<div class="modal-sheet" id="nw-modal-sheet">
+  <div class="modal-handle"></div>
+  <div class="modal-header">
+    <div class="modal-title">Editar valor</div>
+    <div class="modal-subtitle" id="nw-modal-subtitle">—</div>
+  </div>
+  <div class="modal-body">
+    <div>
+      <div class="modal-field-label">Valor COP <span id="nw-cop-hint" style="font-weight:400;text-transform:none;letter-spacing:0;color:var(--ink3);font-size:11px"></span></div>
+      <input class="modal-input" id="nw-modal-cop" type="number" placeholder="ej. 29.5" inputmode="decimal" step="0.1">
+    </div>
+    <div>
+      <div class="modal-field-label">Valor USD <span style="font-weight:400;text-transform:none;letter-spacing:0;color:var(--ink3);font-size:11px">→ calcula COP automáticamente</span></div>
+      <input class="modal-input" id="nw-modal-usd" type="number" placeholder="ej. 2330" inputmode="decimal" oninput="onNWUsdInput(this.value)">
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button class="modal-btn-cancel" onclick="closeNWEditModal()">Cancelar</button>
+    <button class="modal-btn-save" id="nw-modal-save-btn" onclick="saveNWEdit()">
+      <div class="btn-spinner"></div>
+      <span id="nw-modal-save-lbl">Guardar</span>
+    </button>
+  </div>
+</div>
+
 <nav class="bottom-nav" id="nav">
   <div class="nav-item active" data-view="resumen" onclick="setView('resumen')">
     <div class="nav-ico">⊡</div><div class="nav-lbl">Resumen</div>
@@ -431,7 +458,7 @@ function amtCOP(t) { return Math.abs(t.amount) * (FX[t.currency] || 1); }
 // ── CREDENTIALS ──────────────────────────────
 const SHEET_ID     = '142GKyNIvxxEeRtpEAl9gVS8evXnuUZPFN6k1_rzv8tw';
 const API_KEY      = 'AIzaSyA2JNjOzjo_8EHiyyjEtiV0Vv89gcFdNes';
-const EDIT_ENDPOINT = 'https://script.google.com/macros/s/AKfycbzfg62aTjYymMMIehj68xZvbpyNR_Yr3bfSkWdTSykjA4E4qRfcetOYKiizO6gYquYgHQ/exec'; // paste Web App URL after deploying
+const EDIT_ENDPOINT = 'https://script.google.com/macros/s/AKfycbyI7QeAu7wV_Gu771a6KH4sLolNlRSkZ9xsS0qPsJ1E1J4-1bcYvTxBqA7USlIMyrR_4Q/exec'; // paste Web App URL after deploying
 
 // ── STATE ────────────────────────────────────
 const S = {
@@ -931,6 +958,117 @@ function renderLoading() {
   return `${renderHeader(null,[])}<div class="loader"><div class="spinner"></div><p>Cargando…</p></div>`;
 }
 
+function renderNWRow(item, isDebt) {
+  const negCls = isDebt ? ' neg' : '';
+  const sign   = isDebt ? '-' : '';
+  const usdHtml = item.usdVal
+    ? '<div class="nw-usd">USD ' + Math.round(item.usdVal).toLocaleString('en-US') + '</div>'
+    : '';
+  return '<div class="nw-row">'
+    + '<div class="nw-icon">' + nwIcon(item.entity) + '</div>'
+    + '<div class="nw-body">'
+    +   '<div class="nw-entity">' + item.entity + '</div>'
+    +   '<div class="nw-owner">' + item.person + '</div>'
+    + '</div>'
+    + '<div class="nw-right">'
+    +   '<div class="nw-val' + negCls + '">' + sign + fmtCOPM(Math.abs(item.valCOP)) + '</div>'
+    +   usdHtml
+    + '</div>'
+    + '<button class="tx-edit-btn" onclick="openNWEditModal(' + item.rowNum + ',\'' + item.entity + '\',\'' + item.person + '\')" title="Editar">'
+    +   '<svg viewBox="0 0 13 13" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M9 2l2 2-6 6H3V8l6-6z"/></svg>'
+    + '</button>'
+    + '</div>';
+}
+
+// ── NW EDIT MODAL ─────────────────────────────
+let _nwEditRow = null;
+
+function onNWUsdInput(val) {
+  const parsed = parseNetWorth(S.nwData);
+  if (!parsed) return;
+  const usd = parseFloat(val);
+  if (isNaN(usd) || usd === 0) {
+    document.getElementById('nw-modal-cop').value = '';
+    document.getElementById('nw-cop-hint').textContent = '(millones)';
+    return;
+  }
+  const copM = (usd * parsed.fxRate) / 1_000_000;
+  document.getElementById('nw-modal-cop').value = copM.toFixed(2);
+  document.getElementById('nw-cop-hint').textContent =
+    '= $' + copM.toFixed(1).replace('.', ',') + 'M @ ' + parsed.fxRate.toLocaleString('es-CO');
+}
+
+function openNWEditModal(rowNum, entity, person) {
+  _nwEditRow = rowNum;
+
+  // Find the item in parsed data to pre-fill values
+  const parsed = parseNetWorth(S.nwData);
+  const item = parsed ? parsed.items.find(i => i.rowNum === rowNum) : null;
+
+  document.getElementById('nw-modal-subtitle').textContent = entity + ' · ' + person;
+  document.getElementById('nw-cop-hint').textContent = '(millones)';
+  document.getElementById('nw-modal-cop').value  = item ? Math.abs(item.valCOP) : '';
+  document.getElementById('nw-modal-usd').value  = item && item.usdVal ? Math.abs(item.usdVal) : '';
+
+  const btn = document.getElementById('nw-modal-save-btn');
+  btn.classList.remove('saving');
+  document.getElementById('nw-modal-save-lbl').textContent = 'Guardar';
+
+  document.getElementById('nw-modal-backdrop').classList.add('open');
+  document.getElementById('nw-modal-sheet').classList.add('open');
+}
+
+function closeNWEditModal() {
+  document.getElementById('nw-modal-backdrop').classList.remove('open');
+  document.getElementById('nw-modal-sheet').classList.remove('open');
+  _nwEditRow = null;
+}
+
+async function saveNWEdit() {
+  if (!_nwEditRow) return;
+
+  if (EDIT_ENDPOINT === 'YOUR_APPS_SCRIPT_URL_HERE') {
+    showToast('⚠ Configura EDIT_ENDPOINT primero', true);
+    return;
+  }
+
+  const copVal = document.getElementById('nw-modal-cop').value.trim();
+  const usdVal = document.getElementById('nw-modal-usd').value.trim();
+
+  if (!copVal && !usdVal) {
+    showToast('Ingresa al menos un valor', true);
+    return;
+  }
+
+  const btn = document.getElementById('nw-modal-save-btn');
+  btn.classList.add('saving');
+  document.getElementById('nw-modal-save-lbl').textContent = 'Guardando…';
+
+  fetch(EDIT_ENDPOINT, {
+    method: 'POST',
+    headers: { 'Content-Type': 'text/plain' },
+    body: JSON.stringify({
+      type: 'networth',
+      rowNum: _nwEditRow,
+      valCOP: copVal ? parseFloat(copVal) : null,
+      valUSD: usdVal ? parseFloat(usdVal) : null,
+    }),
+  }).catch(() => {});
+
+  // Optimistically patch nwData
+  if (S.nwData) {
+    const dataRowIdx = _nwEditRow - 1; // nwData is 0-based, rowNum is 1-based sheet row
+    if (S.nwData[dataRowIdx]) {
+      if (copVal) S.nwData[dataRowIdx][3] = copVal;
+      if (usdVal) S.nwData[dataRowIdx][4] = usdVal;
+    }
+  }
+
+  closeNWEditModal();
+  render();
+  showToast('✓ Guardado en Google Sheets');
+}
+
 // ── NET WORTH ─────────────────────────────────
 async function fetchNetWorth() {
   if (!S.sheetId || !S.apiKey) return null;
@@ -988,21 +1126,18 @@ function parseNetWorth(rows) {
   });
 
   const items = [];
-  rows.slice(1).forEach(row => {
+  rows.slice(1).forEach((row, i) => {
     if (!row[0] || row[0] === 'Total' || row[0] === 'USD') return;
     const cat = row[0] || '';
     const entity = row[1] || '';
     const person = row[2] || '';
-    // Valor COP may be a formula result (number) or raw number
     const rawCOP = row[3];
     const rawUSD = row[4];
     let valCOP = null;
     if (rawCOP !== undefined && rawCOP !== null && rawCOP !== '') {
-      // It's a string from the API (formula results are computed server-side)
       const parsed = parseFloat(String(rawCOP).replace(/,/g,''));
       if (!isNaN(parsed)) valCOP = parsed;
     }
-    // If COP is null but USD is given, compute
     if (valCOP === null && rawUSD !== undefined && rawUSD !== null && rawUSD !== '') {
       const usd = parseFloat(String(rawUSD).replace(/,/g,''));
       if (!isNaN(usd)) valCOP = (usd * fxRate) / 1_000_000;
@@ -1013,7 +1148,8 @@ function parseNetWorth(rows) {
       const u = parseFloat(String(rawUSD).replace(/,/g,''));
       if (!isNaN(u)) usdVal = u;
     }
-    items.push({ cat, entity, person, valCOP, usdVal });
+    const rowNum = i + 2; // 1-based sheet row (row 1 = header, so data starts at 2)
+    items.push({ cat, entity, person, valCOP, usdVal, rowNum });
   });
 
   return { items, fxRate };
@@ -1081,18 +1217,7 @@ function renderNetWorth() {
       <div class="nw-group-total${isDebt?' neg':''}">${isDebt?'-':''}${fmtCOPM(Math.abs(gTotal))}</div>
     </div>
     <div class="card-shell fade-up">
-      ${gItems.map(item => `
-      <div class="nw-row">
-        <div class="nw-icon">${nwIcon(item.entity)}</div>
-        <div class="nw-body">
-          <div class="nw-entity">${item.entity}</div>
-          <div class="nw-owner">${item.person}</div>
-        </div>
-        <div class="nw-right">
-          <div class="nw-val${isDebt?' neg':''}">${isDebt?'-':''}${fmtCOPM(Math.abs(item.valCOP))}</div>
-          ${item.usdVal ? `<div class="nw-usd">USD ${Math.round(item.usdVal).toLocaleString('en-US')}</div>` : ''}
-        </div>
-      </div>`).join('')}
+      ${gItems.map(item => renderNWRow(item, isDebt)).join('')}
     </div>`;
   }).join('');
 
