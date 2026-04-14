@@ -226,6 +226,63 @@ body { background: var(--bg); color: var(--ink); font-family: var(--f); min-heig
 .primary-btn { width: 100%; margin-top: 20px; background: var(--ink); border: none; border-radius: var(--r-sm); padding: 13px; font-family: var(--f); font-size: 14px; font-weight: 500; color: #fff; cursor: pointer; transition: opacity .15s; }
 .primary-btn:hover { opacity: .85; }
 
+/* ── NET WORTH ── */
+.nw-hero {
+  margin: 16px 20px 0; background: var(--ink); border-radius: 18px; padding: 24px;
+  color: #fff; position: relative; overflow: hidden;
+}
+.nw-hero::before {
+  content: ''; position: absolute; inset: 0;
+  background: radial-gradient(ellipse at 80% 20%, rgba(255,255,255,.07) 0%, transparent 60%);
+  pointer-events: none;
+}
+.nw-hero-eyebrow { font-size: 11px; font-weight: 500; letter-spacing: .07em; text-transform: uppercase; color: rgba(255,255,255,.5); margin-bottom: 6px; }
+.nw-hero-amount { font-size: 42px; font-weight: 300; letter-spacing: -.03em; line-height: 1; }
+.nw-hero-amount sup { font-size: 18px; font-weight: 400; vertical-align: super; line-height: 0; color: rgba(255,255,255,.6); margin-right: 2px; }
+.nw-hero-sub { margin-top: 10px; font-size: 12px; color: rgba(255,255,255,.55); display: flex; gap: 14px; flex-wrap: wrap; }
+.nw-hero-sub span { display: flex; align-items: center; gap: 4px; }
+.nw-divider { height: 1px; background: rgba(255,255,255,.12); margin: 16px 0 12px; }
+.nw-breakdown-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px; }
+.nw-breakdown-row:last-child { margin-bottom: 0; }
+.nw-breakdown-lbl { font-size: 12px; color: rgba(255,255,255,.55); }
+.nw-breakdown-val { font-size: 13px; font-weight: 500; font-family: var(--fm); color: rgba(255,255,255,.9); }
+.nw-breakdown-val.neg { color: #ff8a7a; }
+
+.nw-group-hd {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 18px 20px 8px;
+}
+.nw-group-title { font-size: 12px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--ink2); }
+.nw-group-total { font-size: 12px; font-weight: 500; font-family: var(--fm); color: var(--ink2); }
+.nw-group-total.neg { color: var(--red); }
+
+.nw-row { display: flex; align-items: center; gap: 12px; padding: 12px 16px; border-bottom: 1px solid var(--border2); }
+.nw-row:last-child { border-bottom: none; }
+.nw-icon { width: 34px; height: 34px; border-radius: 10px; background: var(--pill-bg); display: flex; align-items: center; justify-content: center; font-size: 16px; flex-shrink: 0; }
+.nw-body { flex: 1; min-width: 0; }
+.nw-entity { font-size: 13px; font-weight: 500; color: var(--ink); }
+.nw-owner { font-size: 11px; color: var(--ink3); margin-top: 2px; }
+.nw-right { text-align: right; flex-shrink: 0; }
+.nw-val { font-size: 13px; font-weight: 500; font-family: var(--fm); color: var(--ink); }
+.nw-val.neg { color: var(--red); }
+.nw-usd { font-size: 10px; color: var(--ink3); margin-top: 2px; }
+
+.nw-fx-bar {
+  margin: 0 20px 8px; background: var(--white); border: 1px solid var(--border);
+  border-radius: var(--r-sm); padding: 10px 14px;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.nw-fx-lbl { font-size: 11px; color: var(--ink3); }
+.nw-fx-val { font-size: 12px; font-weight: 500; font-family: var(--fm); color: var(--ink2); }
+.nw-refresh-btn {
+  display: flex; align-items: center; gap: 6px; background: none; border: none;
+  font-family: var(--f); font-size: 11px; color: var(--ink3); cursor: pointer;
+  padding: 0; transition: color .15s;
+}
+.nw-refresh-btn:hover { color: var(--ink); }
+.nw-refresh-btn svg { width: 12px; height: 12px; transition: transform .4s; }
+.nw-refresh-btn.spinning svg { animation: spin .6s linear infinite; }
+
 /* ── UTILS ── */
 .loader { padding: 60px 20px; text-align: center; }
 .spinner { width: 24px; height: 24px; margin: 0 auto 14px; border: 2px solid var(--border); border-top-color: var(--ink); border-radius: 50%; animation: spin .6s linear infinite; }
@@ -251,6 +308,9 @@ body { background: var(--bg); color: var(--ink); font-family: var(--f); min-heig
   <div class="nav-item" data-view="rappi" onclick="setView('rappi')">
     <div class="nav-ico">🛵</div><div class="nav-lbl">Rappi</div>
   </div>
+  <div class="nav-item" data-view="networth" onclick="setView('networth')">
+    <div class="nav-ico">💎</div><div class="nav-lbl">Patrimonio</div>
+  </div>
 
 </nav>
 
@@ -272,10 +332,13 @@ const S = {
   selectedMonth: null,
   monthOpen: false,
   txFilter: 'todos',
-  catFilter: null,   // category filter when jumping from Resumen
-  sortBy: 'date',    // 'date' | 'amount'
+  catFilter: null,
+  sortBy: 'date',
   sortDir: 'desc',
   showAll: false,
+  nwData: null,      // net worth rows
+  nwLoading: false,
+  nwLastFetch: null,
 };
 
 const C = { DATE:0,TIME:1,OWNER:2,SOURCE:3,TYPE:4,DIR:5,AMOUNT:6,CUR:7,COUNTER:8,ACCOUNT:9,CAT:10,NOTES:12,ID:13 };
@@ -373,6 +436,7 @@ function render() {
   if (S.view === 'resumen')     app.innerHTML = renderResumen(txs, mos, mo);
   if (S.view === 'movimientos') app.innerHTML = renderMovimientos(txs, mos, mo);
   if (S.view === 'rappi')       app.innerHTML = renderRappi(txs);
+  if (S.view === 'networth')    app.innerHTML = renderNetWorth();
 
   app.querySelectorAll('.m-chip').forEach(el => {
     el.onclick = () => { S.selectedMonth = el.dataset.m; S.showAll = false; S.monthOpen = false; render(); };
@@ -752,6 +816,206 @@ function renderSetup() {
 function bindConfig() {}
 function renderLoading() {
   return `${renderHeader(null,[])}<div class="loader"><div class="spinner"></div><p>Cargando…</p></div>`;
+}
+
+// ── NET WORTH ─────────────────────────────────
+async function fetchNetWorth() {
+  if (!S.sheetId || !S.apiKey) return null;
+  const range = encodeURIComponent("'Net Worth'!A1:E20");
+  const url = `https://sheets.googleapis.com/v4/spreadsheets/${S.sheetId}/values/${range}?key=${S.apiKey}`;
+  try {
+    const r = await fetch(url);
+    if (!r.ok) throw new Error(r.status);
+    return (await r.json()).values || [];
+  } catch(e) { console.error('NW fetch error:', e); return null; }
+}
+
+async function loadNetWorth() {
+  S.nwLoading = true;
+  render();
+  const rows = await fetchNetWorth();
+  S.nwData = rows;
+  S.nwLoading = false;
+  S.nwLastFetch = new Date();
+  render();
+}
+
+function fmtCOPM(n) {
+  // Format COP millions value
+  const a = Math.abs(n || 0);
+  if (a >= 1000) return '$' + (a / 1000).toFixed(1).replace('.', ',') + 'B';
+  return '$' + a.toFixed(1).replace('.', ',') + 'M';
+}
+
+const NW_ICONS = {
+  'Nu': '🟣', 'Tyba': '📈', 'IBKR': '📊', 'Deel': '💵',
+  'Skandia': '🛡️', 'Global': '🌍', 'Lulo': '🏦', 'Tiguan': '🚗', 'Addi': '⭐',
+};
+function nwIcon(entity) { return NW_ICONS[entity] || '💼'; }
+
+const NW_GROUPS = {
+  'Ahorro/Inversión': { label: 'Ahorro e Inversión', order: 0 },
+  'Seguro': { label: 'Seguros', order: 1 },
+  'Cesantías': { label: 'Cesantías', order: 2 },
+  'Carro': { label: 'Activos Físicos', order: 3 },
+  'Stock': { label: 'Stock / Equity', order: 4 },
+  'Deuda': { label: 'Deudas', order: 5 },
+};
+
+function parseNetWorth(rows) {
+  if (!rows || rows.length < 2) return null;
+  // Row 0 is header: Categoría, Entidad, Persona, Valor COP (M), Valor USD
+  // Row index 15 (0-based) is the FX rate row: ['USD', 3700, ...]
+  let fxRate = 3900; // fallback
+  rows.forEach(row => {
+    if (row[0] === 'USD' && row[1]) {
+      const parsed = parseFloat(String(row[1]).replace(/,/g, ''));
+      if (!isNaN(parsed) && parsed > 0) fxRate = parsed;
+    }
+  });
+
+  const items = [];
+  rows.slice(1).forEach(row => {
+    if (!row[0] || row[0] === 'Total' || row[0] === 'USD') return;
+    const cat = row[0] || '';
+    const entity = row[1] || '';
+    const person = row[2] || '';
+    // Valor COP may be a formula result (number) or raw number
+    const rawCOP = row[3];
+    const rawUSD = row[4];
+    let valCOP = null;
+    if (rawCOP !== undefined && rawCOP !== null && rawCOP !== '') {
+      // It's a string from the API (formula results are computed server-side)
+      const parsed = parseFloat(String(rawCOP).replace(/,/g,''));
+      if (!isNaN(parsed)) valCOP = parsed;
+    }
+    // If COP is null but USD is given, compute
+    if (valCOP === null && rawUSD !== undefined && rawUSD !== null && rawUSD !== '') {
+      const usd = parseFloat(String(rawUSD).replace(/,/g,''));
+      if (!isNaN(usd)) valCOP = (usd * fxRate) / 1_000_000;
+    }
+    if (valCOP === null) return;
+    let usdVal = null;
+    if (rawUSD !== undefined && rawUSD !== null && rawUSD !== '') {
+      const u = parseFloat(String(rawUSD).replace(/,/g,''));
+      if (!isNaN(u)) usdVal = u;
+    }
+    items.push({ cat, entity, person, valCOP, usdVal });
+  });
+
+  return { items, fxRate };
+}
+
+function renderNetWorth() {
+  const header = `
+  <div class="header">
+    <div class="header-inner">
+      <div class="header-logo">
+        <div class="header-logo-mark">
+          <svg viewBox="0 0 14 14" fill="none"><rect x="1" y="1" width="5" height="5" rx="1.2" fill="white"/><rect x="8" y="1" width="5" height="5" rx="1.2" fill="white" opacity=".5"/><rect x="1" y="8" width="5" height="5" rx="1.2" fill="white" opacity=".5"/><rect x="8" y="8" width="5" height="5" rx="1.2" fill="white"/></svg>
+        </div>
+        Finanzas Casa
+      </div>
+      <div class="header-right">
+        <button class="nw-refresh-btn${S.nwLoading?' spinning':''}" onclick="loadNetWorth()" id="nw-refresh-btn">
+          <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M10 6A4 4 0 1 1 6 2a4 4 0 0 1 2.83 1.17L10 4"/><path d="M10 1v3H7"/></svg>
+          ${S.nwLastFetch ? fmtTime(S.nwLastFetch) : 'Actualizar'}
+        </button>
+      </div>
+    </div>
+  </div>`;
+
+  if (S.nwLoading) {
+    return `${header}<div class="loader"><div class="spinner"></div><p>Cargando patrimonio…</p></div>`;
+  }
+
+  if (!S.nwData) {
+    // Trigger load automatically on first visit
+    setTimeout(() => loadNetWorth(), 50);
+    return `${header}<div class="loader"><div class="spinner"></div><p>Cargando…</p></div>`;
+  }
+
+  const parsed = parseNetWorth(S.nwData);
+  if (!parsed || !parsed.items.length) {
+    return `${header}<div class="empty" style="margin-top:40px"><div class="empty-icon">📊</div><p>Sin datos de patrimonio</p></div>`;
+  }
+
+  const { items, fxRate } = parsed;
+
+  // Totals
+  const assets = items.filter(i => i.cat !== 'Deuda').reduce((s,i) => s + i.valCOP, 0);
+  const debts  = items.filter(i => i.cat === 'Deuda').reduce((s,i) => s + Math.abs(i.valCOP), 0);
+  const total  = assets - debts;
+
+  // Group items
+  const groups = {};
+  items.forEach(i => {
+    const g = i.cat;
+    if (!groups[g]) groups[g] = [];
+    groups[g].push(i);
+  });
+
+  const groupOrder = ['Ahorro/Inversión','Stock','Carro','Seguro','Cesantías','Deuda'];
+
+  const groupsHTML = groupOrder.filter(g => groups[g]).map(g => {
+    const gItems = groups[g];
+    const gTotal = gItems.reduce((s,i) => s + i.valCOP, 0);
+    const isDebt = g === 'Deuda';
+    const info = NW_GROUPS[g] || { label: g };
+    return `
+    <div class="nw-group-hd">
+      <div class="nw-group-title">${info.label}</div>
+      <div class="nw-group-total${isDebt?' neg':''}">${isDebt?'-':''}${fmtCOPM(Math.abs(gTotal))}</div>
+    </div>
+    <div class="card-shell fade-up">
+      ${gItems.map(item => `
+      <div class="nw-row">
+        <div class="nw-icon">${nwIcon(item.entity)}</div>
+        <div class="nw-body">
+          <div class="nw-entity">${item.entity}</div>
+          <div class="nw-owner">${item.person}</div>
+        </div>
+        <div class="nw-right">
+          <div class="nw-val${isDebt?' neg':''}">${isDebt?'-':''}${fmtCOPM(Math.abs(item.valCOP))}</div>
+          ${item.usdVal ? `<div class="nw-usd">USD ${Math.round(item.usdVal).toLocaleString('en-US')}</div>` : ''}
+        </div>
+      </div>`).join('')}
+    </div>`;
+  }).join('');
+
+  return `
+  ${header}
+  <div style="height:16px"></div>
+
+  <div class="nw-hero fade-up">
+    <div class="nw-hero-eyebrow">Patrimonio neto · familia</div>
+    <div class="nw-hero-amount">${fmtCOPM(total)}</div>
+    <div class="nw-hero-sub">
+      <span>≈ USD ${Math.round(total * 1_000_000 / fxRate).toLocaleString('en-US')}</span>
+    </div>
+    <div class="nw-divider"></div>
+    <div class="nw-breakdown-row">
+      <div class="nw-breakdown-lbl">Activos</div>
+      <div class="nw-breakdown-val">${fmtCOPM(assets)}</div>
+    </div>
+    <div class="nw-breakdown-row">
+      <div class="nw-breakdown-lbl">Deudas</div>
+      <div class="nw-breakdown-val neg">−${fmtCOPM(debts)}</div>
+    </div>
+  </div>
+
+  <div class="nw-fx-bar">
+    <div class="nw-fx-lbl">TRM aplicada</div>
+    <div class="nw-fx-val">1 USD = $${fxRate.toLocaleString('es-CO')}</div>
+  </div>
+
+  ${groupsHTML}
+  <div style="height:8px"></div>`;
+}
+
+function fmtTime(d) {
+  if (!d) return '';
+  return d.getHours() + ':' + String(d.getMinutes()).padStart(2,'0');
 }
 
 // ── ACTIONS ──────────────────────────────────
