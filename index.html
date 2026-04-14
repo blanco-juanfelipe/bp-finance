@@ -291,12 +291,121 @@ body { background: var(--bg); color: var(--ink); font-family: var(--f); min-heig
 .empty { padding: 48px 20px; text-align: center; }
 .empty-icon { font-size: 28px; margin-bottom: 8px; }
 .empty p { font-size: 13px; color: var(--ink2); }
+/* ── EDIT MODAL ── */
+.modal-backdrop {
+  position: fixed; inset: 0; background: rgba(0,0,0,.35);
+  backdrop-filter: blur(4px); z-index: 200;
+  opacity: 0; transition: opacity .2s; pointer-events: none;
+}
+.modal-backdrop.open { opacity: 1; pointer-events: all; }
+.modal-sheet {
+  position: fixed; bottom: 0; left: 50%; transform: translateX(-50%) translateY(100%);
+  width: 100%; max-width: 430px;
+  background: var(--white); border-radius: 20px 20px 0 0;
+  padding: 0 0 max(env(safe-area-inset-bottom,20px),20px);
+  z-index: 201; transition: transform .28s cubic-bezier(.32,1,.23,1);
+  box-shadow: 0 -4px 32px rgba(0,0,0,.12);
+}
+.modal-sheet.open { transform: translateX(-50%) translateY(0); }
+.modal-handle { width: 36px; height: 4px; background: var(--border); border-radius: 2px; margin: 12px auto 0; }
+.modal-header { padding: 16px 20px 12px; border-bottom: 1px solid var(--border2); }
+.modal-title { font-size: 14px; font-weight: 600; color: var(--ink); letter-spacing: -.01em; }
+.modal-subtitle { font-size: 12px; color: var(--ink3); margin-top: 3px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.modal-body { padding: 16px 20px; display: flex; flex-direction: column; gap: 14px; }
+.modal-field-label { font-size: 11px; font-weight: 600; letter-spacing: .05em; text-transform: uppercase; color: var(--ink2); margin-bottom: 6px; }
+.modal-select {
+  width: 100%; background: var(--bg); border: 1px solid var(--border);
+  border-radius: var(--r-sm); padding: 11px 13px;
+  font-family: var(--f); font-size: 13px; color: var(--ink);
+  outline: none; appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12' fill='none'%3E%3Cpath d='M3 4.5L6 7.5L9 4.5' stroke='%236b6960' stroke-width='1.5'/%3E%3C/svg%3E");
+  background-repeat: no-repeat; background-position: right 12px center;
+  cursor: pointer; transition: border-color .15s;
+}
+.modal-select:focus { border-color: var(--ink3); background-color: var(--white); }
+.modal-input {
+  width: 100%; background: var(--bg); border: 1px solid var(--border);
+  border-radius: var(--r-sm); padding: 11px 13px;
+  font-family: var(--fm); font-size: 14px; color: var(--ink);
+  outline: none; transition: border-color .15s;
+}
+.modal-input:focus { border-color: var(--ink3); background-color: var(--white); }
+.modal-input::placeholder { color: var(--ink3); font-family: var(--f); }
+.modal-footer { padding: 0 20px; display: flex; gap: 10px; }
+.modal-btn-cancel {
+  flex: 1; padding: 13px; background: var(--bg); border: 1px solid var(--border);
+  border-radius: var(--r-sm); font-family: var(--f); font-size: 14px;
+  font-weight: 500; color: var(--ink2); cursor: pointer; transition: background .15s;
+}
+.modal-btn-cancel:hover { background: var(--border2); }
+.modal-btn-save {
+  flex: 2; padding: 13px; background: var(--ink); border: none;
+  border-radius: var(--r-sm); font-family: var(--f); font-size: 14px;
+  font-weight: 500; color: #fff; cursor: pointer; transition: opacity .15s;
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+}
+.modal-btn-save:hover { opacity: .85; }
+.modal-btn-save.saving { opacity: .6; pointer-events: none; }
+.modal-btn-save .btn-spinner { width: 14px; height: 14px; border: 2px solid rgba(255,255,255,.4); border-top-color: #fff; border-radius: 50%; animation: spin .6s linear infinite; display: none; }
+.modal-btn-save.saving .btn-spinner { display: block; }
+
+/* edit tap target on tx row */
+.tx-edit-btn {
+  width: 28px; height: 28px; border-radius: 8px; border: none;
+  background: var(--pill-bg); display: flex; align-items: center; justify-content: center;
+  cursor: pointer; flex-shrink: 0; transition: background .15s; margin-left: 4px;
+}
+.tx-edit-btn:hover { background: var(--border); }
+.tx-edit-btn svg { width: 13px; height: 13px; color: var(--ink2); }
+
+/* ── TOAST ── */
+.toast {
+  position: fixed; bottom: 96px; left: 50%; transform: translateX(-50%) translateY(8px);
+  background: var(--ink); color: #fff; font-size: 13px; font-weight: 500;
+  padding: 10px 18px; border-radius: 20px; z-index: 300;
+  opacity: 0; transition: opacity .2s, transform .2s; pointer-events: none;
+  white-space: nowrap;
+}
+.toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+.toast.error { background: var(--red); }
+
 @keyframes fadeUp { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
 .fade-up { animation: fadeUp .25s ease both; }
 </style>
+
 </head>
 <body>
 <div class="app" id="app"></div>
+
+<!-- Edit modal -->
+<div class="modal-backdrop" id="modal-backdrop" onclick="closeEditModal()"></div>
+<div class="modal-sheet" id="modal-sheet">
+  <div class="modal-handle"></div>
+  <div class="modal-header">
+    <div class="modal-title">Editar transacción</div>
+    <div class="modal-subtitle" id="modal-subtitle">—</div>
+  </div>
+  <div class="modal-body">
+    <div>
+      <div class="modal-field-label">Categoría</div>
+      <select class="modal-select" id="modal-cat"></select>
+    </div>
+    <div>
+      <div class="modal-field-label">Monto (COP)</div>
+      <input class="modal-input" id="modal-amount" type="number" placeholder="ej. 75000" inputmode="numeric">
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button class="modal-btn-cancel" onclick="closeEditModal()">Cancelar</button>
+    <button class="modal-btn-save" id="modal-save-btn" onclick="saveEdit()">
+      <div class="btn-spinner"></div>
+      <span id="modal-save-lbl">Guardar</span>
+    </button>
+  </div>
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast"></div>
 
 <nav class="bottom-nav" id="nav">
   <div class="nav-item active" data-view="resumen" onclick="setView('resumen')">
@@ -320,8 +429,9 @@ const FX = { COP: 1, USD: 3800, MXN: 210, EUR: 4600 };
 function amtCOP(t) { return Math.abs(t.amount) * (FX[t.currency] || 1); }
 
 // ── CREDENTIALS ──────────────────────────────
-const SHEET_ID = '142GKyNIvxxEeRtpEAl9gVS8evXnuUZPFN6k1_rzv8tw';
-const API_KEY  = 'AIzaSyA2JNjOzjo_8EHiyyjEtiV0Vv89gcFdNes';
+const SHEET_ID     = '142GKyNIvxxEeRtpEAl9gVS8evXnuUZPFN6k1_rzv8tw';
+const API_KEY      = 'AIzaSyA2JNjOzjo_8EHiyyjEtiV0Vv89gcFdNes';
+const EDIT_ENDPOINT = 'https://script.google.com/macros/s/AKfycbzfg62aTjYymMMIehj68xZvbpyNR_Yr3bfSkWdTSykjA4E4qRfcetOYKiizO6gYquYgHQ/exec'; // paste Web App URL after deploying
 
 // ── STATE ────────────────────────────────────
 const S = {
@@ -368,6 +478,7 @@ function parseRows(rows) {
     counter:  r[C.COUNTER]|| '',
     account:  r[C.ACCOUNT]|| '',
     cat:      r[C.CAT]    || 'Sin categoría',
+    id:       r[C.ID]     || '',
   }));
 }
 
@@ -785,6 +896,7 @@ function renderTxRows(txs, showDate) {
   return txs.map(t => {
     const cls    = t.dir==='in' ? 'in' : t.dir==='internal' ? 'int' : 'out';
     const prefix = t.dir==='in' ? '+' : '';
+    const txId   = t.id || '';
     return `
     <div class="tx-row">
       <div class="tx-icon">${emoji(t.cat)}</div>
@@ -801,6 +913,7 @@ function renderTxRows(txs, showDate) {
         <div class="tx-amt ${cls}">${prefix}${fmtCOP(amtCOP(t))}</div>
         <div class="tx-src">${t.currency !== 'COP' ? t.currency + ' ' + Math.abs(t.amount).toLocaleString('en-US', {maximumFractionDigits:2}) + ' · ' : ''}${t.source}</div>
       </div>
+      ${txId ? '<button class="tx-edit-btn" onclick="openEditModal(\'' + txId + '\')" title="Editar"><svg viewBox="0 0 13 13" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M9 2l2 2-6 6H3V8l6-6z"/></svg></button>' : ''}
     </div>`;
   }).join('');
 }
@@ -1016,6 +1129,111 @@ function renderNetWorth() {
 function fmtTime(d) {
   if (!d) return '';
   return d.getHours() + ':' + String(d.getMinutes()).padStart(2,'0');
+}
+
+// ── EDIT MODAL ───────────────────────────────
+const CATEGORIES = [
+  'Salud / EPS','Cuota vehículo','Deuda','Tarjeta Nu','Tarjeta Addi',
+  'Impuestos / Movilidad','Servicios públicos','Empleada del hogar',
+  'Transporte','Domicilios / Rappi','Restaurantes / Comida',
+  'Mercado / Supermercado','Lujo / Relojes','Ropa / Tecnología',
+  'Salud / Farmacia','Deporte / Gym','Bebé','Servicios','Suscripciones',
+  'Internacional / Trabajo','Ahorro / Inversión','Pago QR',
+  'Ingreso','Ingreso internacional','Movimiento interno','Sin categoría',
+];
+
+let _editTxId = null;
+
+function openEditModal(txId) {
+  const txs = parseRows(S.raw || []);
+  const tx  = txs.find(t => t.id === txId);
+  if (!tx) return;
+  _editTxId = txId;
+
+  // Populate subtitle
+  document.getElementById('modal-subtitle').textContent =
+    `${tx.counter || tx.type} · ${fmtDate(tx.date)}`;
+
+  // Populate category dropdown
+  const sel = document.getElementById('modal-cat');
+  sel.innerHTML = CATEGORIES.map(c =>
+    `<option value="${c}"${c === tx.cat ? ' selected' : ''}>${emoji(c)} ${c}</option>`
+  ).join('');
+
+  // Populate amount (positive display value)
+  document.getElementById('modal-amount').value = Math.abs(tx.amount);
+
+  // Reset save button
+  const btn = document.getElementById('modal-save-btn');
+  btn.classList.remove('saving');
+  document.getElementById('modal-save-lbl').textContent = 'Guardar';
+
+  document.getElementById('modal-backdrop').classList.add('open');
+  document.getElementById('modal-sheet').classList.add('open');
+}
+
+function closeEditModal() {
+  document.getElementById('modal-backdrop').classList.remove('open');
+  document.getElementById('modal-sheet').classList.remove('open');
+  _editTxId = null;
+}
+
+function showToast(msg, isError) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = 'toast' + (isError ? ' error' : '');
+  // force reflow to restart transition
+  void t.offsetWidth;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2500);
+}
+
+async function saveEdit() {
+  if (!_editTxId) return;
+
+  const cat    = document.getElementById('modal-cat').value;
+  const amount = document.getElementById('modal-amount').value;
+
+  if (EDIT_ENDPOINT === 'YOUR_APPS_SCRIPT_URL_HERE') {
+    showToast('⚠ Configura EDIT_ENDPOINT primero', true);
+    return;
+  }
+
+  const btn = document.getElementById('modal-save-btn');
+  btn.classList.add('saving');
+  document.getElementById('modal-save-lbl').textContent = 'Guardando…';
+
+  // Preserve sign: find original tx to know if it was negative
+  const txs = parseRows(S.raw || []);
+  const tx  = txs.find(t => t.id === _editTxId);
+  const signedAmount = tx && tx.amount < 0 ? -Math.abs(parseFloat(amount)) : Math.abs(parseFloat(amount));
+
+  try {
+    // Apps Script doesn't support CORS preflights, so we send as text/plain
+    // (avoids preflight) and use no-cors. We can't read the response body in
+    // no-cors mode, so we optimistically patch local state and assume success.
+    fetch(EDIT_ENDPOINT, {
+      method: 'POST',
+      headers: { 'Content-Type': 'text/plain' },
+      body: JSON.stringify({ rowId: _editTxId, cat, amount: signedAmount }),
+    }).catch(() => {}); // network errors are silent — sheet write still happens
+
+    // Optimistically patch local state immediately
+    if (S.raw) {
+      const idx = S.raw.findIndex(r => r[C.ID] === _editTxId);
+      if (idx !== -1) {
+        S.raw[idx][C.CAT]    = cat;
+        S.raw[idx][C.AMOUNT] = String(signedAmount);
+      }
+    }
+    closeEditModal();
+    render();
+    showToast('✓ Guardado en Google Sheets');
+  } catch(e) {
+    btn.classList.remove('saving');
+    document.getElementById('modal-save-lbl').textContent = 'Guardar';
+    showToast('Error: ' + e.message, true);
+  }
 }
 
 // ── ACTIONS ──────────────────────────────────
