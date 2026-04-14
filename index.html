@@ -347,7 +347,10 @@ body { background: var(--bg); color: var(--ink); font-family: var(--f); min-heig
 .modal-btn-save:hover { opacity: .85; }
 .modal-btn-save.saving { opacity: .6; pointer-events: none; }
 .modal-btn-save .btn-spinner { width: 14px; height: 14px; border: 2px solid rgba(255,255,255,.4); border-top-color: #fff; border-radius: 50%; animation: spin .6s linear infinite; display: none; }
-.modal-btn-save.saving .btn-spinner { display: block; }
+.modal-select,
+.modal-input {
+  font-size: 16px; /* prevents iOS Safari auto-zoom on focus */
+}
 
 /* edit tap target on tx row */
 .tx-edit-btn {
