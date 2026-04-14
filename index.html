@@ -4,559 +4,326 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, viewport-fit=cover">
 <title>Finanzas Casa</title>
-<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
 :root {
-  /* Palette — deep navy + warm white + electric teal accent */
-  --bg:         #F2F4F7;
+  --bg:         #F4F5F7;
   --surface:    #FFFFFF;
-  --surface2:   #F7F9FC;
-  --ink:        #0D1B2A;
-  --ink2:       #4A5568;
-  --ink3:       #A0AEBF;
-  --border:     #E4EAF2;
-  --border2:    #EEF2F8;
-  --accent:     #0ABFBC;       /* electric teal */
-  --accent-dim: #E0F8F8;
-  --accent-dk:  #089A97;
-  --green:      #0F9D6A;
-  --green-bg:   #E7F8F2;
-  --red:        #E03B5A;
-  --red-bg:     #FDEEF2;
-  --amber:      #D97706;
-  --amber-bg:   #FEF3C7;
-  --navy:       #0D1B2A;
-  --navy2:      #1A2F47;
-  --pill-bg:    #EEF2F8;
-
-  --r:     16px;
-  --r-sm:  10px;
-  --r-xs:  7px;
-  --f:     'Sora', system-ui, sans-serif;
-  --fm:    'JetBrains Mono', monospace;
-
-  --shadow-sm: 0 1px 3px rgba(13,27,42,.06), 0 1px 2px rgba(13,27,42,.04);
-  --shadow:    0 4px 16px rgba(13,27,42,.08), 0 1px 3px rgba(13,27,42,.05);
-  --shadow-lg: 0 12px 40px rgba(13,27,42,.14), 0 4px 12px rgba(13,27,42,.08);
+  --surface2:   #F0F1F3;
+  --ink:        #0F1117;
+  --ink2:       #6B7280;
+  --ink3:       #B0B7C3;
+  --border:     #E5E7EB;
+  --border2:    #ECEEF1;
+  --accent:     #3B4CCA;
+  --accent-dim: #EEF0FB;
+  --green:      #1A9E5C;
+  --green-dim:  #EAF6F1;
+  --red:        #D94040;
+  --red-dim:    #FBEAEA;
+  --purple-dim: #F0EAF8;
+  --purple:     #7C4FA0;
+  --f:   'Inter', system-ui, sans-serif;
+  --r:   14px;
+  --r-sm: 9px;
+  --shadow-sm: 0 1px 2px rgba(15,17,23,.05);
+  --shadow:    0 2px 8px rgba(15,17,23,.07);
+  --shadow-lg: 0 8px 28px rgba(15,17,23,.12);
 }
 
-/* ── RESET ── */
 * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
 html { font-size: 15px; }
-body {
-  background: var(--bg);
-  color: var(--ink);
-  font-family: var(--f);
-  min-height: 100dvh;
-  -webkit-font-smoothing: antialiased;
-}
+body { background: var(--bg); color: var(--ink); font-family: var(--f); min-height: 100dvh; -webkit-font-smoothing: antialiased; }
 
-.app { max-width: 430px; margin: 0 auto; padding-bottom: 92px; }
+.app { max-width: 430px; margin: 0 auto; padding-bottom: 88px; }
 
 /* ── HEADER ── */
-.header {
-  padding-top: max(env(safe-area-inset-top, 20px), 20px);
-  padding-left: 20px;
-  padding-right: 20px;
-  position: sticky; top: 0; z-index: 50;
-  background: var(--bg);
-}
-.header-inner {
-  display: flex; align-items: center; justify-content: space-between;
-  padding-bottom: 14px;
-  border-bottom: 1px solid var(--border);
-}
-.header-logo {
-  font-size: 14px; font-weight: 600; letter-spacing: -.02em;
-  color: var(--ink); display: flex; align-items: center; gap: 9px;
-}
-.header-logo-mark {
-  width: 30px; height: 30px; border-radius: 9px;
-  background: linear-gradient(135deg, var(--navy) 0%, var(--navy2) 100%);
-  display: flex; align-items: center; justify-content: center;
-  box-shadow: 0 2px 8px rgba(13,27,42,.25);
-}
-.header-logo-mark svg { width: 14px; height: 14px; }
+.header { padding: env(safe-area-inset-top,20px) 16px 0; padding-top: max(env(safe-area-inset-top,20px),20px); position: sticky; top: 0; z-index: 50; background: var(--bg); }
+.header-inner { display: flex; align-items: center; justify-content: space-between; padding-bottom: 14px; border-bottom: 1px solid var(--border); }
+.header-logo { font-size: 14px; font-weight: 600; letter-spacing: -.02em; color: var(--ink); display: flex; align-items: center; gap: 9px; -webkit-user-select: none; user-select: none; }
+.header-logo-mark { width: 28px; height: 28px; border-radius: 8px; background: var(--ink); display: flex; align-items: center; justify-content: center; }
+.header-logo-mark svg { width: 13px; height: 13px; }
 .header-right { display: flex; align-items: center; gap: 8px; }
-
-.month-btn {
-  display: flex; align-items: center; gap: 6px;
-  background: var(--surface); border: 1px solid var(--border);
-  border-radius: 20px; padding: 6px 13px 6px 11px;
-  font-family: var(--f); font-size: 12px; font-weight: 500; color: var(--ink);
-  cursor: pointer; transition: all .15s;
-  box-shadow: var(--shadow-sm);
-}
-.month-btn:hover { background: var(--border2); border-color: var(--border); }
-.month-btn svg { width: 12px; height: 12px; color: var(--accent); }
+.month-btn { display: flex; align-items: center; gap: 5px; background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 5px 10px; font-family: var(--f); font-size: 12px; font-weight: 500; color: var(--ink2); cursor: pointer; transition: background .15s; box-shadow: var(--shadow-sm); }
+.month-btn:hover { background: var(--surface2); }
+.month-btn svg { width: 11px; height: 11px; color: var(--ink3); }
 
 /* ── MONTH PICKER ── */
-.month-picker { display: none; padding: 10px 20px 0; gap: 6px; overflow-x: auto; scrollbar-width: none; }
+.month-picker { display: none; padding: 10px 16px 0; gap: 6px; overflow-x: auto; scrollbar-width: none; }
 .month-picker.open { display: flex; }
 .month-picker::-webkit-scrollbar { display: none; }
-.m-chip {
-  flex-shrink: 0; background: var(--surface); border: 1px solid var(--border);
-  border-radius: 20px; padding: 5px 13px;
-  font-size: 12px; font-weight: 500; color: var(--ink2);
-  cursor: pointer; transition: all .12s; white-space: nowrap;
-}
+.m-chip { flex-shrink: 0; background: var(--surface); border: 1px solid var(--border); border-radius: 7px; padding: 5px 12px; font-size: 12px; font-weight: 500; color: var(--ink2); cursor: pointer; transition: all .12s; white-space: nowrap; }
 .m-chip:hover { border-color: var(--accent); color: var(--ink); }
-.m-chip.active { background: var(--navy); border-color: var(--navy); color: #fff; }
+.m-chip.active { background: var(--ink); border-color: var(--ink); color: #fff; }
 
-/* ── HERO CARD ── */
-.hero {
-  margin: 16px 20px 0;
-  background: linear-gradient(145deg, var(--navy) 0%, var(--navy2) 100%);
-  border-radius: 22px; padding: 26px;
-  position: relative; overflow: hidden;
-  box-shadow: var(--shadow-lg);
-}
-.hero::before {
-  content: '';
-  position: absolute; top: -40px; right: -40px;
-  width: 180px; height: 180px;
-  background: radial-gradient(circle, rgba(10,191,188,.2) 0%, transparent 70%);
-  pointer-events: none;
-}
-.hero::after {
-  content: '';
-  position: absolute; bottom: -20px; left: 40px;
-  width: 120px; height: 120px;
-  background: radial-gradient(circle, rgba(10,191,188,.08) 0%, transparent 70%);
-  pointer-events: none;
-}
-.hero-eyebrow {
-  font-size: 10px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase;
-  color: rgba(255,255,255,.45); margin-bottom: 8px;
-}
-.hero-amount {
-  font-size: 40px; font-weight: 300; letter-spacing: -.04em;
-  color: #fff; line-height: 1;
-}
-.hero-amount sup {
-  font-size: 17px; font-weight: 400; vertical-align: super;
-  line-height: 0; color: rgba(255,255,255,.5); margin-right: 2px;
-}
-.hero-sub {
-  margin-top: 10px; font-size: 12px; color: rgba(255,255,255,.5);
-  display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
-}
-.hero-badge {
-  display: inline-flex; align-items: center; gap: 4px;
-  padding: 3px 9px; border-radius: 20px; font-size: 11px; font-weight: 600;
-}
-.hero-badge.green { background: rgba(15,157,106,.25); color: #5EECC4; }
-.hero-badge.red   { background: rgba(224,59,90,.25);  color: #FF8FA3; }
+/* ── HERO ── */
+.hero { padding: 24px 20px 22px; border-bottom: 1px solid var(--border); background: var(--surface); }
+.hero-eyebrow { font-size: 11px; font-weight: 500; letter-spacing: .07em; text-transform: uppercase; color: var(--ink3); margin-bottom: 8px; }
+.hero-amount { font-size: 42px; font-weight: 700; letter-spacing: -.04em; color: var(--ink); line-height: 1; }
+.hero-amount sup { font-size: 19px; font-weight: 500; color: var(--ink3); vertical-align: super; line-height: 0; margin-right: 2px; }
+.hero-sub { margin-top: 10px; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.hero-badge { display: inline-flex; align-items: center; gap: 3px; padding: 3px 8px; border-radius: 6px; font-size: 11px; font-weight: 600; }
+.hero-badge.green { background: var(--green-dim); color: var(--green); }
+.hero-badge.red   { background: var(--red-dim);   color: var(--red); }
 
-/* ── MTD COMPARISON (inside hero) ── */
-.hero-divider { height: 1px; background: rgba(255,255,255,.1); margin: 20px 0 16px; }
-.mtd-label {
-  font-size: 10px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase;
-  color: rgba(255,255,255,.35); margin-bottom: 12px;
-}
-.mtd-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; }
+/* ── MTD ── */
+.hero-divider { height: 1px; background: var(--border2); margin: 18px 0 14px; }
+.mtd-label { font-size: 10px; font-weight: 600; letter-spacing: .07em; text-transform: uppercase; color: var(--ink3); margin-bottom: 12px; }
+.mtd-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px; }
 .mtd-row:last-child { margin-bottom: 0; }
-.mtd-period { font-size: 12px; color: rgba(255,255,255,.5); }
+.mtd-period { font-size: 12px; color: var(--ink2); }
 .mtd-right { display: flex; align-items: center; gap: 8px; }
-.mtd-amt { font-size: 13px; font-weight: 500; font-family: var(--fm); color: rgba(255,255,255,.85); }
-.mtd-delta { font-size: 11px; font-weight: 600; padding: 2px 7px; border-radius: 10px; }
-.mtd-delta.up  { background: rgba(224,59,90,.25);  color: #FF8FA3; }
-.mtd-delta.dn  { background: rgba(15,157,106,.25); color: #5EECC4; }
-.mtd-delta.neu { background: rgba(255,255,255,.12); color: rgba(255,255,255,.5); }
-.mtd-bar-wrap { margin-top: 6px; }
-.mtd-bar-track { height: 3px; background: rgba(255,255,255,.1); border-radius: 2px; overflow: hidden; }
-.mtd-bar-fill  { height: 100%; border-radius: 2px; background: var(--accent); transition: width .6s cubic-bezier(.34,1.56,.64,1); }
-.mtd-bar-fill.prev { background: rgba(255,255,255,.25); }
+.mtd-amt { font-size: 12px; font-weight: 600; color: var(--ink); font-variant-numeric: tabular-nums; }
+.mtd-delta { font-size: 10px; font-weight: 700; padding: 2px 6px; border-radius: 5px; }
+.mtd-delta.up  { background: var(--red-dim);   color: var(--red); }
+.mtd-delta.dn  { background: var(--green-dim); color: var(--green); }
+.mtd-delta.neu { background: var(--surface2);  color: var(--ink2); }
+.mtd-bar-wrap { margin-top: 5px; }
+.mtd-bar-track { height: 2px; background: var(--border2); border-radius: 1px; overflow: hidden; }
+.mtd-bar-fill  { height: 100%; border-radius: 1px; background: var(--accent); transition: width .5s ease; }
+.mtd-bar-fill.prev { background: var(--ink3); }
 
 /* ── SECTION HEADER ── */
-.section-hd {
-  display: flex; align-items: center; justify-content: space-between;
-  padding: 22px 20px 10px;
-}
-.section-title {
-  font-size: 11px; font-weight: 600; letter-spacing: .08em;
-  text-transform: uppercase; color: var(--ink3);
-}
-.section-action {
-  font-size: 12px; font-weight: 500; color: var(--accent); cursor: pointer;
-  transition: opacity .15s;
-}
+.section-hd { display: flex; align-items: center; justify-content: space-between; padding: 20px 16px 10px; }
+.section-title { font-size: 12px; font-weight: 600; color: var(--ink); letter-spacing: -.01em; }
+.section-action { font-size: 12px; font-weight: 500; color: var(--accent); cursor: pointer; }
 .section-action:hover { opacity: .75; }
 
 /* ── CARD SHELL ── */
-.card-shell {
-  margin: 0 20px;
-  background: var(--surface); border: 1px solid var(--border);
-  border-radius: var(--r); overflow: hidden;
-  box-shadow: var(--shadow-sm);
-}
+.card-shell { margin: 0 16px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--r); overflow: hidden; box-shadow: var(--shadow-sm); }
 .card-shell + .card-shell { margin-top: 8px; }
 
+/* ── ICON CELL ── */
+.ico-cell { width: 36px; height: 36px; border-radius: 10px; background: var(--surface2); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.ico-cell svg { width: 15px; height: 15px; stroke: var(--ink2); fill: none; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
+.ico-cell.green-tint  { background: var(--green-dim); }
+.ico-cell.green-tint  svg { stroke: var(--green); }
+.ico-cell.red-tint    { background: var(--red-dim); }
+.ico-cell.red-tint    svg { stroke: var(--red); }
+.ico-cell.accent-tint { background: var(--accent-dim); }
+.ico-cell.accent-tint svg { stroke: var(--accent); }
+
 /* ── CATEGORY ROWS ── */
-.cat-row {
-  display: flex; align-items: center; gap: 13px;
-  padding: 13px 16px; border-bottom: 1px solid var(--border2);
-  cursor: pointer; transition: background .1s;
-}
+.cat-row { display: flex; align-items: center; gap: 12px; padding: 12px 14px; border-bottom: 1px solid var(--border2); cursor: pointer; transition: background .1s; }
 .cat-row:last-child { border-bottom: none; }
-.cat-row:hover { background: var(--surface2); }
-.cat-icon {
-  width: 36px; height: 36px; border-radius: 11px; background: var(--pill-bg);
-  display: flex; align-items: center; justify-content: center;
-  font-size: 16px; flex-shrink: 0;
-}
+.cat-row:hover { background: var(--bg); }
 .cat-body { flex: 1; min-width: 0; }
 .cat-name { font-size: 13px; font-weight: 500; color: var(--ink); }
-.cat-bar-track { height: 2px; background: var(--border); border-radius: 2px; margin-top: 6px; overflow: hidden; }
-.cat-bar-fill { height: 100%; border-radius: 2px; background: var(--accent); transition: width .5s cubic-bezier(.34,1.56,.64,1); }
+.cat-bar-track { height: 2px; background: var(--border2); border-radius: 1px; margin-top: 5px; overflow: hidden; }
+.cat-bar-fill  { height: 100%; border-radius: 1px; background: var(--accent); transition: width .4s ease; }
 .cat-right { text-align: right; flex-shrink: 0; }
-.cat-amt { font-size: 13px; font-weight: 500; font-family: var(--fm); color: var(--ink); }
+.cat-amt { font-size: 13px; font-weight: 600; color: var(--ink); font-variant-numeric: tabular-nums; }
 .cat-pct { font-size: 11px; color: var(--ink3); margin-top: 2px; }
 
 /* ── TX ROWS ── */
-.tx-row {
-  display: flex; align-items: center; gap: 12px;
-  padding: 13px 16px; border-bottom: 1px solid var(--border2);
-  transition: background .1s;
-}
+.tx-row { display: flex; align-items: center; gap: 12px; padding: 12px 14px; border-bottom: 1px solid var(--border2); transition: background .1s; }
 .tx-row:last-child { border-bottom: none; }
-.tx-row:hover { background: var(--surface2); }
-.tx-icon {
-  width: 38px; height: 38px; border-radius: 11px; background: var(--pill-bg);
-  display: flex; align-items: center; justify-content: center;
-  font-size: 16px; flex-shrink: 0;
-}
+.tx-row:hover { background: var(--bg); }
 .tx-body { flex: 1; min-width: 0; }
-.tx-name {
-  font-size: 13px; font-weight: 500; color: var(--ink);
-  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-}
-.tx-meta {
-  display: flex; align-items: center; gap: 5px;
-  margin-top: 3px; flex-wrap: nowrap; overflow: hidden;
-}
+.tx-name { font-size: 13px; font-weight: 500; color: var(--ink); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.tx-meta { display: flex; align-items: center; gap: 4px; margin-top: 3px; flex-wrap: nowrap; overflow: hidden; }
 .tx-date { font-size: 11px; color: var(--ink3); white-space: nowrap; }
-.tx-dot { width: 3px; height: 3px; border-radius: 50%; background: var(--border); flex-shrink: 0; }
-.tx-cat { font-size: 11px; color: var(--ink3); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.owner-tag {
-  display: inline-flex; align-items: center; padding: 1px 6px;
-  border-radius: 20px; font-size: 10px; font-weight: 600; flex-shrink: 0;
-}
-.owner-tag.jf   { background: #EBF0FD; color: #3851C9; }
-.owner-tag.wife { background: #FCE8F8; color: #B03A96; }
+.tx-sep  { font-size: 10px; color: var(--ink3); }
+.tx-cat  { font-size: 11px; color: var(--ink3); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.owner-tag { display: inline-flex; align-items: center; padding: 1px 6px; border-radius: 4px; font-size: 10px; font-weight: 600; flex-shrink: 0; }
+.owner-tag.jf   { background: var(--accent-dim); color: var(--accent); }
+.owner-tag.wife { background: var(--purple-dim); color: var(--purple); }
 .tx-right { text-align: right; flex-shrink: 0; }
-.tx-amt { font-size: 13px; font-weight: 600; font-family: var(--fm); }
+.tx-amt { font-size: 13px; font-weight: 600; font-variant-numeric: tabular-nums; }
 .tx-amt.out { color: var(--ink); }
 .tx-amt.in  { color: var(--green); }
 .tx-amt.int { color: var(--ink3); }
 .tx-src { font-size: 10px; color: var(--ink3); margin-top: 2px; }
 
 /* ── SHOW MORE ── */
-.show-more-btn {
-  display: block; width: 100%; padding: 14px 16px;
-  font-family: var(--f); font-size: 13px; font-weight: 500; color: var(--accent);
-  text-align: center; background: var(--surface2); border: none;
-  cursor: pointer; border-top: 1px solid var(--border2); transition: all .1s;
-}
-.show-more-btn:hover { background: var(--accent-dim); }
+.show-more-btn { display: block; width: 100%; padding: 13px; font-family: var(--f); font-size: 12px; font-weight: 600; color: var(--accent); text-align: center; background: transparent; border: none; cursor: pointer; border-top: 1px solid var(--border2); transition: color .1s; }
+.show-more-btn:hover { color: var(--ink); }
 
 /* ── FILTER TABS ── */
-.filter-tabs {
-  display: flex; gap: 6px; padding: 14px 20px 0;
-  overflow-x: auto; scrollbar-width: none;
-}
+.filter-tabs { display: flex; gap: 6px; padding: 14px 16px 0; overflow-x: auto; scrollbar-width: none; }
 .filter-tabs::-webkit-scrollbar { display: none; }
-.f-tab {
-  flex-shrink: 0; padding: 6px 14px; border-radius: 20px;
-  border: 1px solid var(--border); background: var(--surface);
-  font-family: var(--f); font-size: 12px; font-weight: 500; color: var(--ink2);
-  cursor: pointer; transition: all .12s; box-shadow: var(--shadow-sm);
-}
-.f-tab.active { background: var(--navy); border-color: var(--navy); color: #fff; box-shadow: none; }
+.f-tab { flex-shrink: 0; padding: 5px 12px; border-radius: 7px; border: 1px solid var(--border); background: var(--surface); font-family: var(--f); font-size: 12px; font-weight: 500; color: var(--ink2); cursor: pointer; transition: all .12s; box-shadow: var(--shadow-sm); }
+.f-tab.active { background: var(--ink); border-color: var(--ink); color: #fff; box-shadow: none; }
 .f-tab:hover:not(.active) { border-color: var(--accent); color: var(--ink); }
 
 /* ── RAPPI VIEW ── */
 .rappi-stat-row { display: flex; border-bottom: 1px solid var(--border2); }
-.rappi-stat { flex: 1; padding: 18px 12px; text-align: center; border-right: 1px solid var(--border2); }
+.rappi-stat { flex: 1; padding: 16px 10px; text-align: center; border-right: 1px solid var(--border2); }
 .rappi-stat:last-child { border-right: none; }
-.rappi-stat-val { font-size: 22px; font-weight: 300; letter-spacing: -.03em; color: var(--ink); }
-.rappi-stat-lbl { font-size: 10px; color: var(--ink3); margin-top: 3px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; }
-
-.rappi-pace { padding: 16px; border-bottom: 1px solid var(--border2); }
-.rappi-pace-label { font-size: 11px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--ink2); margin-bottom: 6px; }
-.rappi-pace-val { font-size: 20px; font-weight: 300; letter-spacing: -.03em; color: var(--ink); margin-bottom: 4px; }
-.rappi-pace-sub { font-size: 11px; color: var(--ink3); }
-
-.rappi-history-row { display: flex; align-items: center; padding: 12px 16px; border-bottom: 1px solid var(--border2); }
+.rappi-stat-val { font-size: 20px; font-weight: 700; letter-spacing: -.02em; color: var(--ink); }
+.rappi-stat-lbl { font-size: 10px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--ink3); margin-top: 3px; }
+.rappi-pace { padding: 14px; border-bottom: 1px solid var(--border2); }
+.rappi-pace-label { font-size: 10px; font-weight: 600; letter-spacing: .07em; text-transform: uppercase; color: var(--ink3); margin-bottom: 5px; }
+.rappi-pace-val { font-size: 20px; font-weight: 700; letter-spacing: -.02em; color: var(--ink); }
+.rappi-pace-sub { font-size: 11px; color: var(--ink2); margin-top: 3px; }
+.rappi-history-row { display: flex; align-items: center; padding: 12px 14px; border-bottom: 1px solid var(--border2); }
 .rappi-history-row:last-child { border-bottom: none; }
-.rappi-history-mo { font-size: 13px; font-weight: 500; color: var(--ink); width: 64px; flex-shrink: 0; }
+.rappi-history-mo { font-size: 13px; font-weight: 500; color: var(--ink); width: 40px; flex-shrink: 0; }
 .rappi-history-bar-wrap { flex: 1; margin: 0 12px; }
-.rappi-history-bar-track { height: 4px; background: var(--border2); border-radius: 2px; overflow: hidden; }
-.rappi-history-bar-fill { height: 100%; border-radius: 2px; background: var(--accent); transition: width .5s cubic-bezier(.34,1.56,.64,1); }
+.rappi-history-bar-track { height: 3px; background: var(--border2); border-radius: 2px; overflow: hidden; }
+.rappi-history-bar-fill  { height: 100%; border-radius: 2px; background: var(--accent); transition: width .5s ease; }
 .rappi-history-right { text-align: right; flex-shrink: 0; }
-.rappi-history-total { font-size: 13px; font-weight: 500; font-family: var(--fm); color: var(--ink); }
+.rappi-history-total { font-size: 13px; font-weight: 600; font-variant-numeric: tabular-nums; color: var(--ink); }
 .rappi-history-count { font-size: 11px; color: var(--ink3); margin-top: 2px; }
-
-.rappi-store-row { display: flex; align-items: center; gap: 10px; padding: 12px 16px; border-bottom: 1px solid var(--border2); }
+.rappi-store-row { display: flex; align-items: center; gap: 10px; padding: 12px 14px; border-bottom: 1px solid var(--border2); }
 .rappi-store-row:last-child { border-bottom: none; }
 .rappi-store-rank { font-size: 11px; font-weight: 700; color: var(--ink3); width: 18px; flex-shrink: 0; text-align: center; }
 .rappi-store-name { flex: 1; font-size: 13px; font-weight: 500; color: var(--ink); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .rappi-store-right { text-align: right; flex-shrink: 0; }
-.rappi-store-total { font-size: 13px; font-weight: 500; font-family: var(--fm); color: var(--ink); }
-.rappi-store-meta { font-size: 11px; color: var(--ink3); margin-top: 2px; }
-
-.rappi-dow-row { display: flex; align-items: flex-end; gap: 4px; padding: 14px 16px; }
+.rappi-store-total { font-size: 13px; font-weight: 600; font-variant-numeric: tabular-nums; color: var(--ink); }
+.rappi-store-meta  { font-size: 11px; color: var(--ink3); margin-top: 2px; }
+.rappi-dow-row { display: flex; align-items: flex-end; gap: 4px; padding: 14px; }
 .rappi-dow-col { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 4px; }
 .rappi-dow-bar-wrap { width: 100%; display: flex; align-items: flex-end; justify-content: center; height: 40px; }
-.rappi-dow-bar { width: 100%; border-radius: 4px 4px 0 0; background: var(--border2); min-height: 3px; transition: height .4s cubic-bezier(.34,1.56,.64,1); }
+.rappi-dow-bar { width: 100%; border-radius: 3px 3px 0 0; background: var(--border2); min-height: 3px; }
 .rappi-dow-bar.peak { background: var(--accent); }
-.rappi-dow-lbl { font-size: 9px; font-weight: 700; color: var(--ink3); letter-spacing: .06em; text-transform: uppercase; }
+.rappi-dow-lbl { font-size: 9px; font-weight: 700; color: var(--ink3); letter-spacing: .04em; text-transform: uppercase; }
 .rappi-dow-cnt { font-size: 10px; font-weight: 500; color: var(--ink2); }
 
 /* ── BOTTOM NAV ── */
-.bottom-nav {
-  position: fixed; bottom: 0; left: 0; right: 0;
-  background: rgba(255,255,255,.94);
-  backdrop-filter: blur(24px) saturate(1.8);
-  -webkit-backdrop-filter: blur(24px) saturate(1.8);
-  border-top: 1px solid var(--border);
-  display: flex; justify-content: space-around;
-  padding: 10px 0;
-  padding-bottom: max(env(safe-area-inset-bottom, 10px), 10px);
-  z-index: 100;
-}
-.nav-item {
-  display: flex; flex-direction: column; align-items: center; gap: 4px;
-  cursor: pointer; padding: 2px 16px; flex: 1; transition: opacity .15s;
-}
-.nav-ico { font-size: 20px; line-height: 1; opacity: .25; transition: opacity .15s; }
-.nav-lbl { font-size: 10px; font-weight: 600; color: var(--ink3); transition: color .15s; letter-spacing: .01em; }
-.nav-item.active .nav-ico { opacity: 1; }
-.nav-item.active .nav-lbl { color: var(--accent); }
+.bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; background: rgba(255,255,255,.94); backdrop-filter: blur(20px) saturate(1.5); -webkit-backdrop-filter: blur(20px) saturate(1.5); border-top: 1px solid var(--border); display: flex; justify-content: space-around; padding: 10px 0; padding-bottom: max(env(safe-area-inset-bottom,10px),10px); z-index: 100; }
+.nav-item { display: flex; flex-direction: column; align-items: center; gap: 4px; cursor: pointer; padding: 2px 16px; flex: 1; }
+.nav-ico { width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; }
+.nav-ico svg { width: 20px; height: 20px; stroke: var(--ink3); fill: none; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; opacity: .45; transition: all .15s; }
+.nav-lbl { font-size: 10px; font-weight: 500; color: var(--ink3); transition: color .15s; }
+.nav-item.active .nav-ico svg { stroke: var(--accent); opacity: 1; }
+.nav-item.active .nav-lbl    { color: var(--accent); font-weight: 600; }
 
-/* ── CONFIG ── */
-.setup-wrap { padding: 24px 20px; }
-.setup-card {
-  background: var(--surface); border: 1px solid var(--border);
-  border-radius: var(--r); padding: 28px; box-shadow: var(--shadow);
-}
+/* ── CONFIG / SETUP ── */
+.setup-wrap { padding: 24px 16px; }
+.setup-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r); padding: 24px; box-shadow: var(--shadow); }
 .setup-card h2 { font-size: 17px; font-weight: 600; letter-spacing: -.02em; margin-bottom: 6px; }
-.setup-card p  { font-size: 13px; color: var(--ink2); line-height: 1.65; margin-bottom: 20px; }
+.setup-card p  { font-size: 13px; color: var(--ink2); line-height: 1.6; margin-bottom: 20px; }
 .field + .field { margin-top: 14px; }
-.field-label {
-  font-size: 11px; font-weight: 600; letter-spacing: .06em;
-  text-transform: uppercase; color: var(--ink2); margin-bottom: 6px;
-}
-.field-input {
-  width: 100%; background: var(--bg); border: 1px solid var(--border);
-  border-radius: var(--r-sm); padding: 12px 13px;
-  font-family: var(--f); font-size: 13px; color: var(--ink);
-  outline: none; transition: border-color .15s;
-}
+.field-label { font-size: 11px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--ink2); margin-bottom: 6px; }
+.field-input { width: 100%; background: var(--bg); border: 1px solid var(--border); border-radius: var(--r-sm); padding: 11px 13px; font-family: var(--f); font-size: 13px; color: var(--ink); outline: none; transition: border-color .15s; }
 .field-input:focus { border-color: var(--accent); background: var(--surface); }
 .field-input::placeholder { color: var(--ink3); }
 .field-hint { font-size: 11px; color: var(--ink3); margin-top: 5px; line-height: 1.4; }
-.field-hint code { background: var(--border2); padding: 1px 5px; border-radius: 4px; font-family: var(--fm); }
-.primary-btn {
-  width: 100%; margin-top: 20px;
-  background: linear-gradient(135deg, var(--navy) 0%, var(--navy2) 100%);
-  border: none; border-radius: var(--r-sm); padding: 14px;
-  font-family: var(--f); font-size: 14px; font-weight: 600; color: #fff;
-  cursor: pointer; transition: opacity .15s; box-shadow: 0 4px 14px rgba(13,27,42,.25);
-}
-.primary-btn:hover { opacity: .87; }
+.field-hint code { background: var(--surface2); padding: 1px 5px; border-radius: 4px; font-family: monospace; }
+.primary-btn { width: 100%; margin-top: 20px; background: var(--ink); border: none; border-radius: var(--r-sm); padding: 13px; font-family: var(--f); font-size: 14px; font-weight: 600; color: #fff; cursor: pointer; transition: opacity .15s; }
+.primary-btn:hover { opacity: .85; }
 
 /* ── NET WORTH ── */
-.nw-hero {
-  margin: 16px 20px 0;
-  background: linear-gradient(145deg, var(--navy) 0%, var(--navy2) 100%);
-  border-radius: 22px; padding: 26px;
-  color: #fff; position: relative; overflow: hidden;
-  box-shadow: var(--shadow-lg);
-}
-.nw-hero::before {
-  content: ''; position: absolute; inset: 0;
-  background: radial-gradient(ellipse at 85% 15%, rgba(10,191,188,.18) 0%, transparent 55%);
-  pointer-events: none;
-}
-.nw-hero-eyebrow {
-  font-size: 10px; font-weight: 600; letter-spacing: .1em;
-  text-transform: uppercase; color: rgba(255,255,255,.4); margin-bottom: 8px;
-}
-.nw-hero-amount { font-size: 40px; font-weight: 300; letter-spacing: -.04em; line-height: 1; }
-.nw-hero-amount sup { font-size: 17px; font-weight: 400; vertical-align: super; line-height: 0; color: rgba(255,255,255,.45); margin-right: 2px; }
-.nw-hero-sub { margin-top: 10px; font-size: 12px; color: rgba(255,255,255,.45); display: flex; gap: 14px; flex-wrap: wrap; }
-.nw-hero-sub span { display: flex; align-items: center; gap: 4px; }
-.nw-divider { height: 1px; background: rgba(255,255,255,.1); margin: 18px 0 14px; }
+.nw-hero { margin: 0 16px; background: var(--ink); border-radius: var(--r); padding: 24px; color: #fff; position: relative; overflow: hidden; box-shadow: var(--shadow-lg); }
+.nw-hero::after { content: ''; position: absolute; bottom: -40px; right: -40px; width: 160px; height: 160px; background: radial-gradient(circle, rgba(59,76,202,.3) 0%, transparent 65%); pointer-events: none; }
+.nw-hero-eyebrow { font-size: 10px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: rgba(255,255,255,.4); margin-bottom: 8px; }
+.nw-hero-amount { font-size: 40px; font-weight: 700; letter-spacing: -.04em; line-height: 1; }
+.nw-hero-amount sup { font-size: 17px; font-weight: 500; color: rgba(255,255,255,.4); vertical-align: super; line-height: 0; margin-right: 2px; }
+.nw-hero-sub { margin-top: 8px; font-size: 12px; color: rgba(255,255,255,.4); }
+.nw-divider { height: 1px; background: rgba(255,255,255,.1); margin: 16px 0 14px; }
 .nw-breakdown-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px; }
 .nw-breakdown-row:last-child { margin-bottom: 0; }
-.nw-breakdown-lbl { font-size: 12px; color: rgba(255,255,255,.45); }
-.nw-breakdown-val { font-size: 13px; font-weight: 600; font-family: var(--fm); color: rgba(255,255,255,.88); }
-.nw-breakdown-val.neg { color: #FF8FA3; }
-
-.nw-group-hd {
-  display: flex; align-items: center; justify-content: space-between;
-  padding: 18px 20px 8px;
-}
-.nw-group-title { font-size: 11px; font-weight: 600; letter-spacing: .07em; text-transform: uppercase; color: var(--ink3); }
-.nw-group-total { font-size: 12px; font-weight: 600; font-family: var(--fm); color: var(--ink2); }
+.nw-breakdown-lbl { font-size: 12px; color: rgba(255,255,255,.4); }
+.nw-breakdown-val { font-size: 14px; font-weight: 600; font-variant-numeric: tabular-nums; color: rgba(255,255,255,.88); }
+.nw-breakdown-val.neg { color: #F87171; }
+.nw-group-hd { display: flex; align-items: center; justify-content: space-between; padding: 18px 16px 8px; }
+.nw-group-title { font-size: 10px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--ink3); }
+.nw-group-total { font-size: 12px; font-weight: 600; font-variant-numeric: tabular-nums; color: var(--ink2); }
 .nw-group-total.neg { color: var(--red); }
-
-.nw-row {
-  display: flex; align-items: center; gap: 12px;
-  padding: 13px 16px; border-bottom: 1px solid var(--border2);
-}
+.nw-row { display: flex; align-items: center; gap: 12px; padding: 12px 14px; border-bottom: 1px solid var(--border2); }
 .nw-row:last-child { border-bottom: none; }
-.nw-icon {
-  width: 36px; height: 36px; border-radius: 11px; background: var(--pill-bg);
-  display: flex; align-items: center; justify-content: center;
-  font-size: 16px; flex-shrink: 0;
-}
 .nw-body { flex: 1; min-width: 0; }
 .nw-entity { font-size: 13px; font-weight: 500; color: var(--ink); }
-.nw-owner { font-size: 11px; color: var(--ink3); margin-top: 2px; }
+.nw-owner  { font-size: 11px; color: var(--ink3); margin-top: 2px; }
 .nw-right { text-align: right; flex-shrink: 0; }
-.nw-val { font-size: 13px; font-weight: 600; font-family: var(--fm); color: var(--ink); }
+.nw-val { font-size: 13px; font-weight: 600; font-variant-numeric: tabular-nums; color: var(--ink); }
 .nw-val.neg { color: var(--red); }
 .nw-usd { font-size: 10px; color: var(--ink3); margin-top: 2px; }
-
-.nw-fx-bar {
-  margin: 0 20px 8px; background: var(--surface); border: 1px solid var(--border);
-  border-radius: var(--r-sm); padding: 11px 16px;
-  display: flex; align-items: center; justify-content: space-between;
-  box-shadow: var(--shadow-sm);
-}
+.nw-fx-bar { margin: 0 16px 8px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-sm); padding: 10px 14px; display: flex; align-items: center; justify-content: space-between; box-shadow: var(--shadow-sm); }
 .nw-fx-lbl { font-size: 11px; color: var(--ink3); }
-.nw-fx-val { font-size: 12px; font-weight: 600; font-family: var(--fm); color: var(--ink2); }
-.nw-refresh-btn {
-  display: flex; align-items: center; gap: 6px; background: none; border: none;
-  font-family: var(--f); font-size: 11px; color: var(--ink3); cursor: pointer;
-  padding: 0; transition: color .15s; font-weight: 500;
-}
+.nw-fx-val { font-size: 12px; font-weight: 600; font-variant-numeric: tabular-nums; color: var(--ink2); }
+.nw-refresh-btn { display: flex; align-items: center; gap: 5px; background: none; border: none; font-family: var(--f); font-size: 11px; font-weight: 500; color: var(--ink3); cursor: pointer; padding: 0; transition: color .15s; }
 .nw-refresh-btn:hover { color: var(--accent); }
-.nw-refresh-btn svg { width: 13px; height: 13px; transition: transform .4s; }
+.nw-refresh-btn svg { width: 12px; height: 12px; transition: transform .4s; stroke: currentColor; fill: none; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
 .nw-refresh-btn.spinning svg { animation: spin .6s linear infinite; }
 
 /* ── UTILS ── */
-.loader { padding: 60px 20px; text-align: center; }
-.spinner {
-  width: 24px; height: 24px; margin: 0 auto 14px;
-  border: 2px solid var(--border);
-  border-top-color: var(--accent);
-  border-radius: 50%; animation: spin .7s linear infinite;
-}
+.loader { padding: 60px 16px; text-align: center; }
+.spinner { width: 22px; height: 22px; margin: 0 auto 14px; border: 2px solid var(--border); border-top-color: var(--accent); border-radius: 50%; animation: spin .7s linear infinite; }
 @keyframes spin { to { transform: rotate(360deg); } }
 .loader p { font-size: 13px; color: var(--ink2); }
-.empty { padding: 48px 20px; text-align: center; }
-.empty-icon { font-size: 28px; margin-bottom: 10px; }
+.empty { padding: 48px 16px; text-align: center; }
+.empty-icon { margin-bottom: 10px; }
+.empty-icon svg { width: 28px; height: 28px; stroke: var(--ink3); fill: none; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
 .empty p { font-size: 13px; color: var(--ink2); }
 
 /* ── EDIT MODAL ── */
-.modal-backdrop {
-  position: fixed; inset: 0; background: rgba(13,27,42,.45);
-  backdrop-filter: blur(6px); z-index: 200;
-  opacity: 0; transition: opacity .2s; pointer-events: none;
-}
+.modal-backdrop { position: fixed; inset: 0; background: rgba(15,17,23,.4); backdrop-filter: blur(6px); z-index: 200; opacity: 0; transition: opacity .2s; pointer-events: none; }
 .modal-backdrop.open { opacity: 1; pointer-events: all; }
-.modal-sheet {
-  position: fixed; bottom: 0; left: 50%; transform: translateX(-50%) translateY(100%);
-  width: 100%; max-width: 430px;
-  background: var(--surface); border-radius: 24px 24px 0 0;
-  padding: 0 0 max(env(safe-area-inset-bottom,24px),24px);
-  z-index: 201; transition: transform .3s cubic-bezier(.32,1,.23,1);
-  box-shadow: 0 -8px 40px rgba(13,27,42,.16);
-}
+.modal-sheet { position: fixed; bottom: 0; left: 50%; transform: translateX(-50%) translateY(100%); width: 100%; max-width: 430px; background: var(--surface); border-radius: 20px 20px 0 0; padding: 0 0 max(env(safe-area-inset-bottom,20px),20px); z-index: 201; transition: transform .28s cubic-bezier(.32,1,.23,1); box-shadow: 0 -4px 32px rgba(15,17,23,.14); }
 .modal-sheet.open { transform: translateX(-50%) translateY(0); }
-.modal-handle {
-  width: 36px; height: 4px; background: var(--border);
-  border-radius: 2px; margin: 14px auto 0;
-}
-.modal-header {
-  padding: 18px 20px 14px; border-bottom: 1px solid var(--border2);
-}
-.modal-title { font-size: 15px; font-weight: 600; color: var(--ink); letter-spacing: -.02em; }
+.modal-handle { width: 36px; height: 4px; background: var(--border); border-radius: 2px; margin: 12px auto 0; }
+.modal-header { padding: 16px 20px 12px; border-bottom: 1px solid var(--border2); }
+.modal-title { font-size: 14px; font-weight: 600; color: var(--ink); letter-spacing: -.01em; }
 .modal-subtitle { font-size: 12px; color: var(--ink3); margin-top: 3px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.modal-body { padding: 18px 20px; display: flex; flex-direction: column; gap: 16px; }
-.modal-field-label {
-  font-size: 11px; font-weight: 600; letter-spacing: .06em;
-  text-transform: uppercase; color: var(--ink2); margin-bottom: 7px;
-}
-.modal-select {
-  width: 100%; background: var(--bg); border: 1px solid var(--border);
-  border-radius: var(--r-sm); padding: 12px 13px;
-  font-family: var(--f); font-size: 16px; color: var(--ink);
-  outline: none; appearance: none;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12' fill='none'%3E%3Cpath d='M3 4.5L6 7.5L9 4.5' stroke='%230ABFBC' stroke-width='1.5'/%3E%3C/svg%3E");
-  background-repeat: no-repeat; background-position: right 13px center;
-  cursor: pointer; transition: border-color .15s;
-}
+.modal-body { padding: 16px 20px; display: flex; flex-direction: column; gap: 14px; }
+.modal-field-label { font-size: 11px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--ink2); margin-bottom: 6px; }
+.modal-select { width: 100%; background: var(--bg); border: 1px solid var(--border); border-radius: var(--r-sm); padding: 11px 13px; font-family: var(--f); font-size: 16px; color: var(--ink); outline: none; appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12' fill='none'%3E%3Cpath d='M3 4.5L6 7.5L9 4.5' stroke='%23B0B7C3' stroke-width='1.5'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 12px center; cursor: pointer; transition: border-color .15s; }
 .modal-select:focus { border-color: var(--accent); background-color: var(--surface); }
-.modal-input {
-  width: 100%; background: var(--bg); border: 1px solid var(--border);
-  border-radius: var(--r-sm); padding: 12px 13px;
-  font-family: var(--fm); font-size: 16px; color: var(--ink);
-  outline: none; transition: border-color .15s;
-}
+.modal-input { width: 100%; background: var(--bg); border: 1px solid var(--border); border-radius: var(--r-sm); padding: 11px 13px; font-family: var(--f); font-size: 16px; color: var(--ink); outline: none; transition: border-color .15s; }
 .modal-input:focus { border-color: var(--accent); background-color: var(--surface); }
-.modal-input::placeholder { color: var(--ink3); font-family: var(--f); }
+.modal-input::placeholder { color: var(--ink3); }
 .modal-footer { padding: 0 20px; display: flex; gap: 10px; }
-.modal-btn-cancel {
-  flex: 1; padding: 14px; background: var(--bg); border: 1px solid var(--border);
-  border-radius: var(--r-sm); font-family: var(--f); font-size: 14px;
-  font-weight: 500; color: var(--ink2); cursor: pointer; transition: background .15s;
-}
-.modal-btn-cancel:hover { background: var(--border2); }
-.modal-btn-save {
-  flex: 2; padding: 14px;
-  background: linear-gradient(135deg, var(--navy) 0%, var(--navy2) 100%);
-  border: none; border-radius: var(--r-sm); font-family: var(--f);
-  font-size: 14px; font-weight: 600; color: #fff; cursor: pointer;
-  transition: opacity .15s; display: flex; align-items: center; justify-content: center; gap: 8px;
-  box-shadow: 0 4px 12px rgba(13,27,42,.25);
-}
-.modal-btn-save:hover { opacity: .87; }
+.modal-btn-cancel { flex: 1; padding: 13px; background: var(--bg); border: 1px solid var(--border); border-radius: var(--r-sm); font-family: var(--f); font-size: 14px; font-weight: 500; color: var(--ink2); cursor: pointer; transition: background .15s; }
+.modal-btn-cancel:hover { background: var(--border); }
+.modal-btn-save { flex: 2; padding: 13px; background: var(--ink); border: none; border-radius: var(--r-sm); font-family: var(--f); font-size: 14px; font-weight: 600; color: #fff; cursor: pointer; transition: opacity .15s; display: flex; align-items: center; justify-content: center; gap: 8px; }
+.modal-btn-save:hover { opacity: .85; }
 .modal-btn-save.saving { opacity: .6; pointer-events: none; }
-.modal-btn-save .btn-spinner {
-  width: 14px; height: 14px; border: 2px solid rgba(255,255,255,.4);
-  border-top-color: #fff; border-radius: 50%;
-  animation: spin .6s linear infinite; display: none;
-}
+.modal-btn-save .btn-spinner { width: 14px; height: 14px; border: 2px solid rgba(255,255,255,.4); border-top-color: #fff; border-radius: 50%; animation: spin .6s linear infinite; display: none; }
 
-/* edit tap target */
-.tx-edit-btn {
-  width: 30px; height: 30px; border-radius: 9px; border: none;
-  background: var(--pill-bg); display: flex; align-items: center; justify-content: center;
-  cursor: pointer; flex-shrink: 0; transition: all .15s; margin-left: 4px;
-}
+/* edit button on tx row */
+.tx-edit-btn { width: 28px; height: 28px; border-radius: 7px; border: none; background: var(--surface2); display: flex; align-items: center; justify-content: center; cursor: pointer; flex-shrink: 0; transition: background .15s; margin-left: 4px; }
 .tx-edit-btn:hover { background: var(--accent-dim); }
-.tx-edit-btn svg { width: 13px; height: 13px; color: var(--ink3); }
-.tx-edit-btn:hover svg { color: var(--accent); }
+.tx-edit-btn svg { width: 12px; height: 12px; stroke: var(--ink3); fill: none; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+.tx-edit-btn:hover svg { stroke: var(--accent); }
 
 /* ── TOAST ── */
-.toast {
-  position: fixed; bottom: 100px; left: 50%; transform: translateX(-50%) translateY(10px);
-  background: var(--navy); color: #fff; font-size: 13px; font-weight: 500;
-  padding: 11px 20px; border-radius: 20px; z-index: 300;
-  opacity: 0; transition: opacity .2s, transform .2s; pointer-events: none;
-  white-space: nowrap; box-shadow: 0 6px 20px rgba(13,27,42,.3);
-}
+.toast { position: fixed; bottom: 96px; left: 50%; transform: translateX(-50%) translateY(8px); background: var(--ink); color: #fff; font-size: 13px; font-weight: 500; padding: 10px 18px; border-radius: 20px; z-index: 300; opacity: 0; transition: opacity .2s, transform .2s; pointer-events: none; white-space: nowrap; box-shadow: var(--shadow-lg); }
 .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
 .toast.error { background: var(--red); }
 
-/* ── ANIMATIONS ── */
-@keyframes fadeUp {
-  from { opacity: 0; transform: translateY(6px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-.fade-up { animation: fadeUp .3s cubic-bezier(.34,1.56,.64,1) both; }
-
-/* stagger for cards */
-.fade-up:nth-child(2) { animation-delay: .05s; }
-.fade-up:nth-child(3) { animation-delay: .1s; }
-.fade-up:nth-child(4) { animation-delay: .15s; }
+@keyframes fadeUp { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+.fade-up { animation: fadeUp .28s ease both; }
 </style>
 </head>
 <body>
+
+<!-- SVG icon library -->
+<svg style="display:none" xmlns="http://www.w3.org/2000/svg">
+  <symbol id="ic-health"     viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></symbol>
+  <symbol id="ic-car"        viewBox="0 0 24 24"><path d="M5 17H3a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2h1"/><path d="M19 17h2a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-1"/><path d="M3 9l2-4h14l2 4"/><rect x="2" y="9" width="20" height="8" rx="2"/><circle cx="7.5" cy="17.5" r="2.5"/><circle cx="16.5" cy="17.5" r="2.5"/></symbol>
+  <symbol id="ic-home"       viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></symbol>
+  <symbol id="ic-card"       viewBox="0 0 24 24"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></symbol>
+  <symbol id="ic-delivery"   viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></symbol>
+  <symbol id="ic-restaurant" viewBox="0 0 24 24"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></symbol>
+  <symbol id="ic-grocery"    viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></symbol>
+  <symbol id="ic-transport"  viewBox="0 0 24 24"><rect x="1" y="3" width="15" height="13" rx="2"/><path d="M16 8h4l3 3v5h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></symbol>
+  <symbol id="ic-tax"        viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="9" y1="15" x2="15" y2="15"/><line x1="9" y1="11" x2="15" y2="11"/></symbol>
+  <symbol id="ic-utility"    viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></symbol>
+  <symbol id="ic-savings"    viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></symbol>
+  <symbol id="ic-income"     viewBox="0 0 24 24"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></symbol>
+  <symbol id="ic-sport"      viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></symbol>
+  <symbol id="ic-baby"       viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M6 20v-2a6 6 0 0 1 12 0v2"/></symbol>
+  <symbol id="ic-sub"        viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></symbol>
+  <symbol id="ic-debt"       viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></symbol>
+  <symbol id="ic-watch"      viewBox="0 0 24 24"><circle cx="12" cy="12" r="6"/><polyline points="12 10 12 12 13 13"/><path d="M9.5 4.5L10 2h4l.5 2.5M9.5 19.5L10 22h4l.5-2.5"/></symbol>
+  <symbol id="ic-phone"      viewBox="0 0 24 24"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></symbol>
+  <symbol id="ic-pharmacy"   viewBox="0 0 24 24"><path d="M9 3H5a2 2 0 0 0-2 2v4m6-6h10a2 2 0 0 1 2 2v4M9 3v18m0 0h10a2 2 0 0 0 2-2v-4M9 21H5a2 2 0 0 1-2-2v-4m0 0h18"/></symbol>
+  <symbol id="ic-travel"     viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.36 14a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.11 3h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.09 10.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 21 18z"/></symbol>
+  <symbol id="ic-transfer"   viewBox="0 0 24 24"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></symbol>
+  <symbol id="ic-qr"         viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="3" height="3"/><line x1="14" y1="20" x2="20" y2="20"/><line x1="20" y1="14" x2="20" y2="17"/></symbol>
+  <symbol id="ic-dot"        viewBox="0 0 24 24"><circle cx="12" cy="12" r="4" fill="currentColor"/></symbol>
+  <symbol id="ic-edit"       viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></symbol>
+  <symbol id="ic-refresh"    viewBox="0 0 24 24"><path d="M23 4v6h-6"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></symbol>
+  <symbol id="ic-empty"      viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="8" y1="12" x2="16" y2="12"/></symbol>
+  <!-- nav icons -->
+  <symbol id="nav-home"  viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></symbol>
+  <symbol id="nav-list"  viewBox="0 0 24 24"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></symbol>
+  <symbol id="nav-bag"   viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></symbol>
+  <symbol id="nav-chart" viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></symbol>
+</svg>
+
 <div class="app" id="app"></div>
 
 <!-- Edit modal -->
@@ -574,14 +341,13 @@ body {
     </div>
     <div>
       <div class="modal-field-label">Monto (COP)</div>
-      <input class="modal-input" id="modal-amount" type="text" inputmode="decimal" pattern="[0-9.]*" placeholder="ej. 75000">
+      <input class="modal-input" id="modal-amount" type="text" inputmode="decimal" placeholder="ej. 75000">
     </div>
   </div>
   <div class="modal-footer">
     <button class="modal-btn-cancel" onclick="closeEditModal()">Cancelar</button>
     <button class="modal-btn-save" id="modal-save-btn" onclick="saveEdit()">
-      <div class="btn-spinner"></div>
-      <span id="modal-save-lbl">Guardar</span>
+      <div class="btn-spinner"></div><span id="modal-save-lbl">Guardar</span>
     </button>
   </div>
 </div>
@@ -600,138 +366,129 @@ body {
   <div class="modal-body">
     <div>
       <div class="modal-field-label">Valor COP <span id="nw-cop-hint" style="font-weight:400;text-transform:none;letter-spacing:0;color:var(--ink3);font-size:11px"></span></div>
-      <input class="modal-input" id="nw-modal-cop" type="text" inputmode="decimal" pattern="[0-9.]*" placeholder="ej. 29.5">
+      <input class="modal-input" id="nw-modal-cop" type="text" inputmode="decimal" placeholder="ej. 29.5">
     </div>
     <div>
       <div class="modal-field-label">Valor USD <span style="font-weight:400;text-transform:none;letter-spacing:0;color:var(--ink3);font-size:11px">→ calcula COP automáticamente</span></div>
-      <input class="modal-input" id="nw-modal-usd" type="text" inputmode="decimal" pattern="[0-9.]*" placeholder="ej. 2330" oninput="onNWUsdInput(this.value)">
+      <input class="modal-input" id="nw-modal-usd" type="text" inputmode="decimal" placeholder="ej. 2330" oninput="onNWUsdInput(this.value)">
     </div>
   </div>
   <div class="modal-footer">
     <button class="modal-btn-cancel" onclick="closeNWEditModal()">Cancelar</button>
     <button class="modal-btn-save" id="nw-modal-save-btn" onclick="saveNWEdit()">
-      <div class="btn-spinner"></div>
-      <span id="nw-modal-save-lbl">Guardar</span>
+      <div class="btn-spinner"></div><span id="nw-modal-save-lbl">Guardar</span>
     </button>
   </div>
 </div>
 
 <nav class="bottom-nav" id="nav">
   <div class="nav-item active" data-view="resumen" onclick="setView('resumen')">
-    <div class="nav-ico">⊡</div><div class="nav-lbl">Resumen</div>
+    <div class="nav-ico"><svg><use href="#nav-home"/></svg></div>
+    <div class="nav-lbl">Resumen</div>
   </div>
   <div class="nav-item" data-view="movimientos" onclick="setView('movimientos')">
-    <div class="nav-ico">↕</div><div class="nav-lbl">Movimientos</div>
+    <div class="nav-ico"><svg><use href="#nav-list"/></svg></div>
+    <div class="nav-lbl">Movimientos</div>
   </div>
   <div class="nav-item" data-view="rappi" onclick="setView('rappi')">
-    <div class="nav-ico">🛵</div><div class="nav-lbl">Rappi</div>
+    <div class="nav-ico"><svg><use href="#nav-bag"/></svg></div>
+    <div class="nav-lbl">Rappi</div>
   </div>
   <div class="nav-item" data-view="networth" onclick="setView('networth')">
-    <div class="nav-ico">💎</div><div class="nav-lbl">Patrimonio</div>
+    <div class="nav-ico"><svg><use href="#nav-chart"/></svg></div>
+    <div class="nav-lbl">Patrimonio</div>
   </div>
 </nav>
 
 <script>
-// ── FX RATES (fixed, update manually every few months) ──────────────
-const FX = { COP: 1, USD: 3800, MXN: 210, EUR: 4600 };
-function amtCOP(t) { return Math.abs(t.amount) * (FX[t.currency] || 1); }
+// ── FX ───────────────────────────────────────
+const FX = { COP:1, USD:3800, MXN:210, EUR:4600 };
+function amtCOP(t) { return Math.abs(t.amount) * (FX[t.currency]||1); }
 
 // ── CREDENTIALS ──────────────────────────────
-const SHEET_ID     = '142GKyNIvxxEeRtpEAl9gVS8evXnuUZPFN6k1_rzv8tw';
-const API_KEY      = 'AIzaSyA2JNjOzjo_8EHiyyjEtiV0Vv89gcFdNes';
+const SHEET_ID      = '142GKyNIvxxEeRtpEAl9gVS8evXnuUZPFN6k1_rzv8tw';
+const API_KEY       = 'AIzaSyA2JNjOzjo_8EHiyyjEtiV0Vv89gcFdNes';
 const EDIT_ENDPOINT = 'https://script.google.com/macros/s/AKfycbyI7QeAu7wV_Gu771a6KH4sLolNlRSkZ9xsS0qPsJ1E1J4-1bcYvTxBqA7USlIMyrR_4Q/exec';
 
 // ── STATE ────────────────────────────────────
 const S = {
-  view: 'resumen',
-  sheetId: SHEET_ID,
-  apiKey:  API_KEY,
-  raw: null,
-  selectedMonth: null,
-  monthOpen: false,
-  txFilter: 'todos',
-  catFilter: null,
-  sortBy: 'date',
-  sortDir: 'desc',
-  showAll: false,
-  nwData: null,
-  nwLoading: false,
-  nwLastFetch: null,
+  view:'resumen', sheetId:SHEET_ID, apiKey:API_KEY,
+  raw:null, selectedMonth:null, monthOpen:false,
+  txFilter:'todos', catFilter:null,
+  sortBy:'date', sortDir:'desc', showAll:false,
+  nwData:null, nwLoading:false, nwLastFetch:null,
 };
-
-const C = { DATE:0,TIME:1,OWNER:2,SOURCE:3,TYPE:4,DIR:5,AMOUNT:6,CUR:7,COUNTER:8,ACCOUNT:9,CAT:10,NOTES:12,ID:13 };
+const C = {DATE:0,TIME:1,OWNER:2,SOURCE:3,TYPE:4,DIR:5,AMOUNT:6,CUR:7,COUNTER:8,ACCOUNT:9,CAT:10,NOTES:12,ID:13};
 
 // ── DATA ─────────────────────────────────────
 async function fetchSheet() {
-  if (!S.sheetId || !S.apiKey) return null;
-  const range = encodeURIComponent('Transactions!A2:N');
-  const url = `https://sheets.googleapis.com/v4/spreadsheets/${S.sheetId}/values/${range}?key=${S.apiKey}`;
-  try {
-    const r = await fetch(url);
-    if (!r.ok) throw new Error(r.status);
-    return (await r.json()).values || [];
-  } catch(e) { console.error(e); return null; }
+  if (!S.sheetId||!S.apiKey) return null;
+  const url = `https://sheets.googleapis.com/v4/spreadsheets/${S.sheetId}/values/${encodeURIComponent('Transactions!A2:N')}?key=${S.apiKey}`;
+  try { const r=await fetch(url); if(!r.ok) throw new Error(r.status); return (await r.json()).values||[]; }
+  catch(e) { console.error(e); return null; }
 }
-
 function parseRows(rows) {
-  return (rows||[]).filter(r => r && r.length > 6).map(r => ({
-    date:     r[C.DATE]   || '',
-    time:     r[C.TIME]   || '',
-    owner:    r[C.OWNER]  || '',
-    source:   r[C.SOURCE] || '',
-    type:     r[C.TYPE]   || '',
-    dir:      r[C.DIR]    || '',
-    amount:   parseFloat(String(r[C.AMOUNT]||'0').replace(/,/g,'').replace(/\s/g,'')) || 0,
-    currency: r[C.CUR]    || 'COP',
-    counter:  r[C.COUNTER]|| '',
-    account:  r[C.ACCOUNT]|| '',
-    cat:      r[C.CAT]    || 'Sin categoría',
-    id:       r[C.ID]     || '',
+  return (rows||[]).filter(r=>r&&r.length>6).map(r=>({
+    date:r[C.DATE]||'', time:r[C.TIME]||'', owner:r[C.OWNER]||'',
+    source:r[C.SOURCE]||'', type:r[C.TYPE]||'', dir:r[C.DIR]||'',
+    amount:parseFloat(String(r[C.AMOUNT]||'0').replace(/,/g,'').replace(/\s/g,''))||0,
+    currency:r[C.CUR]||'COP', counter:r[C.COUNTER]||'', account:r[C.ACCOUNT]||'',
+    cat:r[C.CAT]||'Sin categoría', id:r[C.ID]||'',
   }));
 }
-
-function months(txs) {
-  return [...new Set(txs.map(t => t.date.slice(0,7)))].sort().reverse();
-}
-function byMonth(txs, m) { return txs.filter(t => t.date.startsWith(m)); }
+function months(txs) { return [...new Set(txs.map(t=>t.date.slice(0,7)))].sort().reverse(); }
+function byMonth(txs,m) { return txs.filter(t=>t.date.startsWith(m)); }
+function prevMonth(ym) { const [y,m]=ym.split('-').map(Number); return m===1?`${y-1}-12`:`${y}-${String(m-1).padStart(2,'0')}`; }
 
 // ── FORMAT ───────────────────────────────────
 function fmtCOP(n) {
-  const a = Math.abs(n||0);
-  if (a >= 1_000_000) return '$' + (a/1_000_000).toFixed(1).replace('.',',') + 'M';
-  return '$' + Math.round(a).toLocaleString('es-CO');
+  const a=Math.abs(n||0);
+  if(a>=1_000_000) return '$'+(a/1_000_000).toFixed(1).replace('.',',')+' M';
+  return '$'+Math.round(a).toLocaleString('es-CO');
 }
-function fmtMonth(ym) {
-  const [y,m] = ym.split('-');
-  return ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'][+m-1] + ' ' + y;
+function fmtCOPM(n) {
+  const a=Math.abs(n||0);
+  if(a>=1000) return '$'+(a/1000).toFixed(1).replace('.',',')+' B';
+  return '$'+a.toFixed(1).replace('.',',')+' M';
 }
-function fmtDate(d) {
-  if (!d) return '';
-  const [,m,day] = d.split('-');
-  return +day + ' ' + ['','Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'][+m];
-}
+function fmtMonth(ym) { const[y,m]=ym.split('-'); return ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'][+m-1]+' '+y; }
+function fmtDate(d) { if(!d) return ''; const[,m,day]=d.split('-'); return +day+' '+['','Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'][+m]; }
+function fmtTime(d) { if(!d) return ''; return d.getHours()+':'+String(d.getMinutes()).padStart(2,'0'); }
 
-function prevMonth(ym) {
-  const [y, m] = ym.split('-').map(Number);
-  if (m === 1) return `${y-1}-12`;
-  return `${y}-${String(m-1).padStart(2,'0')}`;
-}
-
-// ── CATEGORIES ───────────────────────────────
-const EMOJI = {
-  'Salud / EPS':'🏥','Cuota vehículo':'🚗','Deuda':'🏦','Tarjeta Nu':'💳',
-  'Tarjeta Addi':'💳','Impuestos / Movilidad':'🏛️','Servicios públicos':'💡',
-  'Empleada del hogar':'🏠','Transporte':'🚕','Domicilios / Rappi':'🛵',
-  'Restaurantes / Comida':'🍽️','Mercado / Supermercado':'🛒','Lujo / Relojes':'⌚',
-  'Ropa / Tecnología':'👕','Salud / Farmacia':'💊','Deporte / Gym':'🏃',
-  'Bebé':'👶','Servicios':'📱','Suscripciones':'▶️','Internacional / Trabajo':'✈️',
-  'Ahorro / Inversión':'💰','Ingreso':'💵','Ingreso internacional':'💵',
-  'Movimiento interno':'↔️','Pago QR':'📲','Sin categoría':'·',
+// ── ICON MAPPING ─────────────────────────────
+const CAT_ICON = {
+  'Salud / EPS':'ic-health','Cuota vehículo':'ic-car','Deuda':'ic-debt',
+  'Tarjeta Nu':'ic-card','Tarjeta Addi':'ic-card','Impuestos / Movilidad':'ic-tax',
+  'Servicios públicos':'ic-utility','Empleada del hogar':'ic-home',
+  'Transporte':'ic-transport','Domicilios / Rappi':'ic-delivery',
+  'Restaurantes / Comida':'ic-restaurant','Mercado / Supermercado':'ic-grocery',
+  'Lujo / Relojes':'ic-watch','Ropa / Tecnología':'ic-phone',
+  'Salud / Farmacia':'ic-pharmacy','Deporte / Gym':'ic-sport',
+  'Bebé':'ic-baby','Servicios':'ic-phone','Suscripciones':'ic-sub',
+  'Internacional / Trabajo':'ic-travel','Ahorro / Inversión':'ic-savings',
+  'Ingreso':'ic-income','Ingreso internacional':'ic-income',
+  'Movimiento interno':'ic-transfer','Pago QR':'ic-qr',
 };
-function emoji(cat) {
-  for (const [k,v] of Object.entries(EMOJI)) if (cat && cat.includes(k)) return v;
-  return '·';
+const NW_ICONS = { 'Nu':'ic-savings','Tyba':'ic-income','IBKR':'ic-income','Deel':'ic-savings','Skandia':'ic-savings','Global':'ic-income','Lulo':'ic-debt','Tiguan':'ic-car','Addi':'ic-income' };
+
+function catIcon(cat) {
+  for (const [k,v] of Object.entries(CAT_ICON)) if (cat&&cat.includes(k)) return v;
+  return 'ic-dot';
 }
+function nwIcon(entity) {
+  for (const [k,v] of Object.entries(NW_ICONS)) if (entity&&entity.includes(k)) return v;
+  return 'ic-savings';
+}
+function icTint(cat, dir) {
+  if (dir==='in') return 'green-tint';
+  if (cat&&(cat.includes('Salud')||cat.includes('Deuda')||cat.includes('Tarjeta'))) return 'red-tint';
+  if (cat&&(cat.includes('Ahorro')||cat.includes('Inversión'))) return 'accent-tint';
+  return '';
+}
+function icoSvg(id, tint='') {
+  return `<div class="ico-cell ${tint}"><svg><use href="#${id}"/></svg></div>`;
+}
+
 function ownerTag(owner) {
   if (!owner) return '';
   const isJF = owner.toLowerCase().includes('juan');
@@ -743,135 +500,113 @@ function ownerTag(owner) {
 // ── RENDER ───────────────────────────────────
 function render() {
   const app = document.getElementById('app');
-  if (!S.sheetId || !S.apiKey) { app.innerHTML = renderSetup(); bindConfig(); return; }
-  if (S.raw === null) { app.innerHTML = renderLoading(); load(); return; }
-
-  const txs = parseRows(S.raw);
-  const mos = months(txs);
-  if (!S.selectedMonth && mos.length) S.selectedMonth = mos[0];
-  const mo = S.selectedMonth || '';
-
-  if (S.view === 'resumen')     app.innerHTML = renderResumen(txs, mos, mo);
-  if (S.view === 'movimientos') app.innerHTML = renderMovimientos(txs, mos, mo);
-  if (S.view === 'rappi')       app.innerHTML = renderRappi(txs);
-  if (S.view === 'networth')    app.innerHTML = renderNetWorth();
-
-  app.querySelectorAll('.m-chip').forEach(el => {
-    el.onclick = () => { S.selectedMonth = el.dataset.m; S.showAll = false; S.monthOpen = false; render(); };
+  if (!S.sheetId||!S.apiKey) { app.innerHTML=renderSetup(); return; }
+  if (S.raw===null) { app.innerHTML=renderLoading(); load(); return; }
+  const txs=parseRows(S.raw), mos=months(txs);
+  if (!S.selectedMonth&&mos.length) S.selectedMonth=mos[0];
+  const mo=S.selectedMonth||'';
+  if (S.view==='resumen')     app.innerHTML=renderResumen(txs,mos,mo);
+  if (S.view==='movimientos') app.innerHTML=renderMovimientos(txs,mos,mo);
+  if (S.view==='rappi')       app.innerHTML=renderRappi(txs);
+  if (S.view==='networth')    app.innerHTML=renderNetWorth();
+  app.querySelectorAll('.m-chip').forEach(el=>{
+    el.onclick=()=>{ S.selectedMonth=el.dataset.m; S.showAll=false; S.monthOpen=false; render(); };
   });
-  app.querySelector('.month-btn')?.addEventListener('click', () => {
-    S.monthOpen = !S.monthOpen;
-    app.querySelector('.month-picker')?.classList.toggle('open', S.monthOpen);
+  app.querySelector('.month-btn')?.addEventListener('click',()=>{
+    S.monthOpen=!S.monthOpen;
+    app.querySelector('.month-picker')?.classList.toggle('open',S.monthOpen);
   });
 }
 
 // ── HEADER ───────────────────────────────────
-function renderHeader(mo, mos) {
+function renderHeader(mo, mos, right='') {
   return `
   <div class="header">
     <div class="header-inner">
       <div class="header-logo">
         <div class="header-logo-mark">
-          <svg viewBox="0 0 14 14" fill="none"><rect x="1" y="1" width="5" height="5" rx="1.2" fill="white"/><rect x="8" y="1" width="5" height="5" rx="1.2" fill="white" opacity=".5"/><rect x="1" y="8" width="5" height="5" rx="1.2" fill="white" opacity=".5"/><rect x="8" y="8" width="5" height="5" rx="1.2" fill="white"/></svg>
+          <svg viewBox="0 0 14 14" fill="none" width="13" height="13">
+            <rect x="1" y="1" width="5" height="5" rx="1.2" fill="white"/>
+            <rect x="8" y="1" width="5" height="5" rx="1.2" fill="white" opacity=".4"/>
+            <rect x="1" y="8" width="5" height="5" rx="1.2" fill="white" opacity=".4"/>
+            <rect x="8" y="8" width="5" height="5" rx="1.2" fill="white"/>
+          </svg>
         </div>
         Finanzas Casa
       </div>
       <div class="header-right">
-        ${mo ? `<button class="month-btn">
-          <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="1" y="2" width="10" height="9" rx="1.5"/><path d="M4 1v2M8 1v2M1 5h10"/></svg>
+        ${mo?`<button class="month-btn">
+          <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" width="11" height="11"><rect x="1" y="2" width="10" height="9" rx="1.5"/><path d="M4 1v2M8 1v2M1 5h10"/></svg>
           ${fmtMonth(mo)}
-          <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 4.5L6 7.5L9 4.5"/></svg>
-        </button>` : ''}
+          <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" width="11" height="11"><path d="M3 4.5L6 7.5L9 4.5"/></svg>
+        </button>`:''}
+        ${right}
       </div>
     </div>
   </div>
-  <div class="month-picker${S.monthOpen ? ' open' : ''}">
-    ${mos.map(m => `<div class="m-chip${m===mo?' active':''}" data-m="${m}">${fmtMonth(m)}</div>`).join('')}
+  <div class="month-picker${S.monthOpen?' open':''}">
+    ${mos.map(m=>`<div class="m-chip${m===mo?' active':''}" data-m="${m}">${fmtMonth(m)}</div>`).join('')}
   </div>`;
 }
 
-// ── MTD COMPARISON ───────────────────────────
+// ── MTD ──────────────────────────────────────
 function renderMTD(txs, mo) {
-  const now      = new Date();
-  const nowYM    = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}`;
-  const isCurMo  = mo === nowYM;
-  const cutDay   = isCurMo
-    ? now.getDate()
-    : new Date(+mo.split('-')[0], +mo.split('-')[1], 0).getDate();
-
-  const prev     = prevMonth(mo);
-  const prevName = fmtMonth(prev).split(' ')[0];
-  const curName  = fmtMonth(mo).split(' ')[0];
-
-  const curExp = byMonth(txs, mo)
-    .filter(t => t.dir === 'out' && parseInt(t.date.slice(8,10)) <= cutDay)
-    .reduce((s,t) => s + amtCOP(t), 0);
-  const prevExp = byMonth(txs, prev)
-    .filter(t => t.dir === 'out' && parseInt(t.date.slice(8,10)) <= cutDay)
-    .reduce((s,t) => s + amtCOP(t), 0);
-
-  const delta    = curExp - prevExp;
-  const deltaPct = prevExp > 0 ? Math.round(Math.abs(delta) / prevExp * 100) : null;
-  const deltaDir = delta > 0 ? 'up' : delta < 0 ? 'dn' : 'neu';
-  const deltaLbl = deltaPct !== null ? `${delta > 0 ? '+' : '−'}${deltaPct}%` : '—';
-  const maxAmt   = Math.max(curExp, prevExp) || 1;
-  const periodLbl = isCurMo ? `días 1–${cutDay}` : `mes completo`;
-
+  const now=new Date(), nowYM=`${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}`;
+  const isCurMo=mo===nowYM;
+  const cutDay=isCurMo?now.getDate():new Date(+mo.split('-')[0],+mo.split('-')[1],0).getDate();
+  const prev=prevMonth(mo), prevName=fmtMonth(prev).split(' ')[0], curName=fmtMonth(mo).split(' ')[0];
+  const curExp=byMonth(txs,mo).filter(t=>t.dir==='out'&&parseInt(t.date.slice(8,10))<=cutDay).reduce((s,t)=>s+amtCOP(t),0);
+  const prevExp=byMonth(txs,prev).filter(t=>t.dir==='out'&&parseInt(t.date.slice(8,10))<=cutDay).reduce((s,t)=>s+amtCOP(t),0);
+  const delta=curExp-prevExp, deltaPct=prevExp>0?Math.round(Math.abs(delta)/prevExp*100):null;
+  const deltaDir=delta>0?'up':delta<0?'dn':'neu';
+  const deltaLbl=deltaPct!==null?`${delta>0?'+':'−'}${deltaPct}%`:'—';
+  const maxAmt=Math.max(curExp,prevExp)||1;
+  const periodLbl=isCurMo?`días 1–${cutDay}`:'mes completo';
   return `
   <div class="hero-divider"></div>
   <div class="mtd-label">vs mes anterior · ${periodLbl}</div>
   <div class="mtd-row">
-    <div class="mtd-period">${curName} <span style="color:rgba(255,255,255,.25);font-size:11px">(este mes)</span></div>
+    <div class="mtd-period">${curName} <span style="color:var(--ink3);font-size:10px">(este mes)</span></div>
     <div class="mtd-right">
       <div class="mtd-amt">${fmtCOP(curExp)}</div>
-      ${prevExp > 0 ? `<div class="mtd-delta ${deltaDir}">${deltaLbl}</div>` : ''}
+      ${prevExp>0?`<div class="mtd-delta ${deltaDir}">${deltaLbl}</div>`:''}
     </div>
   </div>
-  <div class="mtd-bar-wrap">
-    <div class="mtd-bar-track"><div class="mtd-bar-fill" style="width:${(curExp/maxAmt*100).toFixed(0)}%"></div></div>
-  </div>
+  <div class="mtd-bar-wrap"><div class="mtd-bar-track"><div class="mtd-bar-fill" style="width:${(curExp/maxAmt*100).toFixed(0)}%"></div></div></div>
   <div class="mtd-row" style="margin-top:8px">
-    <div class="mtd-period">${prevName} <span style="color:rgba(255,255,255,.25);font-size:11px">(mismo período)</span></div>
-    <div class="mtd-right"><div class="mtd-amt" style="color:rgba(255,255,255,.35)">${fmtCOP(prevExp)}</div></div>
+    <div class="mtd-period">${prevName} <span style="color:var(--ink3);font-size:10px">(mismo período)</span></div>
+    <div class="mtd-right"><div class="mtd-amt" style="color:var(--ink3)">${fmtCOP(prevExp)}</div></div>
   </div>
-  <div class="mtd-bar-wrap">
-    <div class="mtd-bar-track"><div class="mtd-bar-fill prev" style="width:${(prevExp/maxAmt*100).toFixed(0)}%"></div></div>
-  </div>`;
+  <div class="mtd-bar-wrap"><div class="mtd-bar-track"><div class="mtd-bar-fill prev" style="width:${(prevExp/maxAmt*100).toFixed(0)}%"></div></div></div>`;
 }
 
 // ── RESUMEN ──────────────────────────────────
 function renderResumen(txs, mos, mo) {
-  const monthly  = byMonth(txs, mo);
-  const expenses = monthly.filter(t => t.dir === 'out');
-  const totalExp = expenses.reduce((s,t) => s + amtCOP(t), 0);
-  const totalInc = monthly.filter(t => t.dir === 'in').reduce((s,t) => s + amtCOP(t), 0);
-  const balance  = totalInc - totalExp;
-
-  const catMap = {};
-  expenses.forEach(t => { catMap[t.cat] = (catMap[t.cat]||0) + amtCOP(t); });
-  const cats   = Object.entries(catMap).sort((a,b) => b[1]-a[1]).slice(0,7);
-  const maxCat = cats[0]?.[1] || 1;
-
-  const recent = [...expenses].sort((a,b) => (b.date+b.time).localeCompare(a.date+a.time)).slice(0,5);
-
+  const monthly=byMonth(txs,mo), expenses=monthly.filter(t=>t.dir==='out');
+  const totalExp=expenses.reduce((s,t)=>s+amtCOP(t),0);
+  const totalInc=monthly.filter(t=>t.dir==='in').reduce((s,t)=>s+amtCOP(t),0);
+  const balance=totalInc-totalExp;
+  const catMap={};
+  expenses.forEach(t=>{ catMap[t.cat]=(catMap[t.cat]||0)+amtCOP(t); });
+  const cats=Object.entries(catMap).sort((a,b)=>b[1]-a[1]).slice(0,7);
+  const maxCat=cats[0]?.[1]||1;
+  const recent=[...expenses].sort((a,b)=>(b.date+b.time).localeCompare(a.date+a.time)).slice(0,5);
   return `
-  ${renderHeader(mo, mos)}
-  <div style="height:16px"></div>
-
+  ${renderHeader(mo,mos)}
+  <div style="height:0"></div>
   <div class="hero fade-up">
     <div class="hero-eyebrow">Gastos · ${fmtMonth(mo)}</div>
     <div class="hero-amount"><sup>$</sup>${Math.round(totalExp).toLocaleString('es-CO')}</div>
     <div class="hero-sub">
       <span class="hero-badge ${balance>=0?'green':'red'}">${balance>=0?'↑':'↓'} ${fmtCOP(Math.abs(balance))}</span>
     </div>
-    ${mos.length > 1 ? renderMTD(txs, mo) : ''}
+    ${mos.length>1?renderMTD(txs,mo):''}
   </div>
-
-  <div class="section-hd"><div class="section-title">Por categoría</div></div>
+  <div class="section-hd fade-up"><div class="section-title">Por categoría</div></div>
   <div class="card-shell fade-up">
-    ${cats.length ? cats.map(([cat,amt]) => `
-    <div class="cat-row" onclick="filterByCat('${cat}')">
-      <div class="cat-icon">${emoji(cat)}</div>
+    ${cats.length?cats.map(([cat,amt])=>`
+    <div class="cat-row" onclick="filterByCat('${cat.replace(/'/g,"\\'")}')">
+      ${icoSvg(catIcon(cat),icTint(cat,'out'))}
       <div class="cat-body">
         <div class="cat-name">${cat}</div>
         <div class="cat-bar-track"><div class="cat-bar-fill" style="width:${(amt/maxCat*100).toFixed(0)}%"></div></div>
@@ -880,144 +615,92 @@ function renderResumen(txs, mos, mo) {
         <div class="cat-amt">${fmtCOP(amt)}</div>
         <div class="cat-pct">${(amt/totalExp*100).toFixed(0)}%</div>
       </div>
-    </div>`).join('') : '<div class="empty"><div class="empty-icon">·</div><p>Sin gastos este mes</p></div>'}
+    </div>`).join(''):'<div class="empty"><div class="empty-icon"><svg><use href="#ic-empty"/></svg></div><p>Sin gastos este mes</p></div>'}
   </div>
-
-  <div class="section-hd">
+  <div class="section-hd fade-up">
     <div class="section-title">Recientes</div>
     <div class="section-action" onclick="setView('movimientos')">Ver todos →</div>
   </div>
-  <div class="card-shell fade-up">${renderTxRows(recent, true)}</div>
+  <div class="card-shell fade-up">${renderTxRows(recent,true)}</div>
   <div style="height:8px"></div>`;
 }
 
 // ── MOVIMIENTOS ──────────────────────────────
 function renderMovimientos(txs, mos, mo) {
-  const monthly = byMonth(txs, mo).filter(t => t.dir !== 'internal');
-  let filtered  = monthly;
-  if (S.txFilter === 'out') filtered = monthly.filter(t => t.dir === 'out');
-  if (S.txFilter === 'in')  filtered = monthly.filter(t => t.dir === 'in');
-  if (S.catFilter) filtered = filtered.filter(t => t.cat === S.catFilter);
-
-  if (S.sortBy === 'amount') {
-    filtered = [...filtered].sort((a,b) =>
-      S.sortDir === 'desc' ? amtCOP(b) - amtCOP(a) : amtCOP(a) - amtCOP(b));
+  const monthly=byMonth(txs,mo).filter(t=>t.dir!=='internal');
+  let filtered=monthly;
+  if (S.txFilter==='out') filtered=monthly.filter(t=>t.dir==='out');
+  if (S.txFilter==='in')  filtered=monthly.filter(t=>t.dir==='in');
+  if (S.catFilter) filtered=filtered.filter(t=>t.cat===S.catFilter);
+  if (S.sortBy==='amount') {
+    filtered=[...filtered].sort((a,b)=>S.sortDir==='desc'?amtCOP(b)-amtCOP(a):amtCOP(a)-amtCOP(b));
   } else {
-    filtered = [...filtered].sort((a,b) =>
-      S.sortDir === 'desc'
-        ? (b.date+b.time).localeCompare(a.date+a.time)
-        : (a.date+a.time).localeCompare(b.date+b.time));
+    filtered=[...filtered].sort((a,b)=>S.sortDir==='desc'?(b.date+b.time).localeCompare(a.date+a.time):(a.date+a.time).localeCompare(b.date+b.time));
   }
-
-  const shown = S.showAll ? filtered : filtered.slice(0, 25);
-  const sortLabel = S.sortBy === 'date'
-    ? (S.sortDir === 'desc' ? 'Fecha ↓' : 'Fecha ↑')
-    : (S.sortDir === 'desc' ? 'Monto ↓' : 'Monto ↑');
-
+  const shown=S.showAll?filtered:filtered.slice(0,25);
+  const sortLabel=S.sortBy==='date'?(S.sortDir==='desc'?'Fecha ↓':'Fecha ↑'):(S.sortDir==='desc'?'Monto ↓':'Monto ↑');
   return `
-  ${renderHeader(mo, mos)}
+  ${renderHeader(mo,mos)}
   <div class="filter-tabs">
-    ${[['todos','Todos'],['out','Gastos'],['in','Ingresos']].map(([k,l]) =>
+    ${[['todos','Todos'],['out','Gastos'],['in','Ingresos']].map(([k,l])=>
       `<button class="f-tab${S.txFilter===k?' active':''}" onclick="setFilter('${k}')">${l}</button>`
     ).join('')}
-    ${S.catFilter ? `<button class="f-tab active" onclick="clearCatFilter()">× ${S.catFilter}</button>` : ''}
+    ${S.catFilter?`<button class="f-tab active" onclick="clearCatFilter()">× ${S.catFilter}</button>`:''}
     <button class="f-tab${S.sortBy!=='date'?' active':''}" onclick="cycleSort()" style="margin-left:auto">${sortLabel}</button>
   </div>
   <div style="height:12px"></div>
   <div class="card-shell fade-up">
-    ${renderTxRows(shown, true)}
-    ${filtered.length > shown.length
-      ? `<button class="show-more-btn" onclick="showMore()">Ver ${filtered.length-shown.length} más</button>`
-      : ''}
+    ${renderTxRows(shown,true)}
+    ${filtered.length>shown.length?`<button class="show-more-btn" onclick="showMore()">Ver ${filtered.length-shown.length} más</button>`:''}
   </div>
   <div style="height:8px"></div>`;
 }
 
-// ── RAPPI VIEW ───────────────────────────────
+// ── RAPPI ────────────────────────────────────
 function renderRappi(txs) {
-  const rappiAll = txs.filter(t => t.source === 'Rappi' && t.dir === 'out');
-  if (!rappiAll.length) {
-    return `
-    ${renderHeader(null, [])}
-    <div class="empty" style="margin-top:40px">
-      <div class="empty-icon">🛵</div>
-      <p>Sin pedidos de Rappi aún</p>
-    </div>`;
-  }
-
-  const now    = new Date();
-  const curYM  = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}`;
-  const curMo  = rappiAll.filter(t => t.date.startsWith(curYM));
-
-  const curTotal  = curMo.reduce((s,t) => s + amtCOP(t), 0);
-  const curCount  = curMo.length;
-  const curAvg    = curCount > 0 ? curTotal / curCount : 0;
-
-  const dayOfMo   = now.getDate();
-  const daysInMo  = new Date(now.getFullYear(), now.getMonth()+1, 0).getDate();
-  const pace      = dayOfMo > 0 ? (curTotal / dayOfMo) * daysInMo : 0;
-
-  const history = [...new Set(rappiAll.map(t => t.date.slice(0,7)))].sort().reverse().map(ym => ({
-    label: fmtMonth(ym),
-    total: rappiAll.filter(t => t.date.startsWith(ym)).reduce((s,t) => s + amtCOP(t), 0),
-    count: rappiAll.filter(t => t.date.startsWith(ym)).length,
-    isCur: ym === curYM,
+  const rappiAll=txs.filter(t=>t.source==='Rappi'&&t.dir==='out');
+  if (!rappiAll.length) return `${renderHeader(null,[])}<div class="empty" style="margin-top:40px"><div class="empty-icon"><svg><use href="#nav-bag"/></svg></div><p>Sin pedidos de Rappi aún</p></div>`;
+  const now=new Date(), curYM=`${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}`;
+  const curMo=rappiAll.filter(t=>t.date.startsWith(curYM));
+  const curTotal=curMo.reduce((s,t)=>s+amtCOP(t),0), curCount=curMo.length;
+  const curAvg=curCount>0?curTotal/curCount:0;
+  const dayOfMo=now.getDate(), daysInMo=new Date(now.getFullYear(),now.getMonth()+1,0).getDate();
+  const pace=dayOfMo>0?(curTotal/dayOfMo)*daysInMo:0;
+  const history=[...new Set(rappiAll.map(t=>t.date.slice(0,7)))].sort().reverse().map(ym=>({
+    label:fmtMonth(ym),
+    total:rappiAll.filter(t=>t.date.startsWith(ym)).reduce((s,t)=>s+amtCOP(t),0),
+    count:rappiAll.filter(t=>t.date.startsWith(ym)).length,
+    isCur:ym===curYM,
   }));
-  const maxHist = Math.max(...history.map(h => h.total), 1);
-
-  const storeSource = curCount > 0 ? curMo : rappiAll;
-  const storeMap  = {};
-  storeSource.forEach(t => {
-    const k = (t.counter || 'Rappi').replace('Rappi - ', '');
-    storeMap[k] = storeMap[k] || { count: 0, total: 0 };
-    storeMap[k].count++;
-    storeMap[k].total += amtCOP(t);
-  });
-  const topStores = Object.entries(storeMap).sort((a,b) => b[1].count - a[1].count).slice(0, 5);
-
-  const DOW_LABELS = ['L','M','X','J','V','S','D'];
-  const dowCounts  = [0,0,0,0,0,0,0];
-  curMo.forEach(t => {
-    if (!t.date) return;
-    const d = new Date(t.date + 'T12:00:00');
-    const js = d.getDay();
-    const idx = js === 0 ? 6 : js - 1;
-    dowCounts[idx]++;
-  });
-  const maxDow = Math.max(...dowCounts, 1);
-
+  const maxHist=Math.max(...history.map(h=>h.total),1);
+  const storeSource=curCount>0?curMo:rappiAll;
+  const storeMap={};
+  storeSource.forEach(t=>{ const k=(t.counter||'Rappi').replace('Rappi - ',''); storeMap[k]=storeMap[k]||{count:0,total:0}; storeMap[k].count++; storeMap[k].total+=amtCOP(t); });
+  const topStores=Object.entries(storeMap).sort((a,b)=>b[1].count-a[1].count).slice(0,5);
+  const DOW_LABELS=['L','M','X','J','V','S','D'];
+  const dowCounts=[0,0,0,0,0,0,0];
+  curMo.forEach(t=>{ if(!t.date) return; const d=new Date(t.date+'T12:00:00'),js=d.getDay(); dowCounts[js===0?6:js-1]++; });
+  const maxDow=Math.max(...dowCounts,1);
   return `
-  ${renderHeader(null, [])}
+  ${renderHeader(null,[])}
   <div style="height:16px"></div>
-
-  <div class="section-hd">
-    <div class="section-title">🛵 Rappi · ${fmtMonth(curYM)}</div>
-  </div>
+  <div class="section-hd"><div class="section-title">Rappi · ${fmtMonth(curYM)}</div></div>
   <div class="card-shell fade-up">
     <div class="rappi-stat-row">
-      <div class="rappi-stat">
-        <div class="rappi-stat-val">${curCount}</div>
-        <div class="rappi-stat-lbl">pedidos</div>
-      </div>
-      <div class="rappi-stat">
-        <div class="rappi-stat-val">${fmtCOP(curTotal)}</div>
-        <div class="rappi-stat-lbl">total</div>
-      </div>
-      <div class="rappi-stat">
-        <div class="rappi-stat-val">${fmtCOP(curAvg)}</div>
-        <div class="rappi-stat-lbl">promedio</div>
-      </div>
+      <div class="rappi-stat"><div class="rappi-stat-val">${curCount}</div><div class="rappi-stat-lbl">pedidos</div></div>
+      <div class="rappi-stat"><div class="rappi-stat-val">${fmtCOP(curTotal)}</div><div class="rappi-stat-lbl">total</div></div>
+      <div class="rappi-stat"><div class="rappi-stat-val">${fmtCOP(curAvg)}</div><div class="rappi-stat-lbl">promedio</div></div>
     </div>
     <div class="rappi-pace">
-      <div class="rappi-pace-label">Al ritmo actual terminarás en</div>
+      <div class="rappi-pace-label">Proyección mes completo</div>
       <div class="rappi-pace-val">${fmtCOP(pace)}</div>
-      <div class="rappi-pace-sub">día ${dayOfMo} de ${daysInMo} · ${fmtCOP(curTotal / (dayOfMo||1))} por día</div>
+      <div class="rappi-pace-sub">día ${dayOfMo} de ${daysInMo} · ${fmtCOP(curTotal/(dayOfMo||1))} por día</div>
     </div>
-    ${curCount > 0 ? `
-    <div style="padding:12px 16px 4px;border-bottom:1px solid var(--border2)">
+    ${curCount>0?`
+    <div style="padding:12px 14px 6px;border-bottom:1px solid var(--border2)">
       <div style="font-size:10px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:var(--ink3);margin-bottom:8px">Por día de la semana</div>
       <div class="rappi-dow-row" style="padding:0">
-        ${DOW_LABELS.map((lbl, i) => `
+        ${DOW_LABELS.map((lbl,i)=>`
         <div class="rappi-dow-col">
           <div class="rappi-dow-bar-wrap">
             <div class="rappi-dow-bar${dowCounts[i]===maxDow?' peak':''}" style="height:${Math.max(dowCounts[i]/maxDow*100,5).toFixed(0)}%"></div>
@@ -1026,15 +709,12 @@ function renderRappi(txs) {
           <div class="rappi-dow-cnt">${dowCounts[i]||''}</div>
         </div>`).join('')}
       </div>
-    </div>` : ''}
+    </div>`:''}
   </div>
-
-  ${topStores.length ? `
-  <div class="section-hd">
-    <div class="section-title">Tiendas · ${curCount > 0 ? fmtMonth(curYM) : 'Histórico'}</div>
-  </div>
+  ${topStores.length?`
+  <div class="section-hd"><div class="section-title">Tiendas · ${curCount>0?fmtMonth(curYM):'Histórico'}</div></div>
   <div class="card-shell fade-up">
-    ${topStores.map(([store, data], i) => `
+    ${topStores.map(([store,data],i)=>`
     <div class="rappi-store-row">
       <div class="rappi-store-rank">${i+1}</div>
       <div class="rappi-store-name">${store}</div>
@@ -1043,14 +723,13 @@ function renderRappi(txs) {
         <div class="rappi-store-meta">${fmtCOP(data.total/data.count)} promedio</div>
       </div>
     </div>`).join('')}
-  </div>` : ''}
-
-  ${history.length > 1 ? `
+  </div>`:''}
+  ${history.length>1?`
   <div class="section-hd"><div class="section-title">Historial mensual</div></div>
   <div class="card-shell fade-up">
-    ${history.map(h => `
-    <div class="rappi-history-row" style="${h.isCur ? 'background:var(--surface2)' : ''}">
-      <div class="rappi-history-mo" style="${h.isCur ? 'font-weight:600' : ''}">${h.label.split(' ')[0]}</div>
+    ${history.map(h=>`
+    <div class="rappi-history-row" style="${h.isCur?'background:var(--surface2)':''}">
+      <div class="rappi-history-mo" style="${h.isCur?'font-weight:600':''}">${h.label.split(' ')[0]}</div>
       <div class="rappi-history-bar-wrap">
         <div class="rappi-history-bar-track">
           <div class="rappi-history-bar-fill" style="width:${(h.total/maxHist*100).toFixed(0)}%;${h.isCur?'opacity:.5':''}"></div>
@@ -1061,39 +740,40 @@ function renderRappi(txs) {
         <div class="rappi-history-count">${h.count} pedidos</div>
       </div>
     </div>`).join('')}
-  </div>` : ''}
+  </div>`:''}
   <div style="height:8px"></div>`;
 }
 
 // ── TX ROWS ──────────────────────────────────
 function renderTxRows(txs, showDate) {
-  if (!txs.length) return '<div class="empty"><div class="empty-icon">·</div><p>Sin movimientos</p></div>';
-  return txs.map(t => {
-    const cls    = t.dir==='in' ? 'in' : t.dir==='internal' ? 'int' : 'out';
-    const prefix = t.dir==='in' ? '+' : '';
-    const txId   = t.id || '';
+  if (!txs.length) return '<div class="empty"><div class="empty-icon"><svg><use href="#ic-empty"/></svg></div><p>Sin movimientos</p></div>';
+  return txs.map(t=>{
+    const cls=t.dir==='in'?'in':t.dir==='internal'?'int':'out';
+    const prefix=t.dir==='in'?'+':'';
+    const tint=t.dir==='in'?'green-tint':icTint(t.cat,t.dir);
+    const txId=t.id||'';
     return `
     <div class="tx-row">
-      <div class="tx-icon">${emoji(t.cat)}</div>
+      ${icoSvg(catIcon(t.cat),tint)}
       <div class="tx-body">
         <div class="tx-name">${t.counter||t.type}</div>
         <div class="tx-meta">
-          ${showDate ? `<span class="tx-date">${fmtDate(t.date)}</span><span class="tx-dot"></span>` : ''}
+          ${showDate?`<span class="tx-date">${fmtDate(t.date)}</span><span class="tx-sep">·</span>`:''}
           <span class="tx-cat">${t.cat}</span>
-          <span class="tx-dot"></span>
+          <span class="tx-sep">·</span>
           ${ownerTag(t.owner)}
         </div>
       </div>
       <div class="tx-right">
         <div class="tx-amt ${cls}">${prefix}${fmtCOP(amtCOP(t))}</div>
-        <div class="tx-src">${t.currency !== 'COP' ? t.currency + ' ' + Math.abs(t.amount).toLocaleString('en-US', {maximumFractionDigits:2}) + ' · ' : ''}${t.source}</div>
+        <div class="tx-src">${t.currency!=='COP'?t.currency+' '+Math.abs(t.amount).toLocaleString('en-US',{maximumFractionDigits:2})+' · ':''}${t.source}</div>
       </div>
-      ${txId ? '<button class="tx-edit-btn" onclick="openEditModal(\'' + txId + '\')" title="Editar"><svg viewBox="0 0 13 13" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M9 2l2 2-6 6H3V8l6-6z"/></svg></button>' : ''}
+      ${txId?`<button class="tx-edit-btn" onclick="openEditModal('${txId}')" title="Editar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><use href="#ic-edit"/></svg></button>`:''}
     </div>`;
   }).join('');
 }
 
-// ── SETUP ────────────────────────────────────
+// ── SETUP / LOADING ───────────────────────────
 function renderSetup() {
   return `${renderHeader(null,[])}
   <div class="setup-wrap"><div class="setup-card">
@@ -1101,256 +781,100 @@ function renderSetup() {
     <p>Edita el archivo HTML y reemplaza las credenciales en la sección CREDENTIALS.</p>
   </div></div>`;
 }
-function bindConfig() {}
 function renderLoading() {
   return `${renderHeader(null,[])}<div class="loader"><div class="spinner"></div><p>Cargando…</p></div>`;
 }
 
-function renderNWRow(item, isDebt) {
-  const negCls = isDebt ? ' neg' : '';
-  const sign   = isDebt ? '-' : '';
-  const usdHtml = item.usdVal
-    ? '<div class="nw-usd">USD ' + Math.round(item.usdVal).toLocaleString('en-US') + '</div>'
-    : '';
-  return '<div class="nw-row">'
-    + '<div class="nw-icon">' + nwIcon(item.entity) + '</div>'
-    + '<div class="nw-body">'
-    +   '<div class="nw-entity">' + item.entity + '</div>'
-    +   '<div class="nw-owner">' + item.person + '</div>'
-    + '</div>'
-    + '<div class="nw-right">'
-    +   '<div class="nw-val' + negCls + '">' + sign + fmtCOPM(Math.abs(item.valCOP)) + '</div>'
-    +   usdHtml
-    + '</div>'
-    + '<button class="tx-edit-btn" onclick="openNWEditModal(' + item.rowNum + ',\'' + item.entity + '\',\'' + item.person + '\')" title="Editar">'
-    +   '<svg viewBox="0 0 13 13" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M9 2l2 2-6 6H3V8l6-6z"/></svg>'
-    + '</button>'
-    + '</div>';
-}
-
-// ── NW EDIT MODAL ─────────────────────────────
-let _nwEditRow = null;
-
-function onNWUsdInput(val) {
-  const parsed = parseNetWorth(S.nwData);
-  if (!parsed) return;
-  const usd = parseFloat(val);
-  if (isNaN(usd) || usd === 0) {
-    document.getElementById('nw-modal-cop').value = '';
-    document.getElementById('nw-cop-hint').textContent = '(millones)';
-    return;
-  }
-  const copM = (usd * parsed.fxRate) / 1_000_000;
-  document.getElementById('nw-modal-cop').value = copM.toFixed(2);
-  document.getElementById('nw-cop-hint').textContent =
-    '= $' + copM.toFixed(1).replace('.', ',') + 'M @ ' + parsed.fxRate.toLocaleString('es-CO');
-}
-
-function openNWEditModal(rowNum, entity, person) {
-  _nwEditRow = rowNum;
-  const parsed = parseNetWorth(S.nwData);
-  const item = parsed ? parsed.items.find(i => i.rowNum === rowNum) : null;
-  document.getElementById('nw-modal-subtitle').textContent = entity + ' · ' + person;
-  document.getElementById('nw-cop-hint').textContent = '(millones)';
-  document.getElementById('nw-modal-cop').value  = item ? Math.abs(item.valCOP) : '';
-  document.getElementById('nw-modal-usd').value  = item && item.usdVal ? Math.abs(item.usdVal) : '';
-  const btn = document.getElementById('nw-modal-save-btn');
-  btn.classList.remove('saving');
-  document.getElementById('nw-modal-save-lbl').textContent = 'Guardar';
-  document.getElementById('nw-modal-backdrop').classList.add('open');
-  document.getElementById('nw-modal-sheet').classList.add('open');
-}
-
-function closeNWEditModal() {
-  document.getElementById('nw-modal-backdrop').classList.remove('open');
-  document.getElementById('nw-modal-sheet').classList.remove('open');
-  _nwEditRow = null;
-}
-
-async function saveNWEdit() {
-  if (!_nwEditRow) return;
-  if (EDIT_ENDPOINT === 'YOUR_APPS_SCRIPT_URL_HERE') {
-    showToast('⚠ Configura EDIT_ENDPOINT primero', true); return;
-  }
-  const copVal = document.getElementById('nw-modal-cop').value.trim();
-  const usdVal = document.getElementById('nw-modal-usd').value.trim();
-  if (!copVal && !usdVal) { showToast('Ingresa al menos un valor', true); return; }
-  const btn = document.getElementById('nw-modal-save-btn');
-  btn.classList.add('saving');
-  document.getElementById('nw-modal-save-lbl').textContent = 'Guardando…';
-  fetch(EDIT_ENDPOINT, {
-    method: 'POST', headers: { 'Content-Type': 'text/plain' },
-    body: JSON.stringify({ type: 'networth', rowNum: _nwEditRow, valCOP: copVal ? parseFloat(copVal) : null, valUSD: usdVal ? parseFloat(usdVal) : null }),
-  }).catch(() => {});
-  if (S.nwData) {
-    const dataRowIdx = _nwEditRow - 1;
-    if (S.nwData[dataRowIdx]) {
-      if (copVal) S.nwData[dataRowIdx][3] = copVal;
-      if (usdVal) S.nwData[dataRowIdx][4] = usdVal;
-    }
-  }
-  closeNWEditModal(); render(); showToast('✓ Guardado en Google Sheets');
-}
-
 // ── NET WORTH ─────────────────────────────────
 async function fetchNetWorth() {
-  if (!S.sheetId || !S.apiKey) return null;
-  const range = encodeURIComponent("'Net Worth'!A1:E20");
-  const url = `https://sheets.googleapis.com/v4/spreadsheets/${S.sheetId}/values/${range}?key=${S.apiKey}`;
-  try {
-    const r = await fetch(url);
-    if (!r.ok) throw new Error(r.status);
-    return (await r.json()).values || [];
-  } catch(e) { console.error('NW fetch error:', e); return null; }
+  if (!S.sheetId||!S.apiKey) return null;
+  const url=`https://sheets.googleapis.com/v4/spreadsheets/${S.sheetId}/values/${encodeURIComponent("'Net Worth'!A1:E20")}?key=${S.apiKey}`;
+  try { const r=await fetch(url); if(!r.ok) throw new Error(r.status); return (await r.json()).values||[]; }
+  catch(e) { console.error('NW fetch error:',e); return null; }
 }
-
-async function loadNetWorth() {
-  S.nwLoading = true; render();
-  const rows = await fetchNetWorth();
-  S.nwData = rows; S.nwLoading = false; S.nwLastFetch = new Date(); render();
-}
-
-function fmtCOPM(n) {
-  const a = Math.abs(n || 0);
-  if (a >= 1000) return '$' + (a / 1000).toFixed(1).replace('.', ',') + 'B';
-  return '$' + a.toFixed(1).replace('.', ',') + 'M';
-}
-
-const NW_ICONS = {
-  'Nu': '🟣', 'Tyba': '📈', 'IBKR': '📊', 'Deel': '💵',
-  'Skandia': '🛡️', 'Global': '🌍', 'Lulo': '🏦', 'Tiguan': '🚗', 'Addi': '⭐',
-};
-function nwIcon(entity) { return NW_ICONS[entity] || '💼'; }
-
-const NW_GROUPS = {
-  'Ahorro/Inversión': { label: 'Ahorro e Inversión', order: 0 },
-  'Seguro': { label: 'Seguros', order: 1 },
-  'Cesantías': { label: 'Cesantías', order: 2 },
-  'Carro': { label: 'Activos Físicos', order: 3 },
-  'Stock': { label: 'Stock / Equity', order: 4 },
-  'Deuda': { label: 'Deudas', order: 5 },
-};
+async function loadNetWorth() { S.nwLoading=true; render(); S.nwData=await fetchNetWorth(); S.nwLoading=false; S.nwLastFetch=new Date(); render(); }
 
 function parseNetWorth(rows) {
-  if (!rows || rows.length < 2) return null;
-  let fxRate = 3900;
-  rows.forEach(row => {
-    if (row[0] === 'USD' && row[1]) {
-      const parsed = parseFloat(String(row[1]).replace(/,/g, ''));
-      if (!isNaN(parsed) && parsed > 0) fxRate = parsed;
-    }
+  if (!rows||rows.length<2) return null;
+  let fxRate=3900;
+  rows.forEach(row=>{ if(row[0]==='USD'&&row[1]){const p=parseFloat(String(row[1]).replace(/,/g,'')); if(!isNaN(p)&&p>0) fxRate=p;} });
+  const items=[];
+  rows.slice(1).forEach((row,i)=>{
+    if (!row[0]||row[0]==='Total'||row[0]==='USD') return;
+    const cat=row[0]||'', entity=row[1]||'', person=row[2]||'';
+    let valCOP=null;
+    if (row[3]!==undefined&&row[3]!==null&&row[3]!=='') { const p=parseFloat(String(row[3]).replace(/,/g,'')); if(!isNaN(p)) valCOP=p; }
+    if (valCOP===null&&row[4]!==undefined&&row[4]!==null&&row[4]!=='') { const u=parseFloat(String(row[4]).replace(/,/g,'')); if(!isNaN(u)) valCOP=(u*fxRate)/1_000_000; }
+    if (valCOP===null) return;
+    let usdVal=null;
+    if (row[4]!==undefined&&row[4]!==null&&row[4]!=='') { const u=parseFloat(String(row[4]).replace(/,/g,'')); if(!isNaN(u)) usdVal=u; }
+    items.push({cat,entity,person,valCOP,usdVal,rowNum:i+2});
   });
-  const items = [];
-  rows.slice(1).forEach((row, i) => {
-    if (!row[0] || row[0] === 'Total' || row[0] === 'USD') return;
-    const cat = row[0] || '', entity = row[1] || '', person = row[2] || '';
-    const rawCOP = row[3], rawUSD = row[4];
-    let valCOP = null;
-    if (rawCOP !== undefined && rawCOP !== null && rawCOP !== '') {
-      const parsed = parseFloat(String(rawCOP).replace(/,/g,''));
-      if (!isNaN(parsed)) valCOP = parsed;
-    }
-    if (valCOP === null && rawUSD !== undefined && rawUSD !== null && rawUSD !== '') {
-      const usd = parseFloat(String(rawUSD).replace(/,/g,''));
-      if (!isNaN(usd)) valCOP = (usd * fxRate) / 1_000_000;
-    }
-    if (valCOP === null) return;
-    let usdVal = null;
-    if (rawUSD !== undefined && rawUSD !== null && rawUSD !== '') {
-      const u = parseFloat(String(rawUSD).replace(/,/g,''));
-      if (!isNaN(u)) usdVal = u;
-    }
-    const rowNum = i + 2;
-    items.push({ cat, entity, person, valCOP, usdVal, rowNum });
-  });
-  return { items, fxRate };
+  return {items,fxRate};
 }
 
-function renderNetWorth() {
-  const header = `
-  <div class="header">
-    <div class="header-inner">
-      <div class="header-logo">
-        <div class="header-logo-mark">
-          <svg viewBox="0 0 14 14" fill="none"><rect x="1" y="1" width="5" height="5" rx="1.2" fill="white"/><rect x="8" y="1" width="5" height="5" rx="1.2" fill="white" opacity=".5"/><rect x="1" y="8" width="5" height="5" rx="1.2" fill="white" opacity=".5"/><rect x="8" y="8" width="5" height="5" rx="1.2" fill="white"/></svg>
-        </div>
-        Finanzas Casa
-      </div>
-      <div class="header-right">
-        <button class="nw-refresh-btn${S.nwLoading?' spinning':''}" onclick="loadNetWorth()" id="nw-refresh-btn">
-          <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M10 6A4 4 0 1 1 6 2a4 4 0 0 1 2.83 1.17L10 4"/><path d="M10 1v3H7"/></svg>
-          ${S.nwLastFetch ? fmtTime(S.nwLastFetch) : 'Actualizar'}
-        </button>
-      </div>
-    </div>
+function renderNWRow(item, isDebt) {
+  const negCls=isDebt?' neg':'', sign=isDebt?'-':'';
+  const usdHtml=item.usdVal?`<div class="nw-usd">USD ${Math.round(item.usdVal).toLocaleString('en-US')}</div>`:'';
+  const ico=nwIcon(item.entity);
+  const tint=isDebt?'red-tint':ico==='ic-income'?'accent-tint':'';
+  return `<div class="nw-row">
+    ${icoSvg(ico,tint)}
+    <div class="nw-body"><div class="nw-entity">${item.entity}</div><div class="nw-owner">${item.person}</div></div>
+    <div class="nw-right"><div class="nw-val${negCls}">${sign}${fmtCOPM(Math.abs(item.valCOP))}</div>${usdHtml}</div>
+    <button class="tx-edit-btn" onclick="openNWEditModal(${item.rowNum},'${item.entity}','${item.person}')" title="Editar">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><use href="#ic-edit"/></svg>
+    </button>
   </div>`;
+}
 
-  if (S.nwLoading) {
-    return `${header}<div class="loader"><div class="spinner"></div><p>Cargando patrimonio…</p></div>`;
-  }
-  if (!S.nwData) {
-    setTimeout(() => loadNetWorth(), 50);
-    return `${header}<div class="loader"><div class="spinner"></div><p>Cargando…</p></div>`;
-  }
+const NW_GROUPS = {
+  'Ahorro/Inversión':{label:'Ahorro e Inversión',order:0},'Seguro':{label:'Seguros',order:1},
+  'Cesantías':{label:'Cesantías',order:2},'Carro':{label:'Activos Físicos',order:3},
+  'Stock':{label:'Stock / Equity',order:4},'Deuda':{label:'Deudas',order:5},
+};
 
-  const parsed = parseNetWorth(S.nwData);
-  if (!parsed || !parsed.items.length) {
-    return `${header}<div class="empty" style="margin-top:40px"><div class="empty-icon">📊</div><p>Sin datos de patrimonio</p></div>`;
-  }
-
-  const { items, fxRate } = parsed;
-  const assets = items.filter(i => i.cat !== 'Deuda').reduce((s,i) => s + i.valCOP, 0);
-  const debts  = items.filter(i => i.cat === 'Deuda').reduce((s,i) => s + Math.abs(i.valCOP), 0);
-  const total  = assets - debts;
-
-  const groups = {};
-  items.forEach(i => { const g = i.cat; if (!groups[g]) groups[g] = []; groups[g].push(i); });
-  const groupOrder = ['Ahorro/Inversión','Stock','Carro','Seguro','Cesantías','Deuda'];
-  const groupsHTML = groupOrder.filter(g => groups[g]).map(g => {
-    const gItems = groups[g];
-    const gTotal = gItems.reduce((s,i) => s + i.valCOP, 0);
-    const isDebt = g === 'Deuda';
-    const info = NW_GROUPS[g] || { label: g };
+function renderNetWorth() {
+  const refreshBtn=`<button class="nw-refresh-btn${S.nwLoading?' spinning':''}" onclick="loadNetWorth()">
+    <svg viewBox="0 0 24 24"><use href="#ic-refresh"/></svg>
+    ${S.nwLastFetch?fmtTime(S.nwLastFetch):'Actualizar'}
+  </button>`;
+  const header=renderHeader(null,[],refreshBtn);
+  if (S.nwLoading) return `${header}<div class="loader"><div class="spinner"></div><p>Cargando patrimonio…</p></div>`;
+  if (!S.nwData) { setTimeout(()=>loadNetWorth(),50); return `${header}<div class="loader"><div class="spinner"></div><p>Cargando…</p></div>`; }
+  const parsed=parseNetWorth(S.nwData);
+  if (!parsed||!parsed.items.length) return `${header}<div class="empty" style="margin-top:40px"><div class="empty-icon"><svg><use href="#nav-chart"/></svg></div><p>Sin datos de patrimonio</p></div>`;
+  const {items,fxRate}=parsed;
+  const assets=items.filter(i=>i.cat!=='Deuda').reduce((s,i)=>s+i.valCOP,0);
+  const debts=items.filter(i=>i.cat==='Deuda').reduce((s,i)=>s+Math.abs(i.valCOP),0);
+  const total=assets-debts;
+  const groups={};
+  items.forEach(i=>{ if(!groups[i.cat]) groups[i.cat]=[]; groups[i.cat].push(i); });
+  const groupOrder=['Ahorro/Inversión','Stock','Carro','Seguro','Cesantías','Deuda'];
+  const groupsHTML=groupOrder.filter(g=>groups[g]).map(g=>{
+    const gItems=groups[g], gTotal=gItems.reduce((s,i)=>s+i.valCOP,0), isDebt=g==='Deuda';
+    const info=NW_GROUPS[g]||{label:g};
     return `
-    <div class="nw-group-hd">
-      <div class="nw-group-title">${info.label}</div>
-      <div class="nw-group-total${isDebt?' neg':''}">${isDebt?'-':''}${fmtCOPM(Math.abs(gTotal))}</div>
-    </div>
-    <div class="card-shell fade-up">
-      ${gItems.map(item => renderNWRow(item, isDebt)).join('')}
-    </div>`;
+    <div class="nw-group-hd"><div class="nw-group-title">${info.label}</div><div class="nw-group-total${isDebt?' neg':''}">${isDebt?'-':''}${fmtCOPM(Math.abs(gTotal))}</div></div>
+    <div class="card-shell fade-up">${gItems.map(item=>renderNWRow(item,isDebt)).join('')}</div>`;
   }).join('');
-
   return `
   ${header}
   <div style="height:16px"></div>
   <div class="nw-hero fade-up">
     <div class="nw-hero-eyebrow">Patrimonio neto · familia</div>
-    <div class="nw-hero-amount">${fmtCOPM(total)}</div>
-    <div class="nw-hero-sub">
-      <span>≈ USD ${Math.round(total * 1_000_000 / fxRate).toLocaleString('en-US')}</span>
-    </div>
+    <div class="nw-hero-amount"><sup>$</sup>${fmtCOPM(total).replace('$','')}</div>
+    <div class="nw-hero-sub">≈ USD ${Math.round(total*1_000_000/fxRate).toLocaleString('en-US')}</div>
     <div class="nw-divider"></div>
-    <div class="nw-breakdown-row">
-      <div class="nw-breakdown-lbl">Activos</div>
-      <div class="nw-breakdown-val">${fmtCOPM(assets)}</div>
-    </div>
-    <div class="nw-breakdown-row">
-      <div class="nw-breakdown-lbl">Deudas</div>
-      <div class="nw-breakdown-val neg">−${fmtCOPM(debts)}</div>
-    </div>
+    <div class="nw-breakdown-row"><div class="nw-breakdown-lbl">Activos</div><div class="nw-breakdown-val">${fmtCOPM(assets)}</div></div>
+    <div class="nw-breakdown-row"><div class="nw-breakdown-lbl">Deudas</div><div class="nw-breakdown-val neg">−${fmtCOPM(debts)}</div></div>
   </div>
-  <div class="nw-fx-bar">
+  <div class="nw-fx-bar fade-up" style="margin-top:8px">
     <div class="nw-fx-lbl">TRM aplicada</div>
     <div class="nw-fx-val">1 USD = $${fxRate.toLocaleString('es-CO')}</div>
   </div>
   ${groupsHTML}
   <div style="height:8px"></div>`;
-}
-
-function fmtTime(d) {
-  if (!d) return '';
-  return d.getHours() + ':' + String(d.getMinutes()).padStart(2,'0');
 }
 
 // ── EDIT MODAL ───────────────────────────────
@@ -1363,110 +887,119 @@ const CATEGORIES = [
   'Internacional / Trabajo','Ahorro / Inversión','Pago QR',
   'Ingreso','Ingreso internacional','Movimiento interno','Sin categoría',
 ];
-
-let _editTxId = null;
-
+let _editTxId=null;
 function openEditModal(txId) {
-  const txs = parseRows(S.raw || []);
-  const tx  = txs.find(t => t.id === txId);
+  const txs=parseRows(S.raw||[]), tx=txs.find(t=>t.id===txId);
   if (!tx) return;
-  _editTxId = txId;
-  document.getElementById('modal-subtitle').textContent = `${tx.counter || tx.type} · ${fmtDate(tx.date)}`;
-  const sel = document.getElementById('modal-cat');
-  sel.innerHTML = CATEGORIES.map(c =>
-    `<option value="${c}"${c === tx.cat ? ' selected' : ''}>${emoji(c)} ${c}</option>`
-  ).join('');
-  document.getElementById('modal-amount').value = Math.abs(tx.amount);
-  const btn = document.getElementById('modal-save-btn');
+  _editTxId=txId;
+  document.getElementById('modal-subtitle').textContent=`${tx.counter||tx.type} · ${fmtDate(tx.date)}`;
+  document.getElementById('modal-cat').innerHTML=CATEGORIES.map(c=>`<option value="${c}"${c===tx.cat?' selected':''}>${c}</option>`).join('');
+  document.getElementById('modal-amount').value=Math.abs(tx.amount);
+  const btn=document.getElementById('modal-save-btn');
   btn.classList.remove('saving');
-  document.getElementById('modal-save-lbl').textContent = 'Guardar';
+  document.getElementById('modal-save-lbl').textContent='Guardar';
   document.getElementById('modal-backdrop').classList.add('open');
   document.getElementById('modal-sheet').classList.add('open');
 }
-
 function closeEditModal() {
   document.getElementById('modal-backdrop').classList.remove('open');
   document.getElementById('modal-sheet').classList.remove('open');
-  _editTxId = null;
+  _editTxId=null;
 }
-
-function showToast(msg, isError) {
-  const t = document.getElementById('toast');
-  t.textContent = msg;
-  t.className = 'toast' + (isError ? ' error' : '');
-  void t.offsetWidth;
-  t.classList.add('show');
-  setTimeout(() => t.classList.remove('show'), 2500);
+function showToast(msg,isError) {
+  const t=document.getElementById('toast');
+  t.textContent=msg; t.className='toast'+(isError?' error':'');
+  void t.offsetWidth; t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),2500);
 }
-
 async function saveEdit() {
   if (!_editTxId) return;
-  const cat    = document.getElementById('modal-cat').value;
-  const amount = document.getElementById('modal-amount').value;
-  if (EDIT_ENDPOINT === 'YOUR_APPS_SCRIPT_URL_HERE') {
-    showToast('⚠ Configura EDIT_ENDPOINT primero', true); return;
-  }
-  const btn = document.getElementById('modal-save-btn');
-  btn.classList.add('saving');
-  document.getElementById('modal-save-lbl').textContent = 'Guardando…';
-  const txs = parseRows(S.raw || []);
-  const tx  = txs.find(t => t.id === _editTxId);
-  const signedAmount = tx && tx.amount < 0 ? -Math.abs(parseFloat(amount)) : Math.abs(parseFloat(amount));
+  const cat=document.getElementById('modal-cat').value;
+  const amount=document.getElementById('modal-amount').value;
+  if (EDIT_ENDPOINT==='YOUR_APPS_SCRIPT_URL_HERE') { showToast('⚠ Configura EDIT_ENDPOINT primero',true); return; }
+  const btn=document.getElementById('modal-save-btn');
+  btn.classList.add('saving'); document.getElementById('modal-save-lbl').textContent='Guardando…';
+  const txs=parseRows(S.raw||[]), tx=txs.find(t=>t.id===_editTxId);
+  const signedAmount=tx&&tx.amount<0?-Math.abs(parseFloat(amount)):Math.abs(parseFloat(amount));
   try {
-    fetch(EDIT_ENDPOINT, {
-      method: 'POST', headers: { 'Content-Type': 'text/plain' },
-      body: JSON.stringify({ rowId: _editTxId, cat, amount: signedAmount }),
-    }).catch(() => {});
-    if (S.raw) {
-      const idx = S.raw.findIndex(r => r[C.ID] === _editTxId);
-      if (idx !== -1) { S.raw[idx][C.CAT] = cat; S.raw[idx][C.AMOUNT] = String(signedAmount); }
-    }
+    fetch(EDIT_ENDPOINT,{method:'POST',headers:{'Content-Type':'text/plain'},body:JSON.stringify({rowId:_editTxId,cat,amount:signedAmount})}).catch(()=>{});
+    if (S.raw) { const idx=S.raw.findIndex(r=>r[C.ID]===_editTxId); if(idx!==-1){S.raw[idx][C.CAT]=cat;S.raw[idx][C.AMOUNT]=String(signedAmount);} }
     closeEditModal(); render(); showToast('✓ Guardado en Google Sheets');
-  } catch(e) {
-    btn.classList.remove('saving');
-    document.getElementById('modal-save-lbl').textContent = 'Guardar';
-    showToast('Error: ' + e.message, true);
-  }
+  } catch(e) { btn.classList.remove('saving'); document.getElementById('modal-save-lbl').textContent='Guardar'; showToast('Error: '+e.message,true); }
+}
+
+// ── NW EDIT MODAL ─────────────────────────────
+let _nwEditRow=null;
+function onNWUsdInput(val) {
+  const parsed=parseNetWorth(S.nwData); if(!parsed) return;
+  const usd=parseFloat(val);
+  if (isNaN(usd)||usd===0) { document.getElementById('nw-modal-cop').value=''; document.getElementById('nw-cop-hint').textContent='(millones)'; return; }
+  const copM=(usd*parsed.fxRate)/1_000_000;
+  document.getElementById('nw-modal-cop').value=copM.toFixed(2);
+  document.getElementById('nw-cop-hint').textContent='= $'+copM.toFixed(1).replace('.',',')+' M @ '+parsed.fxRate.toLocaleString('es-CO');
+}
+function openNWEditModal(rowNum,entity,person) {
+  _nwEditRow=rowNum;
+  const parsed=parseNetWorth(S.nwData), item=parsed?parsed.items.find(i=>i.rowNum===rowNum):null;
+  document.getElementById('nw-modal-subtitle').textContent=entity+' · '+person;
+  document.getElementById('nw-cop-hint').textContent='(millones)';
+  document.getElementById('nw-modal-cop').value=item?Math.abs(item.valCOP):'';
+  document.getElementById('nw-modal-usd').value=item&&item.usdVal?Math.abs(item.usdVal):'';
+  const btn=document.getElementById('nw-modal-save-btn');
+  btn.classList.remove('saving'); document.getElementById('nw-modal-save-lbl').textContent='Guardar';
+  document.getElementById('nw-modal-backdrop').classList.add('open');
+  document.getElementById('nw-modal-sheet').classList.add('open');
+}
+function closeNWEditModal() {
+  document.getElementById('nw-modal-backdrop').classList.remove('open');
+  document.getElementById('nw-modal-sheet').classList.remove('open');
+  _nwEditRow=null;
+}
+async function saveNWEdit() {
+  if (!_nwEditRow) return;
+  if (EDIT_ENDPOINT==='YOUR_APPS_SCRIPT_URL_HERE') { showToast('⚠ Configura EDIT_ENDPOINT primero',true); return; }
+  const copVal=document.getElementById('nw-modal-cop').value.trim();
+  const usdVal=document.getElementById('nw-modal-usd').value.trim();
+  if (!copVal&&!usdVal) { showToast('Ingresa al menos un valor',true); return; }
+  const btn=document.getElementById('nw-modal-save-btn');
+  btn.classList.add('saving'); document.getElementById('nw-modal-save-lbl').textContent='Guardando…';
+  fetch(EDIT_ENDPOINT,{method:'POST',headers:{'Content-Type':'text/plain'},body:JSON.stringify({type:'networth',rowNum:_nwEditRow,valCOP:copVal?parseFloat(copVal):null,valUSD:usdVal?parseFloat(usdVal):null})}).catch(()=>{});
+  if (S.nwData) { const idx=_nwEditRow-1; if(S.nwData[idx]){if(copVal)S.nwData[idx][3]=copVal;if(usdVal)S.nwData[idx][4]=usdVal;} }
+  closeNWEditModal(); render(); showToast('✓ Guardado en Google Sheets');
 }
 
 // ── ACTIONS ──────────────────────────────────
 function setView(v) {
-  S.view = v; S.showAll = false; S.monthOpen = false;
-  document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+  S.view=v; S.showAll=false; S.monthOpen=false;
+  document.querySelectorAll('.nav-item').forEach(el=>el.classList.remove('active'));
   document.querySelector(`[data-view="${v}"]`)?.classList.add('active');
   render();
 }
 function cycleSort() {
-  if (S.sortBy === 'date' && S.sortDir === 'desc')        { S.sortBy = 'amount'; S.sortDir = 'desc'; }
-  else if (S.sortBy === 'amount' && S.sortDir === 'desc') { S.sortBy = 'amount'; S.sortDir = 'asc'; }
-  else                                                     { S.sortBy = 'date';   S.sortDir = 'desc'; }
-  S.showAll = false; render();
+  if (S.sortBy==='date'&&S.sortDir==='desc')        {S.sortBy='amount';S.sortDir='desc';}
+  else if (S.sortBy==='amount'&&S.sortDir==='desc') {S.sortBy='amount';S.sortDir='asc';}
+  else                                               {S.sortBy='date';S.sortDir='desc';}
+  S.showAll=false; render();
 }
-function clearCatFilter() { S.catFilter = null; S.showAll = false; render(); }
-function filterByCat(cat) {
-  S.catFilter = cat; S.txFilter = 'out'; S.sortBy = 'date';
-  S.sortDir = 'desc'; S.showAll = false; setView('movimientos');
-}
-function setFilter(f) { S.txFilter = f; S.catFilter = null; S.showAll = false; render(); }
-function showMore()   { S.showAll = true; render(); }
+function clearCatFilter() { S.catFilter=null; S.showAll=false; render(); }
+function filterByCat(cat) { S.catFilter=cat; S.txFilter='out'; S.sortBy='date'; S.sortDir='desc'; S.showAll=false; setView('movimientos'); }
+function setFilter(f) { S.txFilter=f; S.catFilter=null; S.showAll=false; render(); }
+function showMore() { S.showAll=true; render(); }
 
 async function load() {
-  const rows = await fetchSheet();
-  S.raw = rows || [];
-  const txs = parseRows(S.raw);
-  const mos = months(txs);
-  if (mos.length) S.selectedMonth = mos[0];
+  const rows=await fetchSheet(); S.raw=rows||[];
+  const txs=parseRows(S.raw), mos=months(txs);
+  if (mos.length) S.selectedMonth=mos[0];
   render();
 }
 
 // ── DEMO DATA ────────────────────────────────
 function demoData() {
-  const now = new Date();
-  const p   = n => String(n).padStart(2,'0');
-  const ym  = `${now.getFullYear()}-${p(now.getMonth()+1)}`;
-  const pym = now.getMonth()===0 ? `${now.getFullYear()-1}-12` : `${now.getFullYear()}-${p(now.getMonth())}`;
-  const d   = (ym2, n) => `${ym2}-${p(n)}`;
-  S.raw = [
+  const now=new Date(), p=n=>String(n).padStart(2,'0');
+  const ym=`${now.getFullYear()}-${p(now.getMonth()+1)}`;
+  const pym=now.getMonth()===0?`${now.getFullYear()-1}-12`:`${now.getFullYear()}-${p(now.getMonth())}`;
+  const d=(ym2,n)=>`${ym2}-${p(n)}`;
+  S.raw=[
     [d(ym,1),'08:00','Juan Felipe','Bancolombia','Pago','out','-5782000','COP','COMPENSAR-OI','*5222','Salud / EPS','','','d1'],
     [d(ym,1),'08:02','Juan Felipe','Bancolombia','Pago','out','-3970348','COP','LULO BANK SA','*5222','Cuota vehículo','','','d2'],
     [d(ym,1),'08:04','Juan Felipe','Bancolombia','Pago','out','-1383664','COP','NU Compania','*5222','Tarjeta Nu','','','d3'],
@@ -1491,11 +1024,11 @@ function demoData() {
     [d(pym,15),'08:00','Tu esposa','Rappi','Pedido Rappi','out','-71200','COP','Rappi - Turbo, Polo','••••2312','Domicilios / Rappi','','','p7'],
     [d(pym,20),'15:00','Tu esposa','Bancolombia','Transferencia recibida','in','9500000','COP','Empresa - Salario','*5222','Ingreso','','','p8'],
   ];
-  S.selectedMonth = months(parseRows(S.raw))[0];
+  S.selectedMonth=months(parseRows(S.raw))[0];
 }
 
 // ── BOOT ─────────────────────────────────────
-if (SHEET_ID === 'YOUR_SHEET_ID_HERE' || API_KEY === 'YOUR_API_KEY_HERE') {
+if (SHEET_ID==='YOUR_SHEET_ID_HERE'||API_KEY==='YOUR_API_KEY_HERE') {
   demoData(); render();
 } else {
   render();
