@@ -395,7 +395,7 @@ body { background: var(--bg); color: var(--ink); font-family: var(--f); min-heig
     </div>
     <div>
       <div class="modal-field-label">Monto (COP)</div>
-      <input class="modal-input" id="modal-amount" type="number" placeholder="ej. 75000" inputmode="numeric">
+      <input class="modal-input" id="modal-amount" type="text" inputmode="decimal" pattern="[0-9.]*" placeholder="ej. 75000">
     </div>
   </div>
   <div class="modal-footer">
@@ -421,11 +421,11 @@ body { background: var(--bg); color: var(--ink); font-family: var(--f); min-heig
   <div class="modal-body">
     <div>
       <div class="modal-field-label">Valor COP <span id="nw-cop-hint" style="font-weight:400;text-transform:none;letter-spacing:0;color:var(--ink3);font-size:11px"></span></div>
-      <input class="modal-input" id="nw-modal-cop" type="number" placeholder="ej. 29.5" inputmode="decimal" step="0.1">
+      <input class="modal-input" id="nw-modal-cop" type="text" inputmode="decimal" pattern="[0-9.]*" placeholder="ej. 29.5">
     </div>
     <div>
       <div class="modal-field-label">Valor USD <span style="font-weight:400;text-transform:none;letter-spacing:0;color:var(--ink3);font-size:11px">→ calcula COP automáticamente</span></div>
-      <input class="modal-input" id="nw-modal-usd" type="number" placeholder="ej. 2330" inputmode="decimal" oninput="onNWUsdInput(this.value)">
+      <input class="modal-input" id="nw-modal-usd" type="text" inputmode="decimal" pattern="[0-9.]*" placeholder="ej. 2330" oninput="onNWUsdInput(this.value)">
     </div>
   </div>
   <div class="modal-footer">
